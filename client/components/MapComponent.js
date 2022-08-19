@@ -27,5 +27,3 @@ export default function MapViewPage() {
     </div>
   );
 }
-
-// googlemaps api key - AIzaSyDAwPAdw6c0-dHAC5NLGP0AL4KVgu848Yw
