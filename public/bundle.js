@@ -2067,11 +2067,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var _components_Navbar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/Navbar */ "./client/components/Navbar.js");
 /* harmony import */ var _Routes__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Routes */ "./client/Routes.js");
+/* harmony import */ var _key_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../key.js */ "./key.js");
+
 
 
 
 
 const App = () => {
+  console.log(_key_js__WEBPACK_IMPORTED_MODULE_3__.API_KEY);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_Navbar__WEBPACK_IMPORTED_MODULE_1__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Routes__WEBPACK_IMPORTED_MODULE_2__["default"], null));
 };
 
@@ -2350,7 +2353,7 @@ function MapViewPage() {
       }
     })
   }));
-} // googlemaps api key - AIzaSyDAwPAdw6c0-dHAC5NLGP0AL4KVgu848Yw
+}
 
 /***/ }),
 
@@ -2551,6 +2554,22 @@ const middleware = (0,redux_devtools_extension__WEBPACK_IMPORTED_MODULE_1__.comp
 const store = (0,redux__WEBPACK_IMPORTED_MODULE_3__.createStore)(reducer, middleware);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (store);
 
+
+/***/ }),
+
+/***/ "./key.js":
+/*!****************!*\
+  !*** ./key.js ***!
+  \****************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "API_KEY": () => (/* binding */ API_KEY)
+/* harmony export */ });
+// Key test
+const API_KEY = "AIzaSyDAwPAdw6c0-dHAC5NLGP0AL4KVgu848Yw";
 
 /***/ }),
 
