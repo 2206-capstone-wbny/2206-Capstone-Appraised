@@ -5,6 +5,7 @@ import { Login, Signup } from "./components/AuthForm";
 import Home from "./components/Home";
 import MapViewPage from "./components/MapComponent";
 import { me } from "./store";
+import {SingleHome} from "./components/SingleHome";
 
 /**
  * COMPONENT
@@ -29,6 +30,7 @@ class Routes extends Component {
             <Route path="/" exact component={Login} />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
+            <Route path="/homes" component={SingleHome} />
             <Route path="/map" component={MapViewPage} />
           </Switch>
         )}

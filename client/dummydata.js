@@ -1,4 +1,4 @@
-[
+const Data = [
   {
     zpid: "79722556",
     price: "$250,000",
@@ -34430,3 +34430,5 @@
     canSaveBuilding: false,
   },
 ];
+
+export default Data;
