@@ -30,7 +30,7 @@ class Routes extends Component {
             <Route path="/" exact component={Login} />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
-            <Route path="/homes" component={SingleHome} />
+            <Route path="/homes/:id" component={SingleHome} />
             <Route path="/map" component={MapViewPage} />
           </Switch>
         )}

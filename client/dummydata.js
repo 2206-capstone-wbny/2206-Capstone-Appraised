@@ -1,4 +1,4 @@
-const Data = [
+export default Data = [
   {
     zpid: "79722556",
     price: "$250,000",
@@ -34431,4 +34431,3 @@ const Data = [
   },
 ];
 
-export default Data;

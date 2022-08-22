@@ -1,15 +1,34 @@
-import React from "react";
-import { GoogleMap, withGoogleMap, withScriptjs } from "react-google-maps";
+import React, { useState } from "react";
+import {
+  GoogleMap,
+  withGoogleMap,
+  withScriptjs,
+  Marker,
+  InfoWindow,
+} from "react-google-maps";
+import * as properties from "../data.json";
+import { API_KEY } from "../../key";
 
 const Map = () => {
+  const [selectedHouse, setSelectedHouse] = useState(null);
   return (
     <GoogleMap
-      defaultZoom={12}
+      defaultZoom={7}
       defaultCenter={{
-        lat: 40.7256,
-        lng: -73.8625,
+        lat: 43.0481,
+        lng: -76.1474,
       }}
-    />
+    >
+      {properties.houseData.map((house) => (
+        <Marker
+          key={house.zpid}
+          position={{
+            lat: house.latLong.latitude,
+            lng: house.latLong.longitude,
+          }}
+        />
+      ))}
+    </GoogleMap>
   );
 };
 
@@ -19,10 +38,10 @@ export default function MapViewPage() {
   return (
     <div style={{ width: "100vw", height: "100vh" }}>
       <MapComponent
-        googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyDAwPAdw6c0-dHAC5NLGP0AL4KVgu848Yw`}
-        loadingElement={<div style={{ height: "100%", width: "80%" }} />}
-        containerElement={<div style={{ height: "100%", width: "80%" }} />}
-        mapElement={<div style={{ height: "100%", width: "80%" }} />}
+        googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=${API_KEY}`}
+        loadingElement={<div style={{ height: "100%", width: "100%" }} />}
+        containerElement={<div style={{ height: "100%", width: "100%" }} />}
+        mapElement={<div style={{ height: "100%", width: "99%" }} />}
       />
     </div>
   );
