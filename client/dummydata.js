@@ -1,3 +1,6 @@
+const data = {data: 'hi'}
+
+module.exports = data
 [
   {
     zpid: "79722556",
