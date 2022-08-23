@@ -1,7 +1,4 @@
-const data = {data: 'hi'}
-
-module.exports = data
-[
+export default Data = [
   {
     zpid: "79722556",
     price: "$250,000",
