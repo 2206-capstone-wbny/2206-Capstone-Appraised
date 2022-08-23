@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { connect } from "react-redux";
 import {
   GoogleMap,
   withGoogleMap,
@@ -10,16 +11,19 @@ import * as properties from "../data.json";
 import { API_KEY } from "../../key";
 import SearchBar from "./SearchBar";
 
-const Map = () => {
+
+
+const Map = (props) => {
+  // console.log(props)
   const [selectedHouse, setSelectedHouse] = useState(null);
   return (
     <div>
       <SearchBar placeholder="Enter Zip, City, or State" data={properties} />
       <GoogleMap
-        defaultZoom={7}
+        defaultZoom={13}
         defaultCenter={{
-          lat: 43.0481,
-          lng: -76.1474,
+          lat: 40.6782,
+          lng: -73.9442,
         }}
       >
         {properties.houseData.map((house) => (
@@ -37,8 +41,8 @@ const Map = () => {
 };
 
 const MapComponent = withScriptjs(withGoogleMap(Map));
-
-export default function MapViewPage() {
+console.log()
+export function MapViewPage() {
   return (
     <div style={{ width: "100vw", height: "100vh" }}>
       <MapComponent
@@ -50,3 +54,11 @@ export default function MapViewPage() {
     </div>
   );
 }
+
+const mapState = (state) => {
+  return {
+   homeCoord: state.home.all
+  };
+};
+
+export default connect(mapState)(Map);
