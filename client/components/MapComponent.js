@@ -22,15 +22,17 @@ const Map = () => {
           lng: -76.1474,
         }}
       >
-        {properties.houseData.map((house) => (
-          <Marker
-            key={house.zpid}
-            position={{
-              lat: house.latLong.latitude,
-              lng: house.latLong.longitude,
-            }}
-          />
-        ))}
+        {properties.houseData
+          .filter((house) => house.zpid)
+          .map((house) => (
+            <Marker
+              key={house.zpid}
+              position={{
+                lat: house.latLong.latitude,
+                lng: house.latLong.longitude,
+              }}
+            />
+          ))}
       </GoogleMap>
     </div>
   );
