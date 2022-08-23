@@ -11,7 +11,7 @@ router.get('/', async (req, res, next) => {
   }
 })
 
-router.get('/id', async (req, res, next) =>{
+router.get('/:id', async (req, res, next) =>{
   try{
   let id = req.params.id
   const oneHomes = await Home.findByPk(id)
