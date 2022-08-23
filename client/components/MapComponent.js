@@ -8,27 +8,31 @@ import {
 } from "react-google-maps";
 import * as properties from "../data.json";
 import { API_KEY } from "../../key";
+import SearchBar from "./SearchBar";
 
 const Map = () => {
   const [selectedHouse, setSelectedHouse] = useState(null);
   return (
-    <GoogleMap
-      defaultZoom={7}
-      defaultCenter={{
-        lat: 43.0481,
-        lng: -76.1474,
-      }}
-    >
-      {properties.houseData.map((house) => (
-        <Marker
-          key={house.zpid}
-          position={{
-            lat: house.latLong.latitude,
-            lng: house.latLong.longitude,
-          }}
-        />
-      ))}
-    </GoogleMap>
+    <div>
+      <SearchBar placeholder="Enter Zip, City, or State" data={properties} />
+      <GoogleMap
+        defaultZoom={7}
+        defaultCenter={{
+          lat: 43.0481,
+          lng: -76.1474,
+        }}
+      >
+        {properties.houseData.map((house) => (
+          <Marker
+            key={house.zpid}
+            position={{
+              lat: house.latLong.latitude,
+              lng: house.latLong.longitude,
+            }}
+          />
+        ))}
+      </GoogleMap>
+    </div>
   );
 };
 

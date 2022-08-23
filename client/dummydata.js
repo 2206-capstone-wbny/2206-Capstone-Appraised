@@ -34430,4 +34430,3 @@ export default Data = [
     canSaveBuilding: false,
   },
 ];
-

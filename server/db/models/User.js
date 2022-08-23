@@ -11,35 +11,43 @@ const User = db.define("user", {
     type: Sequelize.STRING,
     unique: true,
     allowNull: false,
-    validate: {
-      notEmpty: true,
-    },
+    // validate: {
+    //   notEmpty: true,
+    // },
   },
   firstName: {
     type: Sequelize.STRING,
-    allowNull: false,
-    validate: {
-      notEmpty: true,
-    },
+    // allowNull: false,
+    // validate: {
+    //   notEmpty: true,
+    // },
   },
   lastName: {
     type: Sequelize.STRING,
-    allowNull: false,
-    validate: {
-      notEmpty: true,
-    },
+    // allowNull: false,
+    // validate: {
+    //   notEmpty: true,
+    // },
   },
   email: {
     type: Sequelize.STRING,
     unique: true,
-    validate: {
-      isEmail: true,
-      notEmpty: true,
-    },
+    // validate: {
+    //   isEmail: true,
+    //   notEmpty: true,
+    // },
   },
   password: {
     type: Sequelize.STRING,
   },
+  
+  imageUrl: {
+    type: Sequelize.STRING,
+  },
+  
+  phoneNumber: {
+    type: Sequelize.INTEGER,
+  }
 });
 
 module.exports = User;
