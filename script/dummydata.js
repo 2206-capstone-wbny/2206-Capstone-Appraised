@@ -1,4 +1,4 @@
-export default Data = [
+homes = [
   {
     zpid: "79722556",
     price: "$250,000",
@@ -878,69 +878,75 @@ export default Data = [
     isFeaturedListing: false,
     availabilityDate: null,
   },
-  {
-    buildingId: "40.599262--73.933334",
-    lotId: 411311,
-    price: "From $157,000",
-    latLong: {
-      latitude: 40.599262,
-      longitude: -73.933334,
-    },
-    minBeds: 1,
-    minBaths: 1.0,
-    minArea: 750,
-    imgSrc:
-      "https://photos.zillowstatic.com/fp/41d2127a505153d4d41d0adf049872db-p_e.jpg",
-    hasImage: true,
-    plid: "1619896",
-    isFeaturedListing: false,
-    unitCount: 4,
-    isBuilding: true,
-    address: "2209 Knapp St, Brooklyn, NY",
-    variableData: {
-      type: "3D_HOME",
-      text: "3D Tour",
-    },
-    badgeInfo: null,
-    statusType: "FOR_SALE",
-    statusText: "For Rent",
-    listingType: "",
-    isFavorite: false,
-    detailUrl: "/b/2209-knapp-st-brooklyn-ny-5VK7/",
-    has3DModel: true,
-    hasAdditionalAttributions: false,
-    canSaveBuilding: false,
-  },
-  {
-    buildingId: "40.67046--73.87923",
-    lotId: 2009623589,
-    price: "From $629,000",
-    latLong: {
-      latitude: 40.67046,
-      longitude: -73.87923,
-    },
-    minBeds: 3,
-    minBaths: 3.0,
-    minArea: 1116,
-    imgSrc:
-      "https://photos.zillowstatic.com/fp/4131fa3e32a765c862415ad7310bbd1b-p_e.jpg",
-    hasImage: true,
-    plid: "1610931",
-    isFeaturedListing: false,
-    unitCount: 2,
-    isBuilding: true,
-    address: "326 Berriman St, Brooklyn, NY",
-    variableData: {},
-    badgeInfo: null,
-    statusType: "FOR_SALE",
-    statusText: "For Rent",
-    listingType: "",
-    isFavorite: false,
-    detailUrl: "/b/326-berriman-st-brooklyn-ny-97bWQK/",
-    has3DModel: false,
-    hasAdditionalAttributions: false,
-    canSaveBuilding: false,
-  },
+
+
+
+
+
+  // {
+  //   buildingId: "40.599262--73.933334",
+  //   lotId: 411311,
+  //   price: "From $157,000",
+  //   latLong: {
+  //     latitude: 40.599262,
+  //     longitude: -73.933334,
+  //   },
+  //   minBeds: 1,
+  //   minBaths: 1.0,
+  //   minArea: 750,
+  //   imgSrc:
+  //     "https://photos.zillowstatic.com/fp/41d2127a505153d4d41d0adf049872db-p_e.jpg",
+  //   hasImage: true,
+  //   plid: "1619896",
+  //   isFeaturedListing: false,
+  //   unitCount: 4,
+  //   isBuilding: true,
+  //   address: "2209 Knapp St, Brooklyn, NY",
+  //   variableData: {
+  //     type: "3D_HOME",
+  //     text: "3D Tour",
+  //   },
+  //   badgeInfo: null,
+  //   statusType: "FOR_SALE",
+  //   statusText: "For Rent",
+  //   listingType: "",
+  //   isFavorite: false,
+  //   detailUrl: "/b/2209-knapp-st-brooklyn-ny-5VK7/",
+  //   has3DModel: true,
+  //   hasAdditionalAttributions: false,
+  //   canSaveBuilding: false,
+  // },
+
+  // {
+  //   buildingId: "40.67046--73.87923",
+  //   lotId: 2009623589,
+  //   price: "From $629,000",
+  //   latLong: {
+  //     latitude: 40.67046,
+  //     longitude: -73.87923,
+  //   },
+  //   minBeds: 3,
+  //   minBaths: 3.0,
+  //   minArea: 1116,
+  //   imgSrc:
+  //     "https://photos.zillowstatic.com/fp/4131fa3e32a765c862415ad7310bbd1b-p_e.jpg",
+  //   hasImage: true,
+  //   plid: "1610931",
+  //   isFeaturedListing: false,
+  //   unitCount: 2,
+  //   isBuilding: true,
+  //   address: "326 Berriman St, Brooklyn, NY",
+  //   variableData: {},
+  //   badgeInfo: null,
+  //   statusType: "FOR_SALE",
+  //   statusText: "For Rent",
+  //   listingType: "",
+  //   isFavorite: false,
+  //   detailUrl: "/b/326-berriman-st-brooklyn-ny-97bWQK/",
+  //   has3DModel: false,
+  //   hasAdditionalAttributions: false,
+  //   canSaveBuilding: false,
+  // },
   {
     zpid: "30706315",
     price: "$999,000",
@@ -34430,3 +34436,7 @@ export default Data = [
     canSaveBuilding: false,
   },
 ];
+
+const homeData = homes.filter((home) => home.zpid)
+
+module.exports = homeData;

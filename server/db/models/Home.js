@@ -19,10 +19,7 @@ const Home = db.define("home", {
     type: Sequelize.STRING,
   },
   price: {
-    type: Sequelize.INTEGER,
-  },
-  coordinate: {
-    type: Sequelize.FLOAT,
+    type: Sequelize.STRING,
   },
   bathrooms: {
     type: Sequelize.INTEGER,
@@ -34,10 +31,10 @@ const Home = db.define("home", {
     type: Sequelize.FLOAT,
   },
   latitude: {
-    type: Sequelize.FLOAT,
+    type: Sequelize.DECIMAL,
   },
-  longititude: {
-    type: Sequelize.FLOAT,
+  longitude: {
+    type: Sequelize.DECIMAL,
   },
 });
 
