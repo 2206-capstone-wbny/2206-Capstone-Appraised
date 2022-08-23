@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
 function SearchBar({ placeHolder, data }) {
   const classes = useStyles();
   return (
-    <AppBar position="static">
+    <AppBar position="fixed" style={{ marginTop: "64px", color: "72bcd4" }}>
       <Toolbar>
         <div className={classes.searchContainer}>
           <SearchIcon className={classes.searchIcon} />
