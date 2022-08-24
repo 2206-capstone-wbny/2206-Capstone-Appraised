@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { connect } from "react-redux";
 import {
   GoogleMap,
   withGoogleMap,
@@ -9,6 +10,7 @@ import {
 import * as properties from "../data.json";
 import { API_KEY } from "../../key";
 import SearchBar from "./SearchBar";
+
 
 const Map = () => {
   const [zoom1, setZoom] = useState(null);
@@ -23,8 +25,8 @@ const Map = () => {
       <GoogleMap
         defaultZoom={10}
         defaultCenter={{
-          lat: 43.0481,
-          lng: -76.1474,
+          lat: 40.6782,
+          lng: -73.9442,
         }}
         onZoomChanged={handleZoomChanged}
       >
@@ -45,7 +47,6 @@ const Map = () => {
 };
 
 const MapComponent = withScriptjs(withGoogleMap(Map));
-
 export function MapViewPage() {
   return (
     <div style={{ width: "100%", height: "90vh" }}>
@@ -58,3 +59,11 @@ export function MapViewPage() {
     </div>
   );
 }
+
+const mapState = (state) => {
+  return {
+   homeCoord: state.home.all
+  };
+};
+
+export default connect(mapState)(Map);
