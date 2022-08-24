@@ -118,7 +118,8 @@ export const Home = (props) => {
           </Link>
         </Box>
       </Container>
-    </React.Fragment>)
+    </React.Fragment>
+  );
 };
 
 /**
