@@ -10,27 +10,46 @@ import * as properties from "../data.json";
 import { API_KEY } from "../../key";
 import SearchBar from "./SearchBar";
 
-const Map = () => {
-  const [selectedHouse, setSelectedHouse] = useState(null);
+const Map = ({ zoom, onZoomChanged }) => {
+  function handleZoomChanged(newZoom) {
+    onZoomChanged(this.getZoom());
+  }
+  // function getMarkers() {
+  //   properties.houseData.map((house) => {
+  //     let marker = new google.maps.Marker({
+  //       position: { lat: house.latLong.latitude, lng: house.latLong.longitude },
+  //       map: Map,
+  //     });
+  //   });
+  // }
+
+  // MapComponent.addListener(Map, "zoom_changed", function () {
+  //   if (currentZoom > 13) {
+  //     getMarkers();
+  //   }
+  // });
   return (
     <div>
       <SearchBar placeholder="Enter Zip, City, or State" data={properties} />
       <GoogleMap
-        defaultZoom={7}
+        defaultZoom={zoom}
         defaultCenter={{
-          lat: 43.0481,
-          lng: -76.1474,
+          lat: 40.6958,
+          lng: -73.9171,
         }}
+        onZoomChanged={handleZoomChanged}
       >
-        {properties.houseData.map((house) => (
-          <Marker
-            key={house.zpid}
-            position={{
-              lat: house.latLong.latitude,
-              lng: house.latLong.longitude,
-            }}
-          />
-        ))}
+        {/* {properties.houseData.map((house) => {
+          return (
+            <Marker
+              key={house.zpid}
+              position={{
+                lat: house.latLong.latitude,
+                lng: house.latLong.longitude,
+              }}
+            />
+          );
+        })} */}
       </GoogleMap>
     </div>
   );
@@ -38,7 +57,28 @@ const Map = () => {
 
 const MapComponent = withScriptjs(withGoogleMap(Map));
 
-export default function MapViewPage() {
+export const MapViewPage = () => {
+  const [currentZoom, setCurrentZoom] = useState(14);
+
+  function handleZoomChanged(newZoom) {
+    setCurrentZoom(newZoom);
+  }
+  console.log("potato", currentZoom);
+  // function getMarkers() {
+  //   properties.houseData.map((house) => {
+  //     let marker = new google.maps.Marker({
+  //       position: { lat: house.latLong.latitude, lng: house.latLong.longitude },
+  //       map: Map,
+  //     });
+  //   });
+  // }
+
+  // this.addListener("zoom_changed", function () {
+  //   if (currentZoom > 13) {
+  //     getMarkers();
+  //   }
+  // });
+
   return (
     <div style={{ width: "100vw", height: "100vh" }}>
       <MapComponent
@@ -46,7 +86,9 @@ export default function MapViewPage() {
         loadingElement={<div style={{ height: "100%", width: "100%" }} />}
         containerElement={<div style={{ height: "100%", width: "100%" }} />}
         mapElement={<div style={{ height: "100%", width: "99%" }} />}
-      />
+        zoom={currentZoom}
+        onZoomChanged={handleZoomChanged}
+      ></MapComponent>
     </div>
   );
-}
+};

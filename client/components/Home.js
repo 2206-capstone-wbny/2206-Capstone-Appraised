@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
@@ -119,7 +118,8 @@ export const Home = (props) => {
           </Link>
         </Box>
       </Container>
-    </React.Fragment>)
+    </React.Fragment>
+  );
 };
 
 /**
