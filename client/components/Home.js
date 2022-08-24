@@ -83,6 +83,16 @@ export const Home = (props) => {
     setPrice(price);
   }
 
+  function handleBeds(evt) {
+    let beds = Number(evt.target.value);
+    setBeds(beds);
+  }
+
+  function handleBaths(evt) {
+    let baths = Number(evt.target.value);
+    setBaths(baths);
+  }
+
   console.log(address);
 
   return (
@@ -97,6 +107,7 @@ export const Home = (props) => {
           sx={{
             bgcolor: "lightblue",
             height: "40vh",
+            backgroundImage: `url(https://www.nawy.com/blog/wp-content/uploads/2022/07/Modern-Interior-Design.jpg)`,
           }}
         >
           <Stack spacing={2}>
@@ -138,6 +149,7 @@ export const Home = (props) => {
                     display: "flex",
                     flexDirection: "column",
                     zIndex: "tooltip",
+                    width: 250,
                   }}
                 >
                   <FormControl sx={{ m: 1, minWidth: 80 }}>
@@ -155,6 +167,39 @@ export const Home = (props) => {
                       <option value="300000">$300,000+</option>
                       <option value="400000">$400,000+</option>
                       <option value="500000">$500,000+</option>
+                    </NativeSelect>
+                  </FormControl>
+                  <FormControl sx={{ m: 1, minWidth: 80 }}>
+                    <InputLabel htmlFor="beds">Beds</InputLabel>
+                    <NativeSelect
+                      autoFocus
+                      value={beds}
+                      onChange={handleBeds}
+                      label="beds"
+                      autoWidth
+                    >
+                      <option value="0">0</option>
+                      <option value="1">1+</option>
+                      <option value="2">2+</option>
+                      <option value="3">3+</option>
+                      <option value="4">4+</option>
+                      <option value="5">5+</option>
+                    </NativeSelect>
+                  </FormControl>
+                  <FormControl sx={{ m: 1, minWidth: 80 }}>
+                    <InputLabel htmlFor="baths">Baths</InputLabel>
+                    <NativeSelect
+                      autoFocus
+                      value={baths}
+                      onChange={handleBaths}
+                      label="baths"
+                      autoWidth
+                    >
+                      <option value="0">0</option>
+                      <option value="1">1+</option>
+                      <option value="2">2+</option>
+                      <option value="3">3+</option>
+                      <option value="4">4+</option>
                     </NativeSelect>
                   </FormControl>
                 </Box>
@@ -176,6 +221,7 @@ export const Home = (props) => {
           sx={{
             bgcolor: "lightblue",
             height: "40vh",
+            backgroundImage: `url(https://www.bestourism.com/img/items/big/535/Philadelphia_General-view_2120.jpg)`,
           }}
         >
           <Link to="/map">
