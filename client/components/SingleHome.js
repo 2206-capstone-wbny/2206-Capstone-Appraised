@@ -60,5 +60,10 @@ export class SingleHome extends Component {
 /**
  * CONTAINER
  */
+const mapState = (state) => {
+  return {
+   home: state.home.single
+  };
+};
 
-export default connect(SingleHome);
+export default connect(mapState)(Map);

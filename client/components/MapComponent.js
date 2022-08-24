@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { connect } from "react-redux";
 import {
   GoogleMap,
   withGoogleMap,
@@ -10,37 +11,45 @@ import * as properties from "../data.json";
 import { API_KEY } from "../../key";
 import SearchBar from "./SearchBar";
 
+
 const Map = () => {
-  const [selectedHouse, setSelectedHouse] = useState(null);
+  const [zoom1, setZoom] = useState(null);
+
+  function handleZoomChanged() {
+    console.log(this.getZoom());
+    setZoom(this.getZoom());
+  }
+  // const [selectedHouse, setSelectedHouse] = useState(null);
   return (
     <div>
-      <SearchBar placeholder="Enter Zip, City, or State" data={properties} />
       <GoogleMap
-        defaultZoom={7}
+        defaultZoom={10}
         defaultCenter={{
-          lat: 43.0481,
-          lng: -76.1474,
+          lat: 40.6782,
+          lng: -73.9442,
         }}
+        onZoomChanged={handleZoomChanged}
       >
-        {properties.houseData.map((house) => (
-          <Marker
-            key={house.zpid}
-            position={{
-              lat: house.latLong.latitude,
-              lng: house.latLong.longitude,
-            }}
-          />
-        ))}
+        {zoom1 > 10
+          ? properties.houseData.map((house) => (
+              <Marker
+                key={house.zpid}
+                position={{
+                  lat: house.latLong.latitude,
+                  lng: house.latLong.longitude,
+                }}
+              />
+            ))
+          : "ekse"}
       </GoogleMap>
     </div>
   );
 };
 
 const MapComponent = withScriptjs(withGoogleMap(Map));
-
-export default function MapViewPage() {
+export function MapViewPage() {
   return (
-    <div style={{ width: "100vw", height: "100vh" }}>
+    <div style={{ width: "100%", height: "90vh" }}>
       <MapComponent
         googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=${API_KEY}`}
         loadingElement={<div style={{ height: "100%", width: "100%" }} />}
@@ -50,3 +59,11 @@ export default function MapViewPage() {
     </div>
   );
 }
+
+const mapState = (state) => {
+  return {
+   homeCoord: state.home.all
+  };
+};
+
+export default connect(mapState)(Map);
