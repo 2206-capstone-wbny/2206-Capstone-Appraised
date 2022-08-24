@@ -57,8 +57,7 @@ const useStyles = makeStyles((theme) => ({
 export const Home = (props) => {
   const classes = useStyles();
   const { username, history } = props;
-  const [minPrice, setMinPrice] = useState(0);
-  const [maxPrice, setMaxPrice] = useState(0);
+  const [price, setPrice] = useState(0);
   const [beds, setBeds] = useState(0);
   const [baths, setBaths] = useState(0);
   const [address, setAddress] = useState("");
@@ -79,14 +78,9 @@ export const Home = (props) => {
     setAddress(evt.target.value);
   }
 
-  function handleMinPrice(evt) {
+  function handlePrice(evt) {
     let price = Number(evt.target.value);
-    setMinPrice(price);
-  }
-
-  function handleMaxPrice(evt) {
-    let price = Number(evt.target.value);
-    setMaxPrice(price);
+    setPrice(price);
   }
 
   console.log(address);
@@ -147,29 +141,12 @@ export const Home = (props) => {
                   }}
                 >
                   <FormControl sx={{ m: 1, minWidth: 80 }}>
-                    <InputLabel htmlFor="min-price">Min Price</InputLabel>
+                    <InputLabel htmlFor="price">Price</InputLabel>
                     <NativeSelect
                       autoFocus
-                      value={minPrice}
-                      onChange={handleMinPrice}
-                      label="minPrice"
-                      autoWidth
-                    >
-                      <option value="0">$0</option>
-                      <option value="100000">$100,000+</option>
-                      <option value="200000">$200,000+</option>
-                      <option value="300000">$300,000+</option>
-                      <option value="400000">$400,000+</option>
-                      <option value="500000">$500,000+</option>
-                    </NativeSelect>
-                  </FormControl>
-                  <FormControl sx={{ m: 1, minWidth: 80 }}>
-                    <InputLabel htmlFor="min-price">Min Price</InputLabel>
-                    <NativeSelect
-                      autoFocus
-                      value={minPrice}
-                      onChange={handleMinPrice}
-                      label="minPrice"
+                      value={price}
+                      onChange={handlePrice}
+                      label="price"
                       autoWidth
                     >
                       <option value="0">$0</option>
