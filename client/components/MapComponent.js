@@ -10,10 +10,11 @@ import {
 import * as properties from "../data.json";
 import { API_KEY } from "../../key";
 import SearchBar from "./SearchBar";
-
+import { Link } from "react-router-dom";
 
 const Map = () => {
   const [zoom1, setZoom] = useState(null);
+  const [selectedHouse, setSelectedHouse] = useState(null);
 
   function handleZoomChanged() {
     console.log(this.getZoom());
@@ -22,6 +23,7 @@ const Map = () => {
   // const [selectedHouse, setSelectedHouse] = useState(null);
   return (
     <div>
+      <div className="google-maps-container">
       <GoogleMap
         defaultZoom={10}
         defaultCenter={{
@@ -38,10 +40,39 @@ const Map = () => {
                   lat: house.latLong.latitude,
                   lng: house.latLong.longitude,
                 }}
+                onClick={() => {
+                  setSelectedHouse(house);
+                }}
               />
             ))
           : "ekse"}
+
+        {selectedHouse && (
+          <InfoWindow
+            position={{
+              lat: selectedHouse.latLong.latitude,
+              lng: selectedHouse.latLong.longitude,
+            }}
+            onCloseClick={() => {
+              setSelectedHouse(null);
+            }}
+          >
+            <div>
+              <h2>
+                {selectedHouse.area} {selectedHouse.hdpData.homeInfo.city}{" "}
+                {selectedHouse.hdpData.homeInfo.state}
+              </h2>
+              <p>Beds: {selectedHouse.beds}</p>
+              <p>Price: {selectedHouse.price}</p>
+            </div>
+          </InfoWindow>
+        )}
       </GoogleMap>
+
+      <div>
+        Temp Place Holder
+      </div>
+      </div>
     </div>
   );
 };
@@ -62,7 +93,7 @@ export function MapViewPage() {
 
 const mapState = (state) => {
   return {
-   homeCoord: state.home.all
+    homeCoord: state.home.all,
   };
 };
 

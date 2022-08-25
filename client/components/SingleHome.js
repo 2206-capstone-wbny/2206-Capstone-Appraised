@@ -1,23 +1,26 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as Data from "../data.json";
+import {setSingle} from '../store/home'
 // import Data from "../dummydata"
-
 // Data.houseData.map((house, idx) => {
 //   return (house.id = idx);
 // });
-/**
- * COMPONENT
- */
+
 export class SingleHome extends Component {
   constructor() {
     super();
   }
+  async componentDidMount()
+  {const ID = this.props.match.params.id;
+    let data = await this.props.single(ID)
+     console.log(data)
+  }
 
   render() {
-    const ID = this.props.match.params.id;
+
     const house = Data.houseData.filter((house) => house.zpid === ID)[0];
-    console.log(house);
+    console.log(this.props);
     return (
       <div>
         <div>
@@ -38,12 +41,7 @@ export class SingleHome extends Component {
                   <p>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
                     do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                    Duis aute irure dolor in reprehenderit in voluptate velit
-                    esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-                    occaecat cupidatat non proident, sunt in culpa qui officia
-                    deserunt mollit anim id est laborum.
+                    aliqua. Ut enim ad minim veniam, quis nostrud exercitatio
                   </p>
                 </div>
               </div>
@@ -57,13 +55,13 @@ export class SingleHome extends Component {
   }
 }
 
-/**
- * CONTAINER
- */
-const mapState = (state) => {
+
+const mapStateToProps = (state) => {
   return {
    home: state.home.single
   };
 };
-
-export default connect(mapState)(Map);
+const mapDispatchToProps = (dispatch) => ({
+    single: (id)=> dispatch(setSingle(id))
+})
+export default connect(mapStateToProps, mapDispatchToProps)(SingleHome);

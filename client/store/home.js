@@ -18,14 +18,14 @@ const _setSingle = (homes) =>{
     }
 }
 
-const setHomes = () =>{
+export const setHomes = () =>{
     return (async(dispatch) =>{
       const {data} = await axios.get('/api/homes')
       return dispatch(_setHomes(data))
     })
 }
 
-const setSingle = (id) =>{
+export const setSingle = (id) =>{
     return (async(dispatch)=>{
         const {data} = await axios.get(`/api/homes/${id}`)
         return dispatch(_setSingle(data))
