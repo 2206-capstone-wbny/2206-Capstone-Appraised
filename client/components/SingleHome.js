@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as Data from "../data.json";
+import {setSingle} from '../store/home'
 // import Data from "../dummydata"
 
 // Data.houseData.map((house, idx) => {
@@ -13,11 +14,17 @@ export class SingleHome extends Component {
   constructor() {
     super();
   }
-
+  
+  async componentDidMount()
+  {const ID = this.props.match.params.id;
+    let data = await this.props.single(ID)
+     console.log(data)
+  }
+  
   render() {
-    const ID = this.props.match.params.id;
+    
     const house = Data.houseData.filter((house) => house.zpid === ID)[0];
-    console.log(house);
+    console.log(this.props);
     return (
       <div>
         <div>
@@ -60,10 +67,13 @@ export class SingleHome extends Component {
 /**
  * CONTAINER
  */
-const mapState = (state) => {
+const mapStateToProps = (state) => {
   return {
    home: state.home.single
   };
 };
+const mapDispatchToProps = (dispatch) => ({
+    single: (id)=> dispatch(setSingle(id))
+})
 
-export default connect(mapState)(Map);
+export default connect(mapStateToProps, mapDispatchToProps)(SingleHome);
