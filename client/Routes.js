@@ -6,7 +6,8 @@ import Home from "./components/Home";
 import {MapViewPage} from "./components/MapComponent";
 import Setting from "./components/Setting";
 import { me } from "./store";
-import { SingleHome } from "./components/SingleHome";
+import SingleHome from "./components/SingleHome";
+import Map from "./components/MapComponent";
 
 /**
  * COMPONENT
@@ -24,8 +25,9 @@ class Routes extends Component {
         {isLoggedIn ? (
           <Switch>
             <Route path="/home" component={Home} />
-            <Route path="/map" component={MapViewPage} />
+            <Route path="/map" component={Map} />
             <Route path="/setting" component={Setting} />
+            <Route path="/singleHomes/:id" component={SingleHome} />
           </Switch>
         ) : (
           <Switch>
@@ -33,8 +35,8 @@ class Routes extends Component {
             <Route path="/home" component={Home} />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
-            <Route path="/homes/:id" component={SingleHome} />
-            <Route path="/map" component={MapViewPage} />
+            <Route path="/singleHomes/:id" component={SingleHome} />
+            <Route path="/map" component={Map} />
           </Switch>
         )}
       </div>

@@ -1,100 +1,85 @@
-import React, { useState } from "react";
+import React, { useState, Component } from "react";
 import { connect } from "react-redux";
 import {
-  GoogleMap,
-  withGoogleMap,
-  withScriptjs,
+  MapContainer,
+  TileLayer,
+  useMap,
+  GeoJSON,
   Marker,
-  InfoWindow,
-} from "react-google-maps";
+} from "react-leaflet";
 import * as properties from "../data.json";
-import { API_KEY } from "../../key";
-import SearchBar from "./SearchBar";
-import { Link } from "react-router-dom";
+import * as bound from "./usa.geo.json";
+import { setSingle, setHomes } from "../store/home";
 
-const Map = () => {
-  const [zoom1, setZoom] = useState(null);
-  const [selectedHouse, setSelectedHouse] = useState(null);
-
-  function handleZoomChanged() {
-    console.log(this.getZoom());
-    setZoom(this.getZoom());
+class Map extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      house: null,
+    };
+    // this.mapRef = React.createRef();
+    this.handleZoomChanged = this.handleZoomChanged.bind(this);
   }
-  // const [selectedHouse, setSelectedHouse] = useState(null);
-  return (
-    <div>
-      <div className="google-maps-container">
-      <GoogleMap
-        defaultZoom={10}
-        defaultCenter={{
-          lat: 40.6782,
-          lng: -73.9442,
-        }}
-        onZoomChanged={handleZoomChanged}
+
+  handleZoomChanged(event) {
+    console.log(event.target);
+  }
+  async componentWillMount() {
+    await this.props.fetchAll();
+  }
+
+  render() {
+    console.log(this);
+    return (
+      <main
+        className={
+          this.state.house == null ? "leafLetMap" : "leafLetMapwithInfo"
+        }
       >
-        {zoom1 > 10
-          ? properties.houseData.map((house) => (
-              <Marker
-                key={house.zpid}
-                position={{
-                  lat: house.latLong.latitude,
-                  lng: house.latLong.longitude,
-                }}
-                onClick={() => {
-                  setSelectedHouse(house);
-                }}
-              />
-            ))
-          : "ekse"}
-
-        {selectedHouse && (
-          <InfoWindow
-            position={{
-              lat: selectedHouse.latLong.latitude,
-              lng: selectedHouse.latLong.longitude,
-            }}
-            onCloseClick={() => {
-              setSelectedHouse(null);
-            }}
-          >
-            <div>
-              <h2>
-                {selectedHouse.area} {selectedHouse.hdpData.homeInfo.city}{" "}
-                {selectedHouse.hdpData.homeInfo.state}
-              </h2>
-              <p>Beds: {selectedHouse.beds}</p>
-              <p>Price: {selectedHouse.price}</p>
-            </div>
-          </InfoWindow>
-        )}
-      </GoogleMap>
-
-      <div>
-        Temp Place Holder
-      </div>
-      </div>
-    </div>
-  );
-};
-
-const MapComponent = withScriptjs(withGoogleMap(Map));
-export function MapViewPage() {
-  return (
-    <div style={{ width: "100%", height: "90vh" }}>
-      <MapComponent
-        googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=${API_KEY}`}
-        loadingElement={<div style={{ height: "100%", width: "100%" }} />}
-        containerElement={<div style={{ height: "100%", width: "100%" }} />}
-        mapElement={<div style={{ height: "100%", width: "99%" }} />}
-      />
-    </div>
-  );
+        <MapContainer
+          center={[40.7, -73.9859]}
+          zoom={13}
+          scrollWheelZoom={false}
+          style={{ width: "100%", height: "85vh" }}
+        >
+          <TileLayer
+            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          {this.props.homeCoord.map((house) => (
+            <Marker
+              value={house.id}
+              key={house.id}
+              position={{
+                lat: house.latitude,
+                lng: house.longitude,
+              }}
+              eventHandlers={{
+                click: async (e) => {
+                  const { homes } = await this.props.fetchSingle(
+                    e.target.options.value
+                  );
+                  this.setState({ house: homes });
+                },
+              }}
+            />
+          ))}
+        </MapContainer>
+      </main>
+    );
+  }
 }
 
 const mapState = (state) => {
   return {
     homeCoord: state.home.all,
+    house: state.home.single,
   };
 };
+const mapDispatch = (dispatch) => ({
+  fetchAll: () => dispatch(setHomes()),
+  fetchSingle: (id) => dispatch(setSingle(id)),
+});
 
-export default connect(mapState)(Map);
+// <GeoJSON key='my-geojson' data={bound.features} />
+export default connect(mapState, mapDispatch)(Map);

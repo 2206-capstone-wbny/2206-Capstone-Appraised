@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as Data from "../data.json";
-import {setSingle} from '../store/home'
+import { setSingle } from "../store/home";
 // import Data from "../dummydata"
 // Data.houseData.map((house, idx) => {
 //   return (house.id = idx);
@@ -11,14 +11,13 @@ export class SingleHome extends Component {
   constructor() {
     super();
   }
-  async componentDidMount()
-  {const ID = this.props.match.params.id;
-    let data = await this.props.single(ID)
-     console.log(data)
+  async componentDidMount() {
+    const ID = this.props.match.params.id;
+    let data = await this.props.single(ID);
+    console.log(data);
   }
 
   render() {
-
     const house = Data.houseData.filter((house) => house.zpid === ID)[0];
     console.log(this.props);
     return (
@@ -55,13 +54,16 @@ export class SingleHome extends Component {
   }
 }
 
-
+/**
+ * CONTAINER
+ */
 const mapStateToProps = (state) => {
   return {
-   home: state.home.single
+    home: state.home.single,
   };
 };
 const mapDispatchToProps = (dispatch) => ({
-    single: (id)=> dispatch(setSingle(id))
-})
+  single: (id) => dispatch(setSingle(id)),
+});
+
 export default connect(mapStateToProps, mapDispatchToProps)(SingleHome);
