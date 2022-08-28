@@ -273,7 +273,6 @@ class Setting extends React.Component {
        <Button variant="outlined" color="error" style={{backgroundColor:'white', width: '90%', marginBottom:'30px', marginLeft: '5%', paddingTop:'10px', paddingBottom:'10px'}}>
         Delete Account
       </Button>
-    
     </div>
     </div>
   )}

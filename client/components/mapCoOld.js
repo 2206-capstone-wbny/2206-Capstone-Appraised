@@ -186,3 +186,17 @@ export default connect(mapState)(Map);
 //                     strokeColor: 'black',
 //                   }}
 //                 />
+
+
+const getIcon = (price) =>{
+     if(price > 800000)
+     {return redIcon 
+     }else if(price >  650000)
+     {return orangeIcon
+     }else if(price > 500000)
+     {return yellowIcon
+     }else if(price > 300000)
+     {return greenIcon
+     }else{
+     blueIcon}
+    }
