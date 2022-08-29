@@ -8,7 +8,8 @@ import Setting from "./components/Setting";
 import { me } from "./store";
 import SingleHome from "./components/SingleHome";
 import Map from "./components/MapComponent";
-
+import HistoricChart from "./components/HistoricChart";
+import watchList from "./components/watchList";
 /**
  * COMPONENT
  */
@@ -27,7 +28,9 @@ class Routes extends Component {
             <Route path="/home" component={Home} />
             <Route path="/map" component={Map} />
             <Route path="/setting" component={Setting} />
-            <Route path="/singleHomes/:id" component={SingleHome} />
+            <Route path="/singleHome" component={SingleHome} />
+            <Route path='/research' component={HistoricChart} />
+            <Route path='/watchlist' component={watchList} />
           </Switch>
         ) : (
           <Switch>
@@ -35,8 +38,10 @@ class Routes extends Component {
             <Route path="/home" component={Home} />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
-            <Route path="/singleHomes/:id" component={SingleHome} />
+            <Route path="/singleHome" component={SingleHome} />
             <Route path="/map" component={Map} />
+            <Route path='/research' component={HistoricChart} />
+
           </Switch>
         )}
       </div>

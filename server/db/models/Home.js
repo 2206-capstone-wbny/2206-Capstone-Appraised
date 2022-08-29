@@ -21,6 +21,9 @@ const Home = db.define("home", {
   price: {
     type: Sequelize.STRING,
   },
+  priceNum:{
+    type: Sequelize.DECIMAL
+  },
   bathrooms: {
     type: Sequelize.INTEGER,
   },

@@ -31,6 +31,7 @@ async function seed() {
           zipcode: home.hdpData.homeInfo.zipcode,
           type: home.hdpData.homeInfo.homeType,
           price: home.price,
+          priceNum: home.hdpData.homeInfo.price,
           bathrooms: home.baths,
           beds: home.beds,
           landSize: home.hdpData.homeInfo.livingArea,
