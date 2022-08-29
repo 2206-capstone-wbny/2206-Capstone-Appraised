@@ -7,7 +7,7 @@ import * as States from './Data/usaState.geo.json';
 import * as Counties from './Data/usaCounty.geo.json';
 import {setSingle, setHomes} from '../store/home'
 import L from 'leaflet';
-import { renderToStaticMarkup } from 'react-dom/server';
+import { Link } from "react-router-dom";
 
 function Markers(props){
    const [zoomLevel, setZoomLevel] = useState(13); // initial zoom level provided for MapContainer
@@ -189,6 +189,7 @@ class Map extends Component {
               <ZipLayer />
               <Markers homeCoord={this.props.homeCoord} fetchSingle={this.props.fetchSingle} houseInformation={this.houseInformation}/>
                 </MapContainer>  
+                <Link to='/singleHome' className="MoreInformation"><a>More Info</a></Link>
     </main>
     )
 }
@@ -214,76 +215,76 @@ const mapDispatch = (dispatch) => ({
 
 
 
-import * as SingleBed from './Data/MedPrice/1BedMed.json';
-import fs from 'fs'
-import axios from 'axios'
+// import * as SingleBed from './Data/MedPrice/1BedMed.json';
+// import fs from 'fs'
+// import axios from 'axios'
 
-const addToJson = async(arr) => {
-  const {data} = await axios.get('/api/homes')
-  console.log(arr.features)
-  let markerToZip = data
-  for(let i = 0; i < arr.features.length; i++){
-      let zip1 = arr.features[i]
-      let r = 0
-      let y = 0
-      let o = 0
-      let g = 0
-      let b = 0
-      let zipMed = SingleBed.filter(med => med.RegionName == zip1.properties.zip)
-    //   Zipcode Meduin price currently
-     console.log(zipMed)
-    //   all houses with that zip zipMed.CurrentMed
+// const addToJson = async(arr) => {
+//   const {data} = await axios.get('/api/homes')
+//   console.log(arr.features)
+//   let markerToZip = data
+//   for(let i = 0; i < arr.features.length; i++){
+//       let zip1 = arr.features[i]
+//       let r = 0
+//       let y = 0
+//       let o = 0
+//       let g = 0
+//       let b = 0
+//       let zipMed = SingleBed.filter(med => med.RegionName == zip1.properties.zip)
+//     //   Zipcode Meduin price currently
+//     console.log(zipMed)
+//     //   all houses with that zip zipMed.CurrentMed
    
-     let Markers = markerToZip.filter(marker => zip1.properties.zip == marker.zip)
-     Markers.map(map => map.price > (zipMed.price*1.25)? r++ : map.price > (zipMed.price*1.15)? o++: map.price > (zipMed.price * 1.05)? y++ : map.price > (zipMed.price*.90) ? g++ : b++)
-    // console.log(Markers)
-     if(r >= y && r >= o && r >= g && r >= b) 
-     {
-       fs.readFile('results.json', function (err, data) {
-       var json = JSON.parse(data)
-       json.push('search result: ' + 'test')
+//     let Markers = markerToZip.filter(marker => zip1.properties.zip == marker.zip)
+//     Markers.map(map => map.price > (zipMed.price*1.25)? r++ : map.price > (zipMed.price*1.15)? o++: map.price > (zipMed.price * 1.05)? y++ : map.price > (zipMed.price*.90) ? g++ : b++)
+//     // console.log(Markers)
+//     if(r >= y && r >= o && r >= g && r >= b) 
+//     {
+//       fs.readFile('results.json', function (err, data) {
+//       var json = JSON.parse(data)
+//       json.push('search result: ' + 'test')
 
-    fs.writeFile("results.json", JSON.stringify(json))
-          })
+//     fs.writeFile("results.json", JSON.stringify(json))
+//           })
          
-     }else if(y >= r && y >= o && y >= g && y >= b) 
-     {
-       fs.readFile('results.json', function (err, data) {
-       var json = JSON.parse(data)
-       json.push('search result: ' + 'red')
+//     }else if(y >= r && y >= o && y >= g && y >= b) 
+//     {
+//       fs.readFile('results.json', function (err, data) {
+//       var json = JSON.parse(data)
+//       json.push('search result: ' + 'red')
 
-    fs.writeFile("results.json", JSON.stringify(json))
-          })   
-     }else if(o >= y && o >= r && o >= g && o >= b) 
-     {
-          fs.readFile('results.json', function (err, data) {
-       var json = JSON.parse(data)
-       json.push('search result: ' + 'yellow')
+//     fs.writeFile("results.json", JSON.stringify(json))
+//           })   
+//     }else if(o >= y && o >= r && o >= g && o >= b) 
+//     {
+//           fs.readFile('results.json', function (err, data) {
+//       var json = JSON.parse(data)
+//       json.push('search result: ' + 'yellow')
 
-    fs.writeFile("results.json", JSON.stringify(json))
-          })
-     }else if(g >= y && g >= o && g >= r && g >= b) 
-     {
-          fs.readFile('results.json', function (err, data) {
-       var json = JSON.parse(data)
-       json.push('search result: ' + 'green')
+//     fs.writeFile("results.json", JSON.stringify(json))
+//           })
+//     }else if(g >= y && g >= o && g >= r && g >= b) 
+//     {
+//           fs.readFile('results.json', function (err, data) {
+//       var json = JSON.parse(data)
+//       json.push('search result: ' + 'green')
 
-    fs.writeFile("results.json", JSON.stringify(json))
-          })
-     }else 
-     {
-          fs.readFile('results.json', function (err, data) {
-       var json = JSON.parse(data)
-       json.push('search result: ' + 'blue')
+//     fs.writeFile("results.json", JSON.stringify(json))
+//           })
+//     }else 
+//     {
+//           fs.readFile('results.json', function (err, data) {
+//       var json = JSON.parse(data)
+//       json.push('search result: ' + 'blue')
 
-    fs.writeFile("results.json", JSON.stringify(json))
-          })
-     }
-  }
+//     fs.writeFile("results.json", JSON.stringify(json))
+//           })
+//     }
+//   }
   
-}
+// }
 
-addToJson(bound)
+// addToJson(bound)
 
 
 
