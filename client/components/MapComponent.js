@@ -197,14 +197,14 @@ class Map extends Component {
 
 const mapState = (state) => {
   return {
-   homeCoord: state.home.all,
-   house: state.home.single
+    homeCoord: state.home.all,
+    house: state.home.single,
   };
 };
 const mapDispatch = (dispatch) => ({
-  fetchAll: ()=> dispatch(setHomes()),
-  fetchSingle: (id)=> dispatch(setSingle(id))
-})
+  fetchAll: () => dispatch(setHomes()),
+  fetchSingle: (id) => dispatch(setSingle(id)),
+});
 
 
 
@@ -300,4 +300,3 @@ const mapDispatch = (dispatch) => ({
 
 // <GeoJSON key='my-geojson' data={bound.features} />
 export default connect(mapState, mapDispatch)(Map);
-
