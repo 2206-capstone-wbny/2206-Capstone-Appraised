@@ -5,7 +5,6 @@ import * as properties from "../data.json";
 import * as bound from './Data/usa.geo.json';
 import * as States from './Data/usaState.geo.json';
 import * as Counties from './Data/usaCounty.geo.json';
-
 import {setSingle, setHomes} from '../store/home'
 import L from 'leaflet';
 import { renderToStaticMarkup } from 'react-dom/server';
@@ -80,14 +79,13 @@ function Markers(props){
 
 function ZipLayer(){
    const [zoomLevel, setZoomLevel] = useState(13); // initial zoom level provided for MapContainer
-   const [zipLayerLng, setZipLayerLng] = useState(-40);
+   const [zipLayerLng, setZipLayerLng] = useState(-50);
     const mapEvents = useMapEvents({
         zoomend: () => {
             setZoomLevel(mapEvents.getZoom());
         },
         moveend: (e) =>{
-          // console.log(e.target.getCenter())
-          let latlng = e.target.getCenter()
+          let latlng = e.target.getCenter();
           setZipLayerLng(latlng.lng)
         }
     }); 
@@ -128,20 +126,21 @@ function ZipLayer(){
     
     let zipBound
     zipLayerLng < -100 && zipLayerLng > -170? zipBound = bound.features.filter(zip => zip.properties.zip > 80000 && zip.properties.zip < 100000 || zip.properties.zip > 59000 && zip.properties.zip < 60000) :
-          zipLayerLng > -100 && zipLayerLng < -87? zipBound = bound.features.filter(zip => zip.properties.zip > 30000 && zip.properties.zip < 80000 && !zip.properties.zip > 59000 && !zip.properties.zip < 60000) :
+          zipLayerLng > -100 && zipLayerLng < -87? zipBound = bound.features.filter(zip => zip.properties.zip > 30000 && zip.properties.zip < 80000 || zip.properties.zip < 59000 && zip.properties.zip > 60000) :
           zipLayerLng > -87 && zipLayerLng < -45? zipBound = bound.features.filter(zip => zip.properties.zip > 0 && zip.properties.zip < 30000) : 'not on map!'
       // console.log(bound.features.filter(zip => zip.properties.zip > 0 && zip.properties.zip < 1000))
         // zipBound = bound.features.filter(zip => zip.properties.zip > 80000 && zip.properties.zip < 100000 || zip.properties.zip > 59000 && zip.properties.zip < 60000)
       // 0 - 30000     30000 - 80000         80000-100000 || 590000-600000
-      console.log(zipLayerLng, zipBound)
+      // console.log(zipLayerLng, zipBound)
       
       
-    return  <GeoJSON key='County' style={styleCounty} data={Counties.features} onEachFeature={forEachHover} />
+    
     // console.log(zoomLevel);
-    // if(zoomLevel < 13 && zoomLevel > 6)
-    // {
+    if(zoomLevel < 13 && zoomLevel > 6)
+    {
+      return  <GeoJSON key='County' style={styleCounty} data={zipBound} onEachFeature={forEachHover} />
     // return  <GeoJSON key='County' style={styleCounty} data={Counties.features} onEachFeature={forEachHover} />
-    // }
+    }
     // else if(zoomLevel < 9)
     // {
     //   return(
@@ -153,7 +152,7 @@ function ZipLayer(){
     //           )
               
     // }
-    // return null
+    return null
 }
 
 class Map extends Component {
@@ -205,6 +204,98 @@ const mapDispatch = (dispatch) => ({
   fetchAll: ()=> dispatch(setHomes()),
   fetchSingle: (id)=> dispatch(setSingle(id))
 })
+
+
+
+
+
+
+
+
+
+
+import * as SingleBed from './Data/MedPrice/1BedMed.json';
+import fs from 'fs'
+import axios from 'axios'
+
+const addToJson = async(arr) => {
+  const {data} = await axios.get('/api/homes')
+  console.log(arr.features)
+  let markerToZip = data
+  for(let i = 0; i < arr.features.length; i++){
+      let zip1 = arr.features[i]
+      let r = 0
+      let y = 0
+      let o = 0
+      let g = 0
+      let b = 0
+      let zipMed = SingleBed.filter(med => med.RegionName == zip1.properties.zip)
+    //   Zipcode Meduin price currently
+     console.log(zipMed)
+    //   all houses with that zip zipMed.CurrentMed
+   
+     let Markers = markerToZip.filter(marker => zip1.properties.zip == marker.zip)
+     Markers.map(map => map.price > (zipMed.price*1.25)? r++ : map.price > (zipMed.price*1.15)? o++: map.price > (zipMed.price * 1.05)? y++ : map.price > (zipMed.price*.90) ? g++ : b++)
+    // console.log(Markers)
+     if(r >= y && r >= o && r >= g && r >= b) 
+     {
+       fs.readFile('results.json', function (err, data) {
+       var json = JSON.parse(data)
+       json.push('search result: ' + 'test')
+
+    fs.writeFile("results.json", JSON.stringify(json))
+          })
+         
+     }else if(y >= r && y >= o && y >= g && y >= b) 
+     {
+       fs.readFile('results.json', function (err, data) {
+       var json = JSON.parse(data)
+       json.push('search result: ' + 'red')
+
+    fs.writeFile("results.json", JSON.stringify(json))
+          })   
+     }else if(o >= y && o >= r && o >= g && o >= b) 
+     {
+          fs.readFile('results.json', function (err, data) {
+       var json = JSON.parse(data)
+       json.push('search result: ' + 'yellow')
+
+    fs.writeFile("results.json", JSON.stringify(json))
+          })
+     }else if(g >= y && g >= o && g >= r && g >= b) 
+     {
+          fs.readFile('results.json', function (err, data) {
+       var json = JSON.parse(data)
+       json.push('search result: ' + 'green')
+
+    fs.writeFile("results.json", JSON.stringify(json))
+          })
+     }else 
+     {
+          fs.readFile('results.json', function (err, data) {
+       var json = JSON.parse(data)
+       json.push('search result: ' + 'blue')
+
+    fs.writeFile("results.json", JSON.stringify(json))
+          })
+     }
+  }
+  
+}
+
+addToJson(bound)
+
+
+
+
+
+
+
+
+
+
+
+
 
 // <GeoJSON key='my-geojson' data={bound.features} />
 export default connect(mapState, mapDispatch)(Map);
