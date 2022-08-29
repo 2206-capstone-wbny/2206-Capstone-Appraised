@@ -1,9 +1,15 @@
 "use strict";
 const homeData  = require("./dummydata");
-
+const statesData = require("./usaState.geo.json");
+const stateSinglePriceMed = require("./stateSingle.json");
 const {
   db,
-  models: { User, Home },
+  models: { User,
+    Home,
+    State,
+    County,
+    Zip,
+    HistoricData },
 } = require("../server/db");
 
 /**
@@ -12,18 +18,27 @@ const {
  */
 async function seed() {
   await db.sync({ force: true }); // clears db and matches models to tables
-  console.log("db synced!");
-  console.log(`**********`,homeData[0])
   // Creating Users
   const users = await Promise.all([
     User.create({ username: "cody", password: "123" }),
     User.create({ username: "murphy", password: "123" }),
   ]);
-
+  
+  await Promise.all(
+      statesData.features.map((home) => {
+        let stateSingleMed = Object.keys(stateSinglePriceMed.filter(state => state.StateName == home.properties.postal)).pop()
+        return State.create({
+          stateName: home.properties.label_en,
+          state: home.properties.postal,
+          singleHMed : stateSingleMed,
+          features : home.features,
+        })
+        
+      }))
+  
     //Creating Homes
     await Promise.all(
       homeData.map((home) => {
-        console.log(`@@@@@@@@`, home.imgSrc);
         return Home.create({
           imageURL: home.imgSrc,
           city: home.hdpData.homeInfo.city,
