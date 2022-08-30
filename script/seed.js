@@ -12,8 +12,10 @@ const state5B = require("./HouseData/state5B.json")
 const stateAH = require("./HouseData/stateAH.json")
 const stateCo = require("./HouseData/stateCo.json");
 const associations  = require("./associations");
+const countyAss  = require("./countyAssociation");
 const {
   db,
+  manyCounty,
   models: { User,
     Home,
     State,
@@ -58,19 +60,31 @@ async function seed() {
           stateSingleMed7 = 0
         }
         
-        let filiteredCounty = associations.filter(county => home.properties.postal == county.state_abbr)
-        // console.log(filiteredCounty.state_abbr)
+        let filiteredCounty = countyAss.filter((county, index) => home.properties.postal == county.state)
+        // console.log(filiteredCounty)
 
-        filiteredCounty.map((county, countyIndex) =>{
-          let sorted = countyData.features.filter(cnty => cnty.properties.label_en == county.county)
-          
-          let filiteredZip = associations.filter(zip => county.county == zip.county)
-          filiteredZip.map((zip, zipIndex) =>{
-          let zipSort = zipData.features.filter(zp => zp.properties.zip == zip.zipcode)
-          console.log(zipSort)
+        let filiteredStuff = filiteredCounty.map((county, countyIndex) =>{
+          let sorted = countyData.features.filter(cnty => cnty.properties.fips == county.fips)
+          // let filiteredZip = associations.filter(zip => county.county == zip.county)
+          // filiteredZip.map((zip, zipIndex) =>{
+          // let zipSort = zipData.features.filter(zp => zp.properties.zip == zip.zipcode)
+          // // console.log(zipSort)
             
-            return Zip.create({
-          county: zip.zipcode,
+          //   return Zip.create({
+          // county: zip.zipcode,
+          // // singleHMed : stateSingleMed,
+          // // oneBedMed: stateSingleMed1,
+          // // twoBedMed: stateSingleMed2,
+          // // threeBedMed: stateSingleMed3,
+          // // fourBedMed: stateSingleMed4,
+          // // fiveBedMed: stateSingleMed5,
+          // // aHBedMed: stateSingleMed6,
+          // // coopMed: stateSingleMed7,
+          // features : zipSort,
+          // countyId : countyIndex
+          // })})
+          return ({
+            county: county.name,
           // singleHMed : stateSingleMed,
           // oneBedMed: stateSingleMed1,
           // twoBedMed: stateSingleMed2,
@@ -79,30 +93,14 @@ async function seed() {
           // fiveBedMed: stateSingleMed5,
           // aHBedMed: stateSingleMed6,
           // coopMed: stateSingleMed7,
-          features : zipSort,
-          countyId : countyIndex
-          })})
-          
-          
-          return County.create({
-          county: county.county,
-          // singleHMed : stateSingleMed,
-          // oneBedMed: stateSingleMed1,
-          // twoBedMed: stateSingleMed2,
-          // threeBedMed: stateSingleMed3,
-          // fourBedMed: stateSingleMed4,
-          // fiveBedMed: stateSingleMed5,
-          // aHBedMed: stateSingleMed6,
-          // coopMed: stateSingleMed7,
-          features : sorted,
-          stateId : index
+          features : sorted
+      
         })
           
         })
         
-        
+        console.log(filiteredStuff)
         return State.create({
-          id: index,
           stateName: home.properties.label_en,
           state: home.properties.postal,
           singleHMed : stateSingleMed,
@@ -114,7 +112,12 @@ async function seed() {
           aHBedMed: stateSingleMed6,
           coopMed: stateSingleMed7,
           features : home,
-
+          county: filiteredStuff
+        }, {
+  include: [{
+    association: manyCounty,
+    as: 'county'
+            }]
         })
       }))
   

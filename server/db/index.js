@@ -12,11 +12,11 @@ const Zip = require('./models/Zip')
 const HistoricData = require('./models/HistoricData')
 //associations could go here!
 
-Zip.belongsTo(County);
+const manyZip = Zip.belongsTo(County);
 County.hasMany(Zip);
 
-County.belongsTo(State);
-State.hasMany(County)
+const manyCounty = State.hasMany(County)
+County.State =County.belongsTo(State);
 
 Home.belongsTo(Zip)
 Zip.hasMany(Home)
@@ -26,6 +26,8 @@ Home.hasMany(User)
 
 module.exports = {
   db,
+  manyZip,
+  manyCounty,
   models: {
     User,
     Home,
