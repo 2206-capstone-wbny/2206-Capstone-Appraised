@@ -62,7 +62,7 @@ const Navbar = ({ handleClick, isLoggedIn, image }) => {
                   "aria-labelledby": "basic",
                 }}
               >
-                <Link to="/">
+                <Link to="/home">
                   <MenuItem onClick={handleClose}>Home</MenuItem>{" "}
                 </Link>
                 <Link to="/map">
