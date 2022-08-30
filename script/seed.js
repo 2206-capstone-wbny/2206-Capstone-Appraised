@@ -65,24 +65,29 @@ async function seed() {
 
         let filiteredStuff = filiteredCounty.map((county, countyIndex) =>{
           let sorted = countyData.features.filter(cnty => cnty.properties.fips == county.fips)
-          // let filiteredZip = associations.filter(zip => county.county == zip.county)
-          // filiteredZip.map((zip, zipIndex) =>{
-          // let zipSort = zipData.features.filter(zp => zp.properties.zip == zip.zipcode)
-          // // console.log(zipSort)
+          
+          
+          let filiteredZip = associations.filter(zip => county.name == zip.county);
+          
+          let zipFilter = filiteredZip.map((zip, zipIndex) =>{
+          let zipSort = zipData.features.filter(zp => zp.properties.zip == zip.zipcode)
+          // console.log(zipSort)
             
-          //   return Zip.create({
-          // county: zip.zipcode,
-          // // singleHMed : stateSingleMed,
-          // // oneBedMed: stateSingleMed1,
-          // // twoBedMed: stateSingleMed2,
-          // // threeBedMed: stateSingleMed3,
-          // // fourBedMed: stateSingleMed4,
-          // // fiveBedMed: stateSingleMed5,
-          // // aHBedMed: stateSingleMed6,
-          // // coopMed: stateSingleMed7,
-          // features : zipSort,
-          // countyId : countyIndex
-          // })})
+            return ({
+          zip: zip.zipcode,
+          // singleHMed : stateSingleMed,
+          // oneBedMed: stateSingleMed1,
+          // twoBedMed: stateSingleMed2,
+          // threeBedMed: stateSingleMed3,
+          // fourBedMed: stateSingleMed4,
+          // fiveBedMed: stateSingleMed5,
+          // aHBedMed: stateSingleMed6,
+          // coopMed: stateSingleMed7,
+          features : zipSort,
+          })})
+          
+
+          
           return ({
             county: county.name,
           // singleHMed : stateSingleMed,
@@ -93,13 +98,14 @@ async function seed() {
           // fiveBedMed: stateSingleMed5,
           // aHBedMed: stateSingleMed6,
           // coopMed: stateSingleMed7,
-          features : sorted
+          features : sorted,
+          zips: zipFilter
       
         })
           
         })
         
-        console.log(filiteredStuff)
+        // console.log(filiteredStuff)
         return State.create({
           stateName: home.properties.label_en,
           state: home.properties.postal,
@@ -116,7 +122,7 @@ async function seed() {
         }, {
   include: [{
     association: manyCounty,
-    as: 'county'
+    include: [Zip]
             }]
         })
       }))
