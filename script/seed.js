@@ -12,10 +12,15 @@ const state5B = require("./HouseData/state5B.json");
 const stateAH = require("./HouseData/stateAH.json");
 const stateCo = require("./HouseData/stateCo.json");
 const associations = require("./associations");
+
+const countyAss = require("./countyAssociation");
 const {
   db,
+  manyCounty,
+  manyZip,
   models: { User, Home, State, County, Zip, HistoricData },
 } = require("../server/db");
+const { contextType } = require("google-map-react");
 
 /**
  * seed - this function clears the database, updates tables to
@@ -30,34 +35,13 @@ async function seed() {
   ]);
 
   await Promise.all(
-    statesData.features.map((home) => {
-      var filtered = stateSinglePriceMed.filter(
-        (state) => state.StateName == home.properties.postal
-      )[0];
-      if (filtered != null) {
-        var stateSingleMed = Object.values(filtered).pop();
-      } else {
-        stateSingleMed = 0;
-      }
-
-      // console.log(filtered, stateSingleMed);
-      return State.create({
-        stateName: home.properties.label_en,
-        state: home.properties.postal,
-        singleHMed: stateSingleMed,
-        features: home,
-      });
-    })
-  );
-
-  //Creating Homes
-  await Promise.all(
     statesData.features.map((home, index) => {
       var filtered = stateSinglePriceMed.filter(
         (state) => state.StateName == home.properties.postal
       )[0];
       if (filtered != null) {
         var stateSingleMed = Object.values(filtered).pop();
+
         var stateSingleMed1 = Object.values(
           state1B.filter(
             (state) => state.StateName == home.properties.postal
@@ -103,30 +87,16 @@ async function seed() {
         stateSingleMed6 = 0;
         stateSingleMed7 = 0;
       }
-      State.create({
-        id: index + 1,
-        stateName: home.properties.label_en,
-        state: home.properties.postal,
-        singleHMed: stateSingleMed,
-        oneBedMed: stateSingleMed1,
-        twoBedMed: stateSingleMed2,
-        threeBedMed: stateSingleMed3,
-        fourBedMed: stateSingleMed4,
-        fiveBedMed: stateSingleMed5,
-        aHBedMed: stateSingleMed6,
-        coopMed: stateSingleMed7,
-        features: home,
-      });
-      let filiteredCounty = associations.filter(
-        (county) => home.properties.postal == county.state_abbr
+
+      let filiteredCounty = countyAss.filter(
+        (county, index) => home.properties.postal == county.state
       );
-      // console.log(filiteredCounty.state_abbr)
+      // console.log(filiteredCounty)
 
-      filiteredCounty.map((county, countyIndex) => {
+      let filiteredStuff = filiteredCounty.map((county, countyIndex) => {
         let sorted = countyData.features.filter(
-          (cnty) => cnty.properties.label_en == county.county
+          (cnty) => cnty.properties.fips == county.fips
         );
-
         // let filiteredZip = associations.filter(zip => county.county == zip.county)
         // filiteredZip.map((zip, zipIndex) =>{
         // let zipSort = zipData.features.filter(zp => zp.properties.zip == zip.zipcode)
@@ -146,8 +116,8 @@ async function seed() {
         // countyId : countyIndex
         // })})
 
-        return County.create({
-          county: county.county,
+        return {
+          county: county.name,
           // singleHMed : stateSingleMed,
           // oneBedMed: stateSingleMed1,
           // twoBedMed: stateSingleMed2,
@@ -157,9 +127,37 @@ async function seed() {
           // aHBedMed: stateSingleMed6,
           // coopMed: stateSingleMed7,
           features: sorted,
-          stateId: index + 1,
-        });
+
+          zips: { zip: county.name },
+        };
       });
+
+      console.log(filiteredStuff);
+      return State.create(
+        {
+          stateName: home.properties.label_en,
+          state: home.properties.postal,
+          singleHMed: stateSingleMed,
+          oneBedMed: stateSingleMed1,
+          twoBedMed: stateSingleMed2,
+          threeBedMed: stateSingleMed3,
+          fourBedMed: stateSingleMed4,
+          fiveBedMed: stateSingleMed5,
+          aHBedMed: stateSingleMed6,
+          coopMed: stateSingleMed7,
+          features: home,
+          counties: filiteredStuff,
+        },
+        {
+          include: [
+            {
+              association: manyCounty,
+              include: [Zip],
+            },
+          ],
+        }
+      );
+
     })
   );
 
