@@ -12,6 +12,7 @@ const state5B = require("./HouseData/state5B.json");
 const stateAH = require("./HouseData/stateAH.json");
 const stateCo = require("./HouseData/stateCo.json");
 const associations = require("./associations");
+
 const countyAss = require("./countyAssociation");
 const {
   db,
@@ -40,6 +41,7 @@ async function seed() {
       )[0];
       if (filtered != null) {
         var stateSingleMed = Object.values(filtered).pop();
+
         var stateSingleMed1 = Object.values(
           state1B.filter(
             (state) => state.StateName == home.properties.postal
@@ -113,6 +115,7 @@ async function seed() {
         // features : zipSort,
         // countyId : countyIndex
         // })})
+
         return {
           county: county.name,
           // singleHMed : stateSingleMed,
@@ -124,6 +127,7 @@ async function seed() {
           // aHBedMed: stateSingleMed6,
           // coopMed: stateSingleMed7,
           features: sorted,
+
           zips: { zip: county.name },
         };
       });
@@ -153,6 +157,7 @@ async function seed() {
           ],
         }
       );
+
     })
   );
 
@@ -176,8 +181,8 @@ async function seed() {
     })
   );
 
-  console.log(`seeded ${users.length} users`);
-  console.log(`seeded successfully`);
+  // console.log(`seeded ${users.length} users`);
+  // console.log(`seeded successfully`);
   return {
     users: {
       cody: users[0],
