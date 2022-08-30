@@ -1,4 +1,4 @@
-import React, { useState, Component } from "react";
+import React, { useState, Component, useEffect } from "react";
 import { connect } from "react-redux";
 import {
   MapContainer,
@@ -14,8 +14,37 @@ import * as bound from "./Data/usa.geo.json";
 import * as States from "./Data/usaState.geo.json";
 import * as Counties from "./Data/usaCounty.geo.json";
 import { setSingle, setHomes } from "../store/home";
-import L from "leaflet";
+import L, { Icon } from "leaflet";
 import { Link } from "react-router-dom";
+import { GeoSearchControl, OpenStreetMapProvider } from "leaflet-geosearch";
+
+function LeafletgeoSearch() {
+  const map = useMap();
+  const marker = L.mark;
+  const prov = new OpenStreetMapProvider({
+    params: {
+      countrycodes: ["us"],
+      country: "united states",
+    },
+  });
+  useEffect(() => {
+    const searchControl = new GeoSearchControl({
+      style: "bar",
+      provider: prov,
+      notFoundMessage: "Sorry, that address could not be found.",
+      showPopup: true,
+      showMarker: true,
+      animateZoom: true,
+      searchLabel: "Enter Zip, City, or State",
+      zoomLevel: 15,
+      keepResult: false,
+    });
+    map.addControl(searchControl);
+
+    return () => map.removeControl(searchControl);
+  }, []);
+  return null;
+}
 
 function Markers(props) {
   const [zoomLevel, setZoomLevel] = useState(13); // initial zoom level provided for MapContainer
@@ -201,7 +230,6 @@ class Map extends Component {
   async componentWillMount() {
     await this.props.fetchAll();
   }
-
   render() {
     console.log(`@@@@@@@@`, this.props)
     return (
@@ -217,6 +245,7 @@ class Map extends Component {
           scrollWheelZoom={true}
           style={{ width: "100%", height: "85vh" }}
         >
+          <LeafletgeoSearch />
           <TileLayer
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

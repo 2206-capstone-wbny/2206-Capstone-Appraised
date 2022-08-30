@@ -1,39 +1,19 @@
-import React from "react";
-import { AppBar, Toolbar, Typography, TextField } from "@material-ui/core";
-import SearchIcon from "@material-ui/icons/Search";
-import { fade, makeStyles } from "@material-ui/core/styles";
+// import { GeoSearchControl, OpenStreetMapProvider } from "leaflet-geosearch";
 
-const useStyles = makeStyles((theme) => ({
-  searchContainer: {
-    display: "flex",
-    backgroundColor: fade(theme.palette.common.white, 0.15),
-  },
-  searchIcon: {
-    alignSelf: "flex-end",
-    marginBottom: "5px",
-  },
-  searchInput: {
-    width: "200px",
-    margin: "5px",
-  },
-}));
+// class Search extends MapControl {
+//   createLeafletElement() {
+//     return GeoSearchControl({
+//       provider: new OpenStreetMapProvider(),
+//       style: "bar",
+//       showMarker: true,
+//       showPopup: false,
+//       autoClose: true,
+//       retainZoomLevel: false,
+//       animateZoom: true,
+//       keepResult: false,
+//       searchLabel: "search",
+//     });
+//   }
+// }
 
-function SearchBar({ placeHolder, data }) {
-  const classes = useStyles();
-  return (
-    <AppBar position="static">
-      <Toolbar>
-        <div className={classes.searchContainer}>
-          <SearchIcon className={classes.searchIcon} />
-          <TextField
-            className={classes.searchInput}
-            label="Enter Zip, City, or State"
-            variant="standard"
-          />
-        </div>
-      </Toolbar>
-    </AppBar>
-  );
-}
-
-export default SearchBar;
+// export default Search;
