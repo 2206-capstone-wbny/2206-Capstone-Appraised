@@ -1,9 +1,10 @@
 "use strict";
-const homeData  = require("./dummydata");
-
+const homeData = require("./dummydata");
+const statesData = require("./usaState.geo.json");
+const stateSinglePriceMed = require("./stateSingle.json");
 const {
   db,
-  models: { User, Home },
+  models: { User, Home, State, County, Zip, HistoricData },
 } = require("../server/db");
 
 /**
@@ -12,34 +13,52 @@ const {
  */
 async function seed() {
   await db.sync({ force: true }); // clears db and matches models to tables
-  console.log("db synced!");
-  console.log(`**********`,homeData[0])
   // Creating Users
   const users = await Promise.all([
     User.create({ username: "cody", password: "123" }),
     User.create({ username: "murphy", password: "123" }),
   ]);
 
-    //Creating Homes
-    await Promise.all(
-      homeData.map((home) => {
-        console.log(`@@@@@@@@`, home.imgSrc);
-        return Home.create({
-          imageURL: home.imgSrc,
-          city: home.hdpData.homeInfo.city,
-          state: home.hdpData.homeInfo.state,
-          zipcode: home.hdpData.homeInfo.zipcode,
-          type: home.hdpData.homeInfo.homeType,
-          price: home.price,
-          priceNum: home.hdpData.homeInfo.price,
-          bathrooms: home.baths,
-          beds: home.beds,
-          landSize: home.hdpData.homeInfo.livingArea,
-          latitude: home.hdpData.homeInfo.latitude,
-          longitude: home.hdpData.homeInfo.longitude,
-        });
-      })
-    );
+  await Promise.all(
+    statesData.features.map((home) => {
+      var filtered = stateSinglePriceMed.filter(
+        (state) => state.StateName == home.properties.postal
+      )[0];
+      if (filtered != null) {
+        var stateSingleMed = Object.values(filtered).pop();
+      } else {
+        stateSingleMed = 0;
+      }
+
+      console.log(filtered, stateSingleMed);
+      return State.create({
+        stateName: home.properties.label_en,
+        state: home.properties.postal,
+        singleHMed: stateSingleMed,
+        features: home,
+      });
+    })
+  );
+
+  //Creating Homes
+  await Promise.all(
+    homeData.map((home) => {
+      return Home.create({
+        imageURL: home.imgSrc,
+        city: home.hdpData.homeInfo.city,
+        state: home.hdpData.homeInfo.state,
+        zipcode: home.hdpData.homeInfo.zipcode,
+        type: home.hdpData.homeInfo.homeType,
+        price: home.price,
+        priceNum: home.hdpData.homeInfo.price,
+        bathrooms: home.baths,
+        beds: home.beds,
+        landSize: home.hdpData.homeInfo.livingArea,
+        latitude: home.hdpData.homeInfo.latitude,
+        longitude: home.hdpData.homeInfo.longitude,
+      });
+    })
+  );
 
   console.log(`seeded ${users.length} users`);
   console.log(`seeded successfully`);
@@ -49,8 +68,6 @@ async function seed() {
       murphy: users[1],
     },
   };
-
-
 }
 
 /*
