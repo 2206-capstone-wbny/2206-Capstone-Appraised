@@ -3,6 +3,11 @@ const db = require("../db");
 const axios = require("axios");
 
 const State = db.define("state", {
+  id: {
+    type: Sequelize.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+  },
   stateName: {
     type: Sequelize.STRING,
   },

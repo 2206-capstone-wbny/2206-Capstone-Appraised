@@ -13,7 +13,8 @@ export class SingleHome extends Component {
   async componentDidMount() {
     const { id } = this.props.match.params;
     const singleHouse = await this.props.fetchSingleHome(id);
-    this.setState({ home: singleHouse });
+    // console.log(`!!!!!!!`, singleHouse);
+    // this.setState({ home: singleHouse });
   }
 
   render() {
