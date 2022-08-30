@@ -1,27 +1,22 @@
 "use strict";
-const homeData  = require("./dummydata");
+const homeData = require("./dummydata");
 const statesData = require("./usaState.geo.json");
 const countyData = require("./usaCounty.geo.json");
 const zipData = require("./usa.geo.json");
-const stateSinglePriceMed = require("./HouseData/stateSingle.json")
-const state1B = require("./HouseData/state1B.json")
-const state2B = require("./HouseData/state2B.json")
-const state3B = require("./HouseData/state3B.json")
-const state4B = require("./HouseData/state4B.json")
-const state5B = require("./HouseData/state5B.json")
-const stateAH = require("./HouseData/stateAH.json")
+const stateSinglePriceMed = require("./HouseData/stateSingle.json");
+const state1B = require("./HouseData/state1B.json");
+const state2B = require("./HouseData/state2B.json");
+const state3B = require("./HouseData/state3B.json");
+const state4B = require("./HouseData/state4B.json");
+const state5B = require("./HouseData/state5B.json");
+const stateAH = require("./HouseData/stateAH.json");
 const stateCo = require("./HouseData/stateCo.json");
-const associations  = require("./associations");
-const countyAss  = require("./countyAssociation");
+const associations = require("./associations");
+const countyAss = require("./countyAssociation");
 const {
   db,
   manyCounty,
-  models: { User,
-    Home,
-    State,
-    County,
-    Zip,
-    HistoricData },
+  models: { User, Home, State, County, Zip, HistoricData },
 } = require("../server/db");
 
 /**
@@ -35,56 +30,89 @@ async function seed() {
     User.create({ username: "cody", password: "123" }),
     User.create({ username: "murphy", password: "123" }),
   ]);
-  
-  await Promise.all(
-      statesData.features.map((home, index) => {
-        var filtered = stateSinglePriceMed.filter(state => state.StateName == home.properties.postal)[0]
-        if(filtered != null)
-        {
-        var stateSingleMed = Object.values(filtered).pop()
-        var stateSingleMed1 = Object.values(state1B.filter(state => state.StateName == home.properties.postal)[0]).pop()
-        var stateSingleMed2 = Object.values(state2B.filter(state => state.StateName == home.properties.postal)[0]).pop()
-        var stateSingleMed3 = Object.values(state3B.filter(state => state.StateName == home.properties.postal)[0]).pop()
-        var stateSingleMed4 = Object.values(state4B.filter(state => state.StateName == home.properties.postal)[0]).pop()
-        var stateSingleMed5 = Object.values(state5B.filter(state => state.StateName == home.properties.postal)[0]).pop()
-        var stateSingleMed6 = Object.values(stateAH.filter(state => state.StateName == home.properties.postal)[0]).pop()
-        var stateSingleMed7 = Object.values(stateCo.filter(state => state.StateName == home.properties.postal)[0]).pop()
-        }else{
-          stateSingleMed = 0
-          stateSingleMed1 = 0
-          stateSingleMed2 = 0
-          stateSingleMed3 = 0
-          stateSingleMed4 = 0
-          stateSingleMed5 = 0
-          stateSingleMed6 = 0
-          stateSingleMed7 = 0
-        }
-        
-        let filiteredCounty = countyAss.filter((county, index) => home.properties.postal == county.state)
-        // console.log(filiteredCounty)
 
-        let filiteredStuff = filiteredCounty.map((county, countyIndex) =>{
-          let sorted = countyData.features.filter(cnty => cnty.properties.fips == county.fips)
-          // let filiteredZip = associations.filter(zip => county.county == zip.county)
-          // filiteredZip.map((zip, zipIndex) =>{
-          // let zipSort = zipData.features.filter(zp => zp.properties.zip == zip.zipcode)
-          // // console.log(zipSort)
-            
-          //   return Zip.create({
-          // county: zip.zipcode,
-          // // singleHMed : stateSingleMed,
-          // // oneBedMed: stateSingleMed1,
-          // // twoBedMed: stateSingleMed2,
-          // // threeBedMed: stateSingleMed3,
-          // // fourBedMed: stateSingleMed4,
-          // // fiveBedMed: stateSingleMed5,
-          // // aHBedMed: stateSingleMed6,
-          // // coopMed: stateSingleMed7,
-          // features : zipSort,
-          // countyId : countyIndex
-          // })})
-          return ({
-            county: county.name,
+  await Promise.all(
+    statesData.features.map((home, index) => {
+      var filtered = stateSinglePriceMed.filter(
+        (state) => state.StateName == home.properties.postal
+      )[0];
+      if (filtered != null) {
+        var stateSingleMed = Object.values(filtered).pop();
+        var stateSingleMed1 = Object.values(
+          state1B.filter(
+            (state) => state.StateName == home.properties.postal
+          )[0]
+        ).pop();
+        var stateSingleMed2 = Object.values(
+          state2B.filter(
+            (state) => state.StateName == home.properties.postal
+          )[0]
+        ).pop();
+        var stateSingleMed3 = Object.values(
+          state3B.filter(
+            (state) => state.StateName == home.properties.postal
+          )[0]
+        ).pop();
+        var stateSingleMed4 = Object.values(
+          state4B.filter(
+            (state) => state.StateName == home.properties.postal
+          )[0]
+        ).pop();
+        var stateSingleMed5 = Object.values(
+          state5B.filter(
+            (state) => state.StateName == home.properties.postal
+          )[0]
+        ).pop();
+        var stateSingleMed6 = Object.values(
+          stateAH.filter(
+            (state) => state.StateName == home.properties.postal
+          )[0]
+        ).pop();
+        var stateSingleMed7 = Object.values(
+          stateCo.filter(
+            (state) => state.StateName == home.properties.postal
+          )[0]
+        ).pop();
+      } else {
+        stateSingleMed = 0;
+        stateSingleMed1 = 0;
+        stateSingleMed2 = 0;
+        stateSingleMed3 = 0;
+        stateSingleMed4 = 0;
+        stateSingleMed5 = 0;
+        stateSingleMed6 = 0;
+        stateSingleMed7 = 0;
+      }
+
+      let filiteredCounty = countyAss.filter(
+        (county, index) => home.properties.postal == county.state
+      );
+      // console.log(filiteredCounty)
+
+      let filiteredStuff = filiteredCounty.map((county, countyIndex) => {
+        let sorted = countyData.features.filter(
+          (cnty) => cnty.properties.fips == county.fips
+        );
+        // let filiteredZip = associations.filter(zip => county.county == zip.county)
+        // filiteredZip.map((zip, zipIndex) =>{
+        // let zipSort = zipData.features.filter(zp => zp.properties.zip == zip.zipcode)
+        // // console.log(zipSort)
+
+        //   return Zip.create({
+        // county: zip.zipcode,
+        // // singleHMed : stateSingleMed,
+        // // oneBedMed: stateSingleMed1,
+        // // twoBedMed: stateSingleMed2,
+        // // threeBedMed: stateSingleMed3,
+        // // fourBedMed: stateSingleMed4,
+        // // fiveBedMed: stateSingleMed5,
+        // // aHBedMed: stateSingleMed6,
+        // // coopMed: stateSingleMed7,
+        // features : zipSort,
+        // countyId : countyIndex
+        // })})
+        return {
+          county: county.name,
           // singleHMed : stateSingleMed,
           // oneBedMed: stateSingleMed1,
           // twoBedMed: stateSingleMed2,
@@ -93,17 +121,16 @@ async function seed() {
           // fiveBedMed: stateSingleMed5,
           // aHBedMed: stateSingleMed6,
           // coopMed: stateSingleMed7,
-          features : sorted
-      
-        })
-          
-        })
-        
-        console.log(filiteredStuff)
-        return State.create({
+          features: sorted,
+        };
+      });
+
+      console.log(filiteredStuff);
+      return State.create(
+        {
           stateName: home.properties.label_en,
           state: home.properties.postal,
-          singleHMed : stateSingleMed,
+          singleHMed: stateSingleMed,
           oneBedMed: stateSingleMed1,
           twoBedMed: stateSingleMed2,
           threeBedMed: stateSingleMed3,
@@ -111,35 +138,39 @@ async function seed() {
           fiveBedMed: stateSingleMed5,
           aHBedMed: stateSingleMed6,
           coopMed: stateSingleMed7,
-          features : home,
-          county: filiteredStuff
-        }, {
-  include: [{
-    association: manyCounty,
-    as: 'county'
-            }]
-        })
-      }))
-  
-    //Creating Homes
-    await Promise.all(
-      homeData.map((home) => {
-        return Home.create({
-          imageURL: home.imgSrc,
-          city: home.hdpData.homeInfo.city,
-          state: home.hdpData.homeInfo.state,
-          zipcode: home.hdpData.homeInfo.zipcode,
-          type: home.hdpData.homeInfo.homeType,
-          price: home.price,
-          priceNum: home.hdpData.homeInfo.price,
-          bathrooms: home.baths,
-          beds: home.beds,
-          landSize: home.hdpData.homeInfo.livingArea,
-          latitude: home.hdpData.homeInfo.latitude,
-          longitude: home.hdpData.homeInfo.longitude,
-        });
-      })
-    );
+          features: home,
+          counties: filiteredStuff,
+        },
+        {
+          include: [
+            {
+              association: manyCounty,
+            },
+          ],
+        }
+      );
+    })
+  );
+
+  //Creating Homes
+  await Promise.all(
+    homeData.map((home) => {
+      return Home.create({
+        imageURL: home.imgSrc,
+        city: home.hdpData.homeInfo.city,
+        state: home.hdpData.homeInfo.state,
+        zipcode: home.hdpData.homeInfo.zipcode,
+        type: home.hdpData.homeInfo.homeType,
+        price: home.price,
+        priceNum: home.hdpData.homeInfo.price,
+        bathrooms: home.baths,
+        beds: home.beds,
+        landSize: home.hdpData.homeInfo.livingArea,
+        latitude: home.hdpData.homeInfo.latitude,
+        longitude: home.hdpData.homeInfo.longitude,
+      });
+    })
+  );
 
   console.log(`seeded ${users.length} users`);
   console.log(`seeded successfully`);
@@ -149,8 +180,6 @@ async function seed() {
       murphy: users[1],
     },
   };
-
-
 }
 
 /*
