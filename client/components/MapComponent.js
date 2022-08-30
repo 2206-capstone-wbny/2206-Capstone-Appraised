@@ -231,6 +231,7 @@ class Map extends Component {
     await this.props.fetchAll();
   }
   render() {
+    console.log(`@@@@@@@@`, this.props)
     return (
       <main
         className={
@@ -256,9 +257,7 @@ class Map extends Component {
             houseInformation={this.houseInformation}
           />
         </MapContainer>
-        <Link to="/singleHome" className="MoreInformation">
-          <a>More Info</a>
-        </Link>
+        <Link to={`/singleHome/${this.props.house.id}`} className="MoreInformation"><a>More Info</a></Link>
       </main>
     );
   }
