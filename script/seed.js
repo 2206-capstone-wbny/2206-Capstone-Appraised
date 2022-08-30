@@ -16,8 +16,10 @@ const countyAss = require("./countyAssociation");
 const {
   db,
   manyCounty,
+  manyZip,
   models: { User, Home, State, County, Zip, HistoricData },
 } = require("../server/db");
+const { contextType } = require("google-map-react");
 
 /**
  * seed - this function clears the database, updates tables to
@@ -122,6 +124,7 @@ async function seed() {
           // aHBedMed: stateSingleMed6,
           // coopMed: stateSingleMed7,
           features: sorted,
+          zips: { zip: county.name },
         };
       });
 
@@ -145,6 +148,7 @@ async function seed() {
           include: [
             {
               association: manyCounty,
+              include: [Zip],
             },
           ],
         }
