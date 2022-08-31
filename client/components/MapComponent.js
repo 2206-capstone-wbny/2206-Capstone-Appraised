@@ -39,6 +39,7 @@ function LeafletgeoSearch() {
       searchLabel: "Enter Zip, City, or State",
       zoomLevel: 15,
       keepResult: false,
+      autoClose: true,
     });
     map.addControl(searchControl);
 
@@ -236,11 +237,7 @@ class Map extends Component {
   render() {
     console.log(`@@@@@@@@`, this.props);
     return (
-      <main
-        className={
-          this.state.house == null ? "leafLetMap" : "leafLetMapwithInfo"
-        }
-      >
+      <main className="leafLetMap">
         <Filter />
         <MapContainer
           ref={this.mapRef}
@@ -260,6 +257,11 @@ class Map extends Component {
             fetchSingle={this.props.fetchSingle}
             houseInformation={this.houseInformation}
           />
+          {/* {this.state.house !== null ? (
+            <div id='infoContainer'>
+              <img src=/>
+            </div>
+          )} */}
         </MapContainer>
         <Link
           to={`/singleHome/${this.props.house.id}`}
