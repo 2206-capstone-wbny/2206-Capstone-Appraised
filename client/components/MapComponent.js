@@ -6,6 +6,7 @@ import * as bound from './Data/usa.geo.json';
 import * as States from './Data/usaState.geo.json';
 import * as Counties from './Data/usaCounty.geo.json';
 import {setSingle, setHomes} from '../store/home'
+import {setState, setCounty, setZip} from '../store/geo'
 import L from 'leaflet';
 import { Link } from "react-router-dom";
 
@@ -77,7 +78,7 @@ function Markers(props){
     return null
 }
 
-function ZipLayer(){
+function ZipLayer(props){
    const [zoomLevel, setZoomLevel] = useState(13); // initial zoom level provided for MapContainer
    const [zipLayerLng, setZipLayerLng] = useState(-50);
     const mapEvents = useMapEvents({
@@ -103,8 +104,6 @@ function ZipLayer(){
       // fillOpacity: -1,
       weight: .5,
     }
-    
-    
     
     const forEachHover = (location, layer)=>{
       // console.log('hi', location)
@@ -135,10 +134,11 @@ function ZipLayer(){
       
       
     
-    // console.log(zoomLevel);
+    let allState = props.state.map(state => state.features)
+    let allZip = props.zip.map(state => state.features)
     if(zoomLevel < 13 && zoomLevel > 6)
     {
-      return  <GeoJSON key='County' style={styleCounty} data={zipBound} onEachFeature={forEachHover} />
+      return  <GeoJSON key='County' style={styleCounty} data={allZip} onEachFeature={forEachHover} />
     // return  <GeoJSON key='County' style={styleCounty} data={Counties.features} onEachFeature={forEachHover} />
     }
     // else if(zoomLevel < 9)
@@ -175,7 +175,11 @@ class Map extends Component {
   
   async componentWillMount()
   {
+    console.log(this.props)
     await this.props.fetchAll()
+    await this.props.setState()
+    await this.props.setCounty()
+    await this.props.setZip()
   }
   
   render() {
@@ -186,7 +190,7 @@ class Map extends Component {
                 attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
-              <ZipLayer />
+              <ZipLayer state={this.props.state} zip={this.props.zip}/>
               <Markers homeCoord={this.props.homeCoord} fetchSingle={this.props.fetchSingle} houseInformation={this.houseInformation}/>
                 </MapContainer>  
                 <Link to='/singleHome' className="MoreInformation"><a>More Info</a></Link>
@@ -198,12 +202,18 @@ class Map extends Component {
 const mapState = (state) => {
   return {
    homeCoord: state.home.all,
-   house: state.home.single
-  };
+   house: state.home.single,
+   state: state.geo.state,
+   county: state.geo.county,
+   zip: state.geo.zip
+ };
 };
 const mapDispatch = (dispatch) => ({
   fetchAll: ()=> dispatch(setHomes()),
-  fetchSingle: (id)=> dispatch(setSingle(id))
+  fetchSingle: (id)=> dispatch(setSingle(id)),
+  setState: ()=> dispatch(setState()), 
+  setCounty: ()=> dispatch(setCounty()), 
+  setZip: ()=> dispatch(setZip())
 })
 
 
