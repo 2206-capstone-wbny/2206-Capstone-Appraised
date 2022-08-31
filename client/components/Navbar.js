@@ -41,43 +41,19 @@ const Navbar = ({ handleClick, isLoggedIn, image }) => {
           {isLoggedIn ? (
             <div>
               {/* The navbar will show these links after you log in */}
-              <Button
-                id="basic"
-                aria-controls={open1 ? "setting" : undefined}
-                aria-haspopup="true"
-                aria-expanded={open1 ? "true" : undefined}
-                onClick={Click1}
-              >
-                <img
-                  className="setting-icon"
-                  src="https://icon-library.com/images/three-line-menu-icon/three-line-menu-icon-6.jpg"
-                ></img>{" "}
-              </Button>
-              <Menu
-                id="basic"
-                anchorEl={anchor}
-                open={open1}
-                onClose={handleClose}
-                MenuListProps={{
-                  "aria-labelledby": "basic",
-                }}
-              >
-                <Link to="/home">
-                  <MenuItem onClick={handleClose}>Home</MenuItem>{" "}
-                </Link>
-                <Link to="/map">
-                  <MenuItem onClick={handleClose}>Map</MenuItem>
-                </Link>
-                <Link to="/reasearch">
-                  <MenuItem onClick={handleClose}>Research</MenuItem>
-                </Link>
-                <Link to="/watchlist">
-                  <MenuItem onClick={handleClose}>Watchlist</MenuItem>
-                </Link>
-                <Link to="/myvalue">
-                  <MenuItem onClick={handleClose}>My Value</MenuItem>
-                </Link>
-              </Menu>
+
+              <Link to="/home">
+                <Button>Home</Button>
+              </Link>
+              <Link to="/map">
+                <Button>Map</Button>
+              </Link>
+              <Link to="/login">
+                <Button>Sign In</Button>
+              </Link>
+              <Link to="/signup">
+                <Button>Create Account</Button>
+              </Link>
 
               <Button
                 id="basic-button"
@@ -108,72 +84,18 @@ const Navbar = ({ handleClick, isLoggedIn, image }) => {
             </div>
           ) : (
             <div>
-              <Button
-                id="basic"
-                aria-controls={open1 ? "setting" : undefined}
-                aria-haspopup="true"
-                aria-expanded={open1 ? "true" : undefined}
-                onClick={Click1}
-              >
-                <img
-                  className="setting-icon"
-                  src="https://icon-library.com/images/three-line-menu-icon/three-line-menu-icon-6.jpg"
-                ></img>{" "}
-              </Button>
-              <Menu
-                id="basic"
-                anchorEl={anchor}
-                open={open1}
-                onClose={handleClose}
-                MenuListProps={{
-                  "aria-labelledby": "basic",
-                }}
-              >
-                <Link to="/">
-                  <MenuItem onClick={handleClose}>Home</MenuItem>
-                </Link>
-                <Link to="/map">
-                  <MenuItem onClick={handleClose}>Map</MenuItem>
-                </Link>
-                <Link to="/reasearch">
-                  <MenuItem onClick={handleClose}>Research</MenuItem>
-                </Link>
-                <Link to="/watchlist">
-                  <MenuItem onClick={handleClose}>Watchlist</MenuItem>
-                </Link>
-                <Link to="/myvalue">
-                  <MenuItem onClick={handleClose}>My Value</MenuItem>
-                </Link>
-              </Menu>
-
-              <Button
-                id="basic-button"
-                aria-controls={open ? "basic-menu" : undefined}
-                aria-haspopup="true"
-                aria-expanded={open ? "true" : undefined}
-                onClick={Click}
-              >
-                <img
-                  className="profile-pic"
-                  src="https://tise-static.telenorcdn.net/profile-pictures/5fa982dbe2fe150012e3930e/32ff5636-7dae-42ec-9e32-e6846afda0ad"
-                ></img>{" "}
-              </Button>
-              <Menu
-                id="basic-menu"
-                anchorEl={anchorEl}
-                open={open}
-                onClose={handleClose}
-                MenuListProps={{
-                  "aria-labelledby": "basic-button",
-                }}
-              >
-                <Link to="/signup">
-                  <MenuItem onClick={handleClose}>Create Account</MenuItem>
-                </Link>
-                <Link to="/login">
-                  <MenuItem onClick={handleClose}>Log In</MenuItem>
-                </Link>
-              </Menu>
+              <Link to="/home">
+                <Button>Home</Button>
+              </Link>
+              <Link to="/map">
+                <Button>Map</Button>
+              </Link>
+              <Link to="/login">
+                <Button>Sign In</Button>
+              </Link>
+              <Link to="/signup">
+                <Button>Create Account</Button>
+              </Link>
             </div>
           )}
         </div>
