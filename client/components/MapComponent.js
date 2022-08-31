@@ -38,8 +38,7 @@ function LeafletgeoSearch() {
       animateZoom: true,
       searchLabel: "Enter Zip, City, or State",
       zoomLevel: 15,
-      keepResult: false,
-      autoClose: true,
+      keepResult: true,
     });
     map.addControl(searchControl);
 
@@ -236,17 +235,13 @@ class Map extends Component {
   }
 
   onClick(e) {
-    return (
-      <div>
-        <img src={this.state.house.imageURL} />
-      </div>
-    );
+    this.setState({ house: true });
   }
 
   render() {
-    console.log(`@@@@@@@@`, this.props);
+    console.log(`@@@@@@@@`, this.state);
     return (
-      <main className="leafLetMap">
+      <main className="leafletMap">
         <Filter />
         <MapContainer
           ref={this.mapRef}
@@ -265,9 +260,15 @@ class Map extends Component {
             homeCoord={this.props.homeCoord}
             fetchSingle={this.props.fetchSingle}
             houseInformation={this.houseInformation}
-            eventHandlers={this.onClick}
           />
         </MapContainer>
+        <div>
+          {this.state.house !== null ? (
+            <img src={this.state.house.imageURL} />
+          ) : (
+            ""
+          )}
+        </div>
         <Link
           to={`/singleHome/${this.props.house.id}`}
           className="MoreInformation"
