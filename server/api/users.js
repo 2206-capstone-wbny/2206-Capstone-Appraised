@@ -34,6 +34,19 @@ router.put("/addWatchlist", async (req, res, next) => {
     let { house } = req.body;
     let adding = await Home.findByPk(house.id);
     await user.addHome(adding);
+    res.send(adding);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.put("/removeWatchlist", async (req, res, next) => {
+  try {
+    const user = await User.findByToken(req.headers.authorization);
+    let { house } = req.body;
+    let adding = await Home.findByPk(house.id);
+    await user.addHome(adding);
+    res.send(adding);
   } catch (err) {
     next(err);
   }

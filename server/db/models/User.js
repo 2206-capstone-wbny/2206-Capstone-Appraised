@@ -66,12 +66,9 @@ User.prototype.generateToken = function () {
 };
 
 User.prototype.getWatchlist = async function () {
-  const watchlist = await Home.findAll({
+  const watchlist = await User.findByPk(this.id, {
     include: {
-      model: User,
-      where: {
-        id: this.id,
-      },
+      model: Home,
     },
   });
   return watchlist;

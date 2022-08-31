@@ -21,8 +21,11 @@ County.State = County.belongsTo(State);
 Home.belongsTo(Zip);
 Zip.hasMany(Home);
 
-User.belongsToMany(Home, { through: "Watchlist" });
-Home.belongsToMany(User, { through: "Watchlist" });
+// User.belongsToMany(Home, { through: "Watchlist" });
+// Home.belongsToMany(User, { through: "Watchlist" });
+
+User.hasMany(Home);
+Home.hasMany(User);
 
 module.exports = {
   db,
