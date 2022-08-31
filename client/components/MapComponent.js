@@ -234,6 +234,15 @@ class Map extends Component {
   async componentWillMount() {
     await this.props.fetchAll();
   }
+
+  onClick(e) {
+    return (
+      <div>
+        <img src={this.state.house.imageURL} />
+      </div>
+    );
+  }
+
   render() {
     console.log(`@@@@@@@@`, this.props);
     return (
@@ -256,12 +265,8 @@ class Map extends Component {
             homeCoord={this.props.homeCoord}
             fetchSingle={this.props.fetchSingle}
             houseInformation={this.houseInformation}
+            eventHandlers={this.onClick}
           />
-          {/* {this.state.house !== null ? (
-            <div id='infoContainer'>
-              <img src=/>
-            </div>
-          )} */}
         </MapContainer>
         <Link
           to={`/singleHome/${this.props.house.id}`}
