@@ -50,7 +50,7 @@ export const addHouse = (house) => {
   };
 };
 
-export const removerHouse = (house) => {
+export const removeHouse = (house) => {
   const token = window.localStorage.getItem(TOKEN);
   return async (dispatch) => {
     const { data: removed } = await axios.put("/api/users/addWatchlist", {
@@ -59,7 +59,7 @@ export const removerHouse = (house) => {
         authorization: token,
       },
     });
-    dispatch(_addHouse(removed));
+    dispatch(_removeHouse(removed));
   };
 };
 
