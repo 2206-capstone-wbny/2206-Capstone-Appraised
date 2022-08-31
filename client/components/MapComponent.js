@@ -17,6 +17,7 @@ import { setSingle, setHomes } from "../store/home";
 import L, { Icon } from "leaflet";
 import { Link } from "react-router-dom";
 import { GeoSearchControl, OpenStreetMapProvider } from "leaflet-geosearch";
+import Filter from "./Filters";
 
 function LeafletgeoSearch() {
   const map = useMap();
@@ -216,6 +217,8 @@ class Map extends Component {
       house: null,
       MarkerZoom: false,
       zoom: 13,
+      filterBedrooms: "any",
+      filterSort: "any",
     };
     this.mapRef = React.createRef();
     this.houseInformation = this.houseInformation.bind(this);
@@ -231,13 +234,14 @@ class Map extends Component {
     await this.props.fetchAll();
   }
   render() {
-    console.log(`@@@@@@@@`, this.props)
+    console.log(`@@@@@@@@`, this.props);
     return (
       <main
         className={
           this.state.house == null ? "leafLetMap" : "leafLetMapwithInfo"
         }
       >
+        <Filter />
         <MapContainer
           ref={this.mapRef}
           center={[40.7, -73.9859]}
@@ -257,7 +261,12 @@ class Map extends Component {
             houseInformation={this.houseInformation}
           />
         </MapContainer>
-        <Link to={`/singleHome/${this.props.house.id}`} className="MoreInformation"><a>More Info</a></Link>
+        <Link
+          to={`/singleHome/${this.props.house.id}`}
+          className="MoreInformation"
+        >
+          <a>More Info</a>
+        </Link>
       </main>
     );
   }
