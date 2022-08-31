@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { setSingle } from "../store/home";
+import home, { setSingle } from "../store/home";
 
 export class SingleHome extends Component {
   constructor(props) {
@@ -13,15 +13,15 @@ export class SingleHome extends Component {
   async componentDidMount() {
     const { id } = this.props.match.params;
     const singleHouse = await this.props.fetchSingleHome(id);
-    // console.log(`!!!!!!!`, singleHouse);
-    // this.setState({ home: singleHouse });
+    this.setState({ home: singleHouse });
   }
 
   render() {
     const { home } = this.props;
+    const landSize = home.landSize ? home.landSize : "";
     console.log(`@@@@`, this.props);
     return (
-      <div className="main-container">
+      <div className="singleHome-body">
         <div className="map-container">
           {home ? (
             <div className="singleHome-container">
@@ -29,8 +29,9 @@ export class SingleHome extends Component {
                 <img src={home.imageURL} />
               </div>
               <div className="singleHome-right">
+                <h1>Overview</h1>
                 <div>
-                  <h1>{home.price}</h1>
+                  <h2>{home.price}</h2>
                   <span>
                     <b>{home.beds}</b> Beds
                   </span>
@@ -40,11 +41,11 @@ export class SingleHome extends Component {
                   </span>
                   <span>
                     {" "}
-                    <b>{home.landSize}</b> sqft
+                    <b>{landSize}</b> {landSize ? `sqft` : ``}
                   </span>
                 </div>
-                <div>
-                  <h2>Description</h2>
+                <div className="description">
+                  <h3>Description</h3>
                   <p>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
                     do eiusmod tempor incididunt ut labore et dolore magna

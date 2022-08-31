@@ -18,7 +18,7 @@ nav a {
 
 form div {
   margin: 1em;
-  display: inline-block;
+  /* display: inline-block; */
 }
 
 /* CSS FOR NAVBAR */
@@ -146,14 +146,192 @@ hr {
   size: 50px;
 }
 
+/*SingleHome CSS */
+.singleHome-body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .singleHome-container {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  justify-content: space-around;
+  align-items: top;
   flex-direction: row;
+  margin-left: 50px;
+  margin-right: 50px;
+}
+
+.singleHome-left {
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 1);
+  background-color: lightblue;
 }
 
 .singleHome-right {
-  margin: 0px;
+  margin-left: 50px;
   margin-top: 10px;
+}
+
+.singleHome-right h1 {
+  color: lightblue;
+}
+
+.singleHome-right h2 {
+  font-size: 20px
+}
+
+.singleHome-container h3 {
+  font-size: 22px;
+  color: lightblue;
+}
+
+.singleHome-right .description {
+  width: 500px;
+}
+
+/* LogIn and Create Account CSS */
+
+#authForm-body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: lightblue;
+}
+
+.authForm-container {
+  position: relative;
+  max-width: 430px;
+  width: 100%;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.authForm-container .authForm-form {
+  padding: 30px;
+}
+
+.authForm-container .authForm-form .title {
+  position: relative;
+  font-size: 27px;
+  font-weight: 600;
+}
+
+.authForm-container .authForm-form .title::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 3px;
+  width: 30px;
+  background-color: lightblue;
+  border-radius: 25px;
+}
+
+.authForm-form .input-field {
+  position: relative;
+  height: 50px;
+  width: 100%;
+  margin-top: 30px;
+}
+
+.input-field input {
+  position: absolute;
+  height: 80%;
+  width: 73%;
+  padding: 0 35px;
+  border: none;
+  outline: none;
+  border-bottom: 2px solid #ccc;
+  border-top: 2px solid transparent;
+  transition: all 0.2s ease;
+  font-size: 16px;
+}
+
+.input-field .log-in {
+  position: absolute;
+  height: 80%;
+  width: 92%;
+  padding: 0 35px;
+  border: none;
+  outline: none;
+  border-bottom: 2px solid #ccc;
+  border-top: 2px solid transparent;
+  transition: all 0.2s ease;
+  font-size: 16px;
+}
+
+.input-field input:is(:isfocus, :valid) {
+  border-bottom-color: lightblue;
+}
+
+.authForm-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-right: 5%;
+}
+
+.authForm-buttons .log-in {
+  margin-left: 0;
+}
+
+.authForm-checkbox-content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-left: 0;
+}
+
+.authForm-form .authForm-checkbox-text {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.authForm-checkbox-content .text {
+  margin-top: 2px;
+}
+
+.authForm-checkbox-content .input {
+  margin: 0 8px -2px 4px;
+}
+
+.authForm-form a.text {
+  color: blue;
+  text-decoration: none;
+}
+
+.authForm-form a:hover {
+  text-decoration: underline;
+}
+
+.authForm-checkbox-text .text {
+  color: #333;
+  font-size: 15px;
+}
+
+.authForm-buttons button {
+  align-items: center;
+  background-color: rgb(26, 145, 169);
+  border: 2px solid rgb(250, 248, 248);
+  box-sizing: border-box;
+  color: rgb(242, 237, 237);
+  cursor: pointer;
+  display: inline-flex;
+  fill: #000;
+  font-family: Inter, sans-serif;
+  font-size: 16px;
+  font-weight: 350;
+  justify-content: center;
+  letter-spacing: -0.8px;
+  line-height: 24px;
+  min-width: 120px;
+}
+
+.authForm-buttons button:hover {
+  border-color: rgb(255, 255, 255);
 }
