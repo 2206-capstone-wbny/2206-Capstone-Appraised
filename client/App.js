@@ -10,7 +10,6 @@ const App = () => {
   return (
     <div>
       <Navbar />
-      <SearchBar />
       <Routes />
     </div>
   );
