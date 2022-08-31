@@ -16,7 +16,6 @@
 //     //   all houses with that zip 
 //      let markerToZip = marker.filter(marker => zip1.properties.zip == marker.zip)
      
-     
 //      markerToZip.map(map => map.price > (zipMed.price*1.25)? r++ : map.price > (zipMed.price*1.15)? o++: map.price > (zipMed.price * 1.05)? y++ : map.price > (zipMed.price*.90) ? g++ : b++)
     
 //      if(r >= y && r >= o && r >= g && r >= b) 
