@@ -241,8 +241,8 @@ hr {
 
 .authForm-buttons {
   display: flex;
-  justify-content: space-around;
-  margin: 0px;
+  justify-content: space-between;
+  margin-right: 5%;
 }
 
 .authForm-buttons .log-in {
@@ -299,7 +299,7 @@ hr {
   justify-content: center;
   letter-spacing: -0.8px;
   line-height: 24px;
-  min-width: 140px;
+  min-width: 120px;
 }
 
 .authForm-buttons button:hover {
