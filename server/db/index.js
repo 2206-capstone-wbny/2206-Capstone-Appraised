@@ -1,28 +1,28 @@
 //this is the access point for all things database related!
 
-const { ReactWrapper } = require('enzyme')
-const db = require('./db')
+const { ReactWrapper } = require("enzyme");
+const db = require("./db");
 const axios = require("axios");
 
-const User = require('./models/User')
-const Home = require('./models/Home')
-const State = require('./models/State')
-const County = require('./models/County')
-const Zip = require('./models/Zip')
-const HistoricData = require('./models/HistoricData')
+const User = require("./models/User");
+const Home = require("./models/Home");
+const State = require("./models/State");
+const County = require("./models/County");
+const Zip = require("./models/Zip");
+const HistoricData = require("./models/HistoricData");
 //associations could go here!
 
 const manyZip = Zip.belongsTo(County);
 County.hasMany(Zip);
 
-const manyCounty = State.hasMany(County)
-County.State =County.belongsTo(State);
+const manyCounty = State.hasMany(County);
+County.State = County.belongsTo(State);
 
-Home.belongsTo(Zip)
-Zip.hasMany(Home)
+Home.belongsTo(Zip);
+Zip.hasMany(Home);
 
-User.belongsTo(Home)
-Home.hasMany(User)
+User.belongsToMany(Home, { through: "Watchlist" });
+Home.belongsToMany(User, { through: "Watchlist" });
 
 module.exports = {
   db,
@@ -34,6 +34,6 @@ module.exports = {
     State,
     County,
     Zip,
-    HistoricData
+    HistoricData,
   },
-}
+};
