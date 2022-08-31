@@ -146,16 +146,46 @@ hr {
   size: 50px;
 }
 
+/*SingleHome CSS */
+.singleHome-body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .singleHome-container {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  justify-content: space-around;
+  align-items: top;
   flex-direction: row;
+  margin-left: 50px;
+  margin-right: 50px;
+}
+
+.singleHome-left {
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 1);
+  background-color: lightblue;
 }
 
 .singleHome-right {
-  margin: 0px;
+  margin-left: 50px;
   margin-top: 10px;
+}
+
+.singleHome-right h1 {
+  color: lightblue;
+}
+
+.singleHome-right h2 {
+  font-size: 20px
+}
+
+.singleHome-container h3 {
+  font-size: 22px;
+  color: lightblue;
+}
+
+.singleHome-right .description {
+  width: 500px;
 }
 
 /* LogIn and Create Account CSS */
