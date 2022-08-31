@@ -38,8 +38,6 @@
   
 // }
 
-
-
 // const mapState = (state) => {
 //     console.log(state)
 //   return {
