@@ -28,7 +28,7 @@ class Routes extends Component {
             <Route path="/home" component={Home} />
             <Route path="/map" component={Map} />
             <Route path="/setting" component={Setting} />
-            <Route path="/singleHome" component={SingleHome} />
+            <Route path="/singleHome/:id" component={SingleHome} />
             <Route path='/research' component={HistoricChart} />
             <Route path='/watchlist' component={watchList} />
           </Switch>
@@ -38,7 +38,7 @@ class Routes extends Component {
             <Route path="/home" component={Home} />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
-            <Route path="/singleHome" component={SingleHome} />
+            <Route path="/singleHome/:id" component={SingleHome} />
             <Route path="/map" component={Map} />
             <Route path='/research' component={HistoricChart} />
 

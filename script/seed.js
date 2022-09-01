@@ -1,5 +1,5 @@
 "use strict";
-const homeData  = require("./dummydata");
+const homeData = require("./dummydata");
 const statesData = require("./usaState.geo.json");
 const statesData1 = require("./usaState1.geo.json");
 const statesData2 = require("./usaState1v2.geo.json");
@@ -14,13 +14,13 @@ const statesData10 = require("./usaStatev3.geo.json");
 const statesData11 = require("./usaStatev3v2.geo.json");
 const countyData = require("./usaCounty.geo.json");
 const zipData = require("./usa.geo.json");
-const stateSinglePriceMed = require("./HouseData/stateSingle.json")
-const state1B = require("./HouseData/state1B.json")
-const state2B = require("./HouseData/state2B.json")
-const state3B = require("./HouseData/state3B.json")
-const state4B = require("./HouseData/state4B.json")
-const state5B = require("./HouseData/state5B.json")
-const stateAH = require("./HouseData/stateAH.json")
+const stateSinglePriceMed = require("./HouseData/stateSingle.json");
+const state1B = require("./HouseData/state1B.json");
+const state2B = require("./HouseData/state2B.json");
+const state3B = require("./HouseData/state3B.json");
+const state4B = require("./HouseData/state4B.json");
+const state5B = require("./HouseData/state5B.json");
+const stateAH = require("./HouseData/stateAH.json");
 const stateCo = require("./HouseData/stateCo.json");
 const countySF = require("./HouseData/county/countySF.json")
 const county1B = require("./HouseData/county/county1B.json")
@@ -40,16 +40,14 @@ const zipAH = require("./HouseData/zip/zipAH.json")
 const zipCo = require("./HouseData/zip/zipCO.json")
 const associations  = require("./associations");
 const countyAss  = require("./countyAssociation");
+
 const {
   db,
   manyCounty,
-  models: { User,
-    Home,
-    State,
-    County,
-    Zip,
-    HistoricData },
+  manyZip,
+  models: { User, Home, State, County, Zip, HistoricData },
 } = require("../server/db");
+const { contextType } = require("google-map-react");
 
 /**
  * seed - this function clears the database, updates tables to
@@ -62,7 +60,6 @@ async function seed() {
     User.create({ username: "cody", password: "123" }),
     User.create({ username: "murphy", password: "123" }),
   ]);
-  
 
  
   
@@ -3600,14 +3597,13 @@ include: [{
 
   console.log(`seeded ${users.length} users`);
   console.log(`seeded successfully`);
+
   return {
     users: {
       cody: users[0],
       murphy: users[1],
     },
   };
-
-
 }
 
 

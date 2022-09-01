@@ -1,82 +1,49 @@
-import React, { useState, Component } from "react";
+import React, { useState, Component, useEffect } from "react";
 import { connect } from "react-redux";
-import { MapContainer, TileLayer, useMap, GeoJSON, Marker, LayerGroup, useMapEvents} from 'react-leaflet'
+import {
+  MapContainer,
+  TileLayer,
+  useMap,
+  GeoJSON,
+  Marker,
+  LayerGroup,
+  useMapEvents,
+} from "react-leaflet";
 import * as properties from "../data.json";
-import * as bound from './Data/usa.geo.json';
-import * as States from './Data/usaState.geo.json';
-import * as Counties from './Data/usaCounty.geo.json';
 import {setSingle, setHomes} from '../store/home'
 import {setState, setCounty, setZip} from '../store/geo'
 import L from 'leaflet';
 import { Link } from "react-router-dom";
+import { GeoSearchControl, OpenStreetMapProvider } from "leaflet-geosearch";
 
-function Markers(props){
-   const [zoomLevel, setZoomLevel] = useState(13); // initial zoom level provided for MapContainer
-    
-    const mapEvents = useMapEvents({
-        zoomend: () => {
-            setZoomLevel(mapEvents.getZoom());
-        },
+function LeafletgeoSearch() {
+  const map = useMap();
+  const marker = L.mark;
+  const prov = new OpenStreetMapProvider({
+    params: {
+      countrycodes: ["us"],
+      country: "united states",
+    },
+  });
+  useEffect(() => {
+    const searchControl = new GeoSearchControl({
+      style: "bar",
+      provider: prov,
+      notFoundMessage: "Sorry, that address could not be found.",
+      showPopup: true,
+      showMarker: true,
+      animateZoom: true,
+      searchLabel: "Enter Zip, City, or State",
+      zoomLevel: 15,
+      keepResult: false,
     });
-    var greenIcon = L.icon({
-      iconUrl: '/green.png',
-      iconSize: [10,10],
-      className : 'leaflet-div-icon'
-    })
-    var blueIcon = L.icon({
-      iconUrl: '/blue.png',
-      iconSize: [10,10],
-      className : 'leaflet-div-icon'
-    })
-    var orangeIcon = L.icon({
-      iconUrl: '/orange.png',
-      iconSize: [10,10],
-      className : 'leaflet-div-icon'
-    })
-    var redIcon = L.icon({
-      iconUrl: '/red.png',
-      iconSize: [10,10],
-      className : 'leaflet-div-icon'
-    })
-    var yellowIcon = L.icon({
-      iconUrl: '/yellow.png',
-      iconSize: [10,10],
-      className : 'leaflet-div-icon'
-    })
-    
-    const getIcon = (price) =>{
-     return price > 800000 ? redIcon :
-     price >  650000 ? orangeIcon :
-     price > 500000 ? yellowIcon :
-     price > 300000 ? greenIcon :
-     blueIcon
-    }
-    
-    
-    // console.log(zoomLevel, props);
-    if(zoomLevel > 14)
-    {
-      return(
-      props.homeCoord.map((house) => (
-              <Marker icon={getIcon(house.priceNum)}
-                value={house.id}
-                key={house.id}
-                position={{
-                  lat: house.latitude,
-                  lng: house.longitude,
-                }}
-                // style ={{borderStyle: 'solid', borderColor: 'white', borderWidth: '10px'}}
-                eventHandlers={{
-                  click: async (e) => {
-                   e.target._map.setView([house.latitude, house.longitude], 16)
-                   await props.fetchSingle(e.target.options.value)
-                   props.houseInformation()
-                },
-              }}
-              />)))
-    }
-    return null
+    map.addControl(searchControl);
+
+    return () => map.removeControl(searchControl);
+  }, []);
+  return null;
 }
+
 
 function ZipLayer(props){
    const [zoomLevel, setZoomLevel] = useState(13); // initial zoom level provided for MapContainer
@@ -139,40 +106,41 @@ function ZipLayer(props){
     if(zoomLevel < 13 && zoomLevel > 6)
     {
       return  <GeoJSON key='County' style={styleCounty} data={allZip} onEachFeature={forEachHover} />
+
     // return  <GeoJSON key='County' style={styleCounty} data={Counties.features} onEachFeature={forEachHover} />
-    }
-    // else if(zoomLevel < 9)
-    // {
-    //   return(
-    //     <div>
-    //     <GeoJSON key='County' style={styleCounty} data={Counties.features} />
-    //     <GeoJSON style={styleState} key='statesGeo' data={States.features} 
-    //     onEachFeature={forEachHover}/>
-    //       </div>
-    //           )
-              
-    // }
-    return null
+  }
+  // else if(zoomLevel < 9)
+  // {
+  //   return(
+  //     <div>
+  //     <GeoJSON key='County' style={styleCounty} data={Counties.features} />
+  //     <GeoJSON style={styleState} key='statesGeo' data={States.features}
+  //     onEachFeature={forEachHover}/>
+  //       </div>
+  //           )
+
+  // }
+  return null;
 }
 
 class Map extends Component {
   constructor(props) {
     super(props);
     this.state = {
-    house: null,
-    MarkerZoom : false,
-    zoom: 13
-    }
+      house: null,
+      MarkerZoom: false,
+      zoom: 13,
+    };
     this.mapRef = React.createRef();
-    this.houseInformation = this.houseInformation.bind(this)
+    this.houseInformation = this.houseInformation.bind(this);
   }
 
-  houseInformation(){
+  houseInformation() {
     this.setState({
-      house : true
-    })
+      house: true,
+    });
   }
-  
+
   async componentWillMount()
   {
     console.log(this.props)
@@ -181,9 +149,10 @@ class Map extends Component {
     await this.props.setCounty()
     await this.props.setZip()
   }
-  
   render() {
+    console.log(`@@@@@@@@`, this.props)
     return (
+
   <main className={this.state.house == null ? 'leafLetMap' : 'leafLetMapwithInfo'}>
     <MapContainer ref={this.mapRef} center={[40.7,-73.9859]} zoom={this.state.zoom} scrollWheelZoom={true} style={{width: '100%', height: '85vh'}}>
                 <TileLayer
@@ -197,10 +166,12 @@ class Map extends Component {
     </main>
     )
 }
+
 }
 
 const mapState = (state) => {
   return {
+
    homeCoord: state.home.all,
    house: state.home.single,
    state: state.geo.state,
@@ -215,14 +186,6 @@ const mapDispatch = (dispatch) => ({
   setCounty: ()=> dispatch(setCounty()), 
   setZip: ()=> dispatch(setZip())
 })
-
-
-
-
-
-
-
-
 
 
 // import * as SingleBed from './Data/MedPrice/1BedMed.json';
@@ -244,11 +207,11 @@ const mapDispatch = (dispatch) => ({
 //     //   Zipcode Meduin price currently
 //     console.log(zipMed)
 //     //   all houses with that zip zipMed.CurrentMed
-   
+
 //     let Markers = markerToZip.filter(marker => zip1.properties.zip == marker.zip)
 //     Markers.map(map => map.price > (zipMed.price*1.25)? r++ : map.price > (zipMed.price*1.15)? o++: map.price > (zipMed.price * 1.05)? y++ : map.price > (zipMed.price*.90) ? g++ : b++)
 //     // console.log(Markers)
-//     if(r >= y && r >= o && r >= g && r >= b) 
+//     if(r >= y && r >= o && r >= g && r >= b)
 //     {
 //       fs.readFile('results.json', function (err, data) {
 //       var json = JSON.parse(data)
@@ -256,16 +219,16 @@ const mapDispatch = (dispatch) => ({
 
 //     fs.writeFile("results.json", JSON.stringify(json))
 //           })
-         
-//     }else if(y >= r && y >= o && y >= g && y >= b) 
+
+//     }else if(y >= r && y >= o && y >= g && y >= b)
 //     {
 //       fs.readFile('results.json', function (err, data) {
 //       var json = JSON.parse(data)
 //       json.push('search result: ' + 'red')
 
 //     fs.writeFile("results.json", JSON.stringify(json))
-//           })   
-//     }else if(o >= y && o >= r && o >= g && o >= b) 
+//           })
+//     }else if(o >= y && o >= r && o >= g && o >= b)
 //     {
 //           fs.readFile('results.json', function (err, data) {
 //       var json = JSON.parse(data)
@@ -273,7 +236,7 @@ const mapDispatch = (dispatch) => ({
 
 //     fs.writeFile("results.json", JSON.stringify(json))
 //           })
-//     }else if(g >= y && g >= o && g >= r && g >= b) 
+//     }else if(g >= y && g >= o && g >= r && g >= b)
 //     {
 //           fs.readFile('results.json', function (err, data) {
 //       var json = JSON.parse(data)
@@ -281,7 +244,7 @@ const mapDispatch = (dispatch) => ({
 
 //     fs.writeFile("results.json", JSON.stringify(json))
 //           })
-//     }else 
+//     }else
 //     {
 //           fs.readFile('results.json', function (err, data) {
 //       var json = JSON.parse(data)
@@ -291,23 +254,10 @@ const mapDispatch = (dispatch) => ({
 //           })
 //     }
 //   }
-  
+
 // }
 
 // addToJson(bound)
 
-
-
-
-
-
-
-
-
-
-
-
-
 // <GeoJSON key='my-geojson' data={bound.features} />
 export default connect(mapState, mapDispatch)(Map);
-

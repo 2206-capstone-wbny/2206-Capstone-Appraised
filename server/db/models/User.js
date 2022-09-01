@@ -3,6 +3,7 @@ const db = require("../db");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const axios = require("axios");
+const Home = require("./Home");
 
 const SALT_ROUNDS = 5;
 
@@ -40,14 +41,14 @@ const User = db.define("user", {
   password: {
     type: Sequelize.STRING,
   },
-  
+
   imageUrl: {
     type: Sequelize.STRING,
   },
-  
+
   phoneNumber: {
     type: Sequelize.INTEGER,
-  }
+  },
 });
 
 module.exports = User;
@@ -62,6 +63,15 @@ User.prototype.correctPassword = function (candidatePwd) {
 
 User.prototype.generateToken = function () {
   return jwt.sign({ id: this.id }, process.env.JWT);
+};
+
+User.prototype.getWatchlist = async function () {
+  const watchlist = await User.findByPk(this.id, {
+    include: {
+      model: Home,
+    },
+  });
+  return watchlist;
 };
 
 /**

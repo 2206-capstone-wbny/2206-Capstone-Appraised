@@ -1,19 +1,21 @@
-import React from 'react'
-import {connect} from 'react-redux'
-import {authenticate} from '../store'
-
+import { display } from "@mui/system";
+import React from "react";
+import { connect } from "react-redux";
+import { authenticate } from "../store";
+import { Link } from "react-router-dom";
 /**
  * COMPONENT
  */
-const AuthForm = props => {
-  const {name, displayName, handleSubmit, error} = props
-
+const AuthForm = (props) => {
+  const { name, displayName, handleSubmit, error } = props;
+  const title = displayName === "Login" ? "Log-In" : "Create Account";
+  console.log(props);
   return (
-    <div>
-      <form onSubmit={handleSubmit} name={name}>
+    <div id="authForm-body">
+      {/* <form onSubmit={handleSubmit} name={name}>
         <div>
           <label htmlFor="username">
-            <small>Username</small>
+            <small>Username Hello World</small>
           </label>
           <input name="username" type="text" />
         </div>
@@ -27,10 +29,53 @@ const AuthForm = props => {
           <button type="submit">{displayName}</button>
         </div>
         {error && error.response && <div> {error.response.data} </div>}
-      </form>
+      </form> */}
+      <div className="authForm-container">
+        <div className="authForm-form">
+          <span className="title">{title}</span>
+          <form onSubmit={handleSubmit} name={name}>
+            <div className="input-field">
+              <input
+                name="username"
+                type="text"
+                placeholder="Enter your email"
+                required
+              ></input>
+            </div>
+            <div className="input-field">
+              <input
+                name="password"
+                type="password"
+                placeholder="Enter your password"
+                required
+              ></input>
+            </div>
+            <div className="authForm-checkbox-text">
+              <div className="authForm-checkbox-content">
+                <input type="checkbox" id="logCheck" />
+                <label htmlFor="logCheck" className="text">
+                  Remember Me
+                </label>
+              </div>
+              <a href="#" className="text">
+                Forgot password?
+              </a>
+            </div>
+            <div className="authForm-buttons">
+              <button className="log-in" type="submit">
+                {displayName}
+              </button>
+              <Link to={"/home"}>
+                <button className="cancel">Cancel</button>
+              </Link>
+            </div>
+            {error && error.response && <div>{error.response.data}</div>}
+          </form>
+        </div>
+      </div>
     </div>
-  )
-}
+  );
+};
 
 /**
  * CONTAINER
@@ -39,33 +84,33 @@ const AuthForm = props => {
  *   function, and share the same Component. This is a good example of how we
  *   can stay DRY with interfaces that are very similar to each other!
  */
-const mapLogin = state => {
+const mapLogin = (state) => {
   return {
-    name: 'login',
-    displayName: 'Login',
-    error: state.auth.error
-  }
-}
+    name: "login",
+    displayName: "Login",
+    error: state.auth.error,
+  };
+};
 
-const mapSignup = state => {
+const mapSignup = (state) => {
   return {
-    name: 'signup',
-    displayName: 'Sign Up',
-    error: state.auth.error
-  }
-}
+    name: "signup",
+    displayName: "Sign Up",
+    error: state.auth.error,
+  };
+};
 
-const mapDispatch = dispatch => {
+const mapDispatch = (dispatch) => {
   return {
     handleSubmit(evt) {
-      evt.preventDefault()
-      const formName = evt.target.name
-      const username = evt.target.username.value
-      const password = evt.target.password.value
-      dispatch(authenticate(username, password, formName))
-    }
-  }
-}
+      evt.preventDefault();
+      const formName = evt.target.name;
+      const username = evt.target.username.value;
+      const password = evt.target.password.value;
+      dispatch(authenticate(username, password, formName));
+    },
+  };
+};
 
-export const Login = connect(mapLogin, mapDispatch)(AuthForm)
-export const Signup = connect(mapSignup, mapDispatch)(AuthForm)
+export const Login = connect(mapLogin, mapDispatch)(AuthForm);
+export const Signup = connect(mapSignup, mapDispatch)(AuthForm);

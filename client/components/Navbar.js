@@ -6,7 +6,7 @@ import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 
-const Navbar = ({ handleClick, isLoggedIn }) => {
+const Navbar = ({ handleClick, isLoggedIn, image }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [anchor, setAnchor] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -21,6 +21,17 @@ const Navbar = ({ handleClick, isLoggedIn }) => {
     setAnchorEl(null);
     setAnchor(null);
   };
+
+  const iconCheck =
+    image !==
+    "https://icon-library.com/images/three-line-menu-icon/three-line-menu-icon-6.jpg" ? (
+      <img className="profile-pic" src={image}></img>
+    ) : (
+      <img
+        className="profile-pic"
+        src="https://tise-static.telenorcdn.net/profile-pictures/5fa982dbe2fe150012e3930e/32ff5636-7dae-42ec-9e32-e6846afda0ad"
+      ></img>
+    );
 
   return (
     <div>
@@ -51,7 +62,7 @@ const Navbar = ({ handleClick, isLoggedIn }) => {
                   "aria-labelledby": "basic",
                 }}
               >
-                <Link to="/">
+                <Link to="/home">
                   <MenuItem onClick={handleClose}>Home</MenuItem>{" "}
                 </Link>
                 <Link to="/map">
@@ -177,6 +188,7 @@ const Navbar = ({ handleClick, isLoggedIn }) => {
 const mapState = (state) => {
   return {
     isLoggedIn: !!state.auth.id,
+    image: state.auth.imageUrl,
   };
 };
 
