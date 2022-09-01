@@ -15,14 +15,24 @@ export class watchList extends Component {
   constructor(props) {
     super(props);
     this.fetchHouse = this.fetchHouse.bind(this);
+    this.removeHouse = this.removeHouse.bind(this);
   }
 
-  fetchHouse() {
-    this.props.fetchSingle(event.target.value);
+  fetchHouse(id) {
+    this.props.fetchSingle(id);
+  }
+
+  removeHouse(house) {
+    this.props.removeHouse(house);
+  }
+
+  componentDidMount() {
+    this.props.getWatchlist();
   }
 
   render() {
-    console.log(this.props);
+    const { watchlist } = this.props;
+    const { fetchHouse, removeHouse } = this;
     return (
       <div>
         <br />
@@ -31,10 +41,11 @@ export class watchList extends Component {
         <br />
         <br />
         <Link to="/singleHome">
-          <button value={1} onClick={this.fetchHouse}>
+          <button value={1} onClick={fetchHouse}>
             House 1
           </button>
         </Link>
+        {watchlist.map((house) => {})}
       </div>
     );
   }

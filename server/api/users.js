@@ -44,9 +44,9 @@ router.put("/removeWatchlist", async (req, res, next) => {
   try {
     const user = await User.findByToken(req.headers.authorization);
     let { house } = req.body;
-    let adding = await Home.findByPk(house.id);
-    await user.addHome(adding);
-    res.send(adding);
+    let removing = await Home.findByPk(house.id);
+    await user.removeHome(removing);
+    res.send(removing);
   } catch (err) {
     next(err);
   }
