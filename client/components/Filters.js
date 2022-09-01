@@ -10,6 +10,7 @@ class Filter extends Component {
     const { handleFilterChange, resetFilter, currentMinPrice } = this.props;
     return (
       <form ref={(input) => (this.form = input)} className="filter">
+        Filters:
         <div className="filterBar">
           <label htmlFor="filterBedrooms"># Bedrooms: </label>
           <select
@@ -92,13 +93,8 @@ class Filter extends Component {
             <option value="1">Price: High to Low</option>
           </select>
         </div>
-        <div className="filterBar">
-          <button
-            className="clearFilterBtn"
-            onClick={(event) => resetFilter(e, this.form)}
-          >
-            Clear
-          </button>
+        <div id="clearFilterBtn">
+          <button onClick={(event) => resetFilter(e, this.form)}>Clear</button>
         </div>
       </form>
     );
