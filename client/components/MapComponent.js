@@ -15,6 +15,7 @@ import {setState, setCounty, setZip} from '../store/geo'
 import L from 'leaflet';
 import { Link } from "react-router-dom";
 import { GeoSearchControl, OpenStreetMapProvider } from "leaflet-geosearch";
+import Filter from "./Filters";
 
 function LeafletgeoSearch() {
   const map = useMap();
@@ -24,6 +25,7 @@ function LeafletgeoSearch() {
       countrycodes: ["us"],
       country: "united states",
     },
+    retainZoomLevel: true,
   });
   useEffect(() => {
     const searchControl = new GeoSearchControl({
@@ -33,9 +35,11 @@ function LeafletgeoSearch() {
       showPopup: true,
       showMarker: true,
       animateZoom: true,
-      searchLabel: "Enter Zip, City, or State",
+      searchLabel: "Enter Address, Zip, City, or State",
       zoomLevel: 15,
       keepResult: false,
+      autoClose: true,
+      keepResult: true,
     });
     map.addControl(searchControl);
 
@@ -130,6 +134,8 @@ class Map extends Component {
       house: null,
       MarkerZoom: false,
       zoom: 13,
+      filterBedrooms: "any",
+      filterSort: "any",
     };
     this.mapRef = React.createRef();
     this.houseInformation = this.houseInformation.bind(this);
@@ -149,24 +155,89 @@ class Map extends Component {
     await this.props.setCounty()
     await this.props.setZip()
   }
-  render() {
-    console.log(`@@@@@@@@`, this.props)
-    return (
 
-  <main className={this.state.house == null ? 'leafLetMap' : 'leafLetMapwithInfo'}>
-    <MapContainer ref={this.mapRef} center={[40.7,-73.9859]} zoom={this.state.zoom} scrollWheelZoom={true} style={{width: '100%', height: '85vh'}}>
-                <TileLayer
+  // onClick(e) {
+  //   this.setState({ house: true });
+  // }
+
+  render() {
+    console.log(`@@@@@@@@`, this.props);
+    return (
+      <main className="leafletMap">
+        <Filter />
+        <div id="mainContainer">
+          <div id="mapContainer">
+            <MapContainer
+              ref={this.mapRef}
+              center={[40.7, -73.9859]}
+              zoom={this.state.zoom}
+              scrollWheelZoom={true}
+              style={{ width: "100%", height: "100vh" }}
+            >
+              <LeafletgeoSearch />
+              <TileLayer
                 attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                />
-              <ZipLayer state={this.props.state} zip={this.props.zip}/>
-              <Markers homeCoord={this.props.homeCoord} fetchSingle={this.props.fetchSingle} houseInformation={this.houseInformation}/>
-                </MapContainer>  
-                <Link to='/singleHome' className="MoreInformation"><a>More Info</a></Link>
-    </main>
-    )
-}
-
+              />
+              <ZipLayer />
+              <Markers
+                homeCoord={this.props.homeCoord}
+                fetchSingle={this.props.fetchSingle}
+                houseInformation={this.houseInformation}
+              />
+            </MapContainer>
+          </div>
+          {this.state.house !== null ? (
+            <div id="infoContainer">
+              <img
+                id="housePic"
+                src={this.props.house.imageURL}
+                width="100vw"
+              />
+              <div id="infoText">
+                <span style={{ fontSize: "25px" }}>
+                  {this.props.house.price}{" "}
+                </span>{" "}
+                <span style={{ fontSize: 14, fontWeight: "bold" }}>
+                  {" "}
+                  {this.props.house.beds}{" "}
+                </span>
+                <span style={{ fontSize: 14 }}>bd | </span>
+                <span style={{ fontSize: 14, fontWeight: "bold" }}>
+                  {this.props.house.bathrooms}{" "}
+                </span>{" "}
+                <span style={{ fontSize: 14 }}>ba</span>
+                <div>
+                  <span style={{ fontSize: 14, fontWeight: "bold" }}>
+                    Location:{" "}
+                  </span>
+                  <span style={{ fontSize: 14 }}>
+                    {" "}
+                    {this.props.house.city}, {this.props.house.state},{" "}
+                    {this.props.house.zipcode}
+                  </span>
+                </div>
+                <div>
+                  <span style={{ fontSize: 14, fontWeight: "bold" }}>
+                    Type:{" "}
+                  </span>
+                  <span style={{ fontSize: 14 }}> {this.props.house.type}</span>
+                </div>
+              </div>
+              <Link
+                to={`/singleHome/${this.props.house.id}`}
+                className="MoreInformation"
+              >
+                <a>More Info</a>
+              </Link>
+            </div>
+          ) : (
+            ""
+          )}
+        </div>
+      </main>
+    );
+  }
 }
 
 const mapState = (state) => {
