@@ -68,7 +68,7 @@ const Navbar = ({ handleClick, isLoggedIn, image }) => {
                 <Link to="/map">
                   <MenuItem onClick={handleClose}>Map</MenuItem>
                 </Link>
-                <Link to="/reasearch">
+                <Link to="/research">
                   <MenuItem onClick={handleClose}>Research</MenuItem>
                 </Link>
                 <Link to="/watchlist">
@@ -135,7 +135,7 @@ const Navbar = ({ handleClick, isLoggedIn, image }) => {
                 <Link to="/map">
                   <MenuItem onClick={handleClose}>Map</MenuItem>
                 </Link>
-                <Link to="/reasearch">
+                <Link to="/research">
                   <MenuItem onClick={handleClose}>Research</MenuItem>
                 </Link>
                 <Link to="/watchlist">
