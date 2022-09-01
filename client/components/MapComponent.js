@@ -10,11 +10,9 @@ import {
   useMapEvents,
 } from "react-leaflet";
 import * as properties from "../data.json";
-import * as bound from "./Data/usa.geo.json";
-import * as States from "./Data/usaState.geo.json";
-import * as Counties from "./Data/usaCounty.geo.json";
-import { setSingle, setHomes } from "../store/home";
-import L, { Icon } from "leaflet";
+import {setSingle, setHomes} from '../store/home'
+import {setState, setCounty, setZip} from '../store/geo'
+import L from 'leaflet';
 import { Link } from "react-router-dom";
 import { GeoSearchControl, OpenStreetMapProvider } from "leaflet-geosearch";
 import Filter from "./Filters";
@@ -50,153 +48,69 @@ function LeafletgeoSearch() {
   return null;
 }
 
-function Markers(props) {
-  const [zoomLevel, setZoomLevel] = useState(13); // initial zoom level provided for MapContainer
 
-  const mapEvents = useMapEvents({
-    zoomend: () => {
-      setZoomLevel(mapEvents.getZoom());
-    },
-  });
-  var greenIcon = L.icon({
-    iconUrl: "/green.png",
-    iconSize: [10, 10],
-    className: "leaflet-div-icon",
-  });
-  var blueIcon = L.icon({
-    iconUrl: "/blue.png",
-    iconSize: [10, 10],
-    className: "leaflet-div-icon",
-  });
-  var orangeIcon = L.icon({
-    iconUrl: "/orange.png",
-    iconSize: [10, 10],
-    className: "leaflet-div-icon",
-  });
-  var redIcon = L.icon({
-    iconUrl: "/red.png",
-    iconSize: [10, 10],
-    className: "leaflet-div-icon",
-  });
-  var yellowIcon = L.icon({
-    iconUrl: "/yellow.png",
-    iconSize: [10, 10],
-    className: "leaflet-div-icon",
-  });
+function ZipLayer(props){
+   const [zoomLevel, setZoomLevel] = useState(13); // initial zoom level provided for MapContainer
+   const [zipLayerLng, setZipLayerLng] = useState(-50);
+    const mapEvents = useMapEvents({
+        zoomend: () => {
+            setZoomLevel(mapEvents.getZoom());
+        },
+        moveend: (e) =>{
+          let latlng = e.target.getCenter();
+          setZipLayerLng(latlng.lng)
+        }
+    }); 
+    
+    const styleState = {
+      color: 'blue',
+      fillColor: 'transparent',
+      // fillOpacity: -1,
+      weight: .8,
+    }
+    
+    const styleCounty = {
+      // color: 'blue',
+      fillColor: 'orange',
+      // fillOpacity: -1,
+      weight: .5,
+    }
+    
+    const forEachHover = (location, layer)=>{
+      // console.log('hi', location)
+       layer.on({
+                  mouseover: (e) => {
+                    // console.log(e)
+                  e.target.setStyle({color:'white'})
+                },
+                mouseout: (e) => {
+                  e.target.setStyle(styleState)
+                },
+                click: (e) =>{
+                  e.target._map.fitBounds(e.target.getBounds())
+                }
+              })
+     
+    }
+    
+    
+    let zipBound
+    zipLayerLng < -100 && zipLayerLng > -170? zipBound = bound.features.filter(zip => zip.properties.zip > 80000 && zip.properties.zip < 100000 || zip.properties.zip > 59000 && zip.properties.zip < 60000) :
+          zipLayerLng > -100 && zipLayerLng < -87? zipBound = bound.features.filter(zip => zip.properties.zip > 30000 && zip.properties.zip < 80000 || zip.properties.zip < 59000 && zip.properties.zip > 60000) :
+          zipLayerLng > -87 && zipLayerLng < -45? zipBound = bound.features.filter(zip => zip.properties.zip > 0 && zip.properties.zip < 30000) : 'not on map!'
+      // console.log(bound.features.filter(zip => zip.properties.zip > 0 && zip.properties.zip < 1000))
+        // zipBound = bound.features.filter(zip => zip.properties.zip > 80000 && zip.properties.zip < 100000 || zip.properties.zip > 59000 && zip.properties.zip < 60000)
+      // 0 - 30000     30000 - 80000         80000-100000 || 590000-600000
+      // console.log(zipLayerLng, zipBound)
+      
+      
+    
+    let allState = props.state.map(state => state.features)
+    let allZip = props.zip.map(state => state.features)
+    if(zoomLevel < 13 && zoomLevel > 6)
+    {
+      return  <GeoJSON key='County' style={styleCounty} data={allZip} onEachFeature={forEachHover} />
 
-  const getIcon = (price) => {
-    return price > 800000
-      ? redIcon
-      : price > 650000
-      ? orangeIcon
-      : price > 500000
-      ? yellowIcon
-      : price > 300000
-      ? greenIcon
-      : blueIcon;
-  };
-
-  // console.log(zoomLevel, props);
-  if (zoomLevel > 14) {
-    return props.homeCoord.map((house) => (
-      <Marker
-        icon={getIcon(house.priceNum)}
-        value={house.id}
-        key={house.id}
-        position={{
-          lat: house.latitude,
-          lng: house.longitude,
-        }}
-        // style ={{borderStyle: 'solid', borderColor: 'white', borderWidth: '10px'}}
-        eventHandlers={{
-          click: async (e) => {
-            e.target._map.setView([house.latitude, house.longitude], 16);
-            await props.fetchSingle(e.target.options.value);
-            props.houseInformation();
-          },
-        }}
-      />
-    ));
-  }
-  return null;
-}
-
-function ZipLayer() {
-  const [zoomLevel, setZoomLevel] = useState(13); // initial zoom level provided for MapContainer
-  const [zipLayerLng, setZipLayerLng] = useState(-50);
-  const mapEvents = useMapEvents({
-    zoomend: () => {
-      setZoomLevel(mapEvents.getZoom());
-    },
-    moveend: (e) => {
-      let latlng = e.target.getCenter();
-      setZipLayerLng(latlng.lng);
-    },
-  });
-
-  const styleState = {
-    color: "blue",
-    fillColor: "transparent",
-    // fillOpacity: -1,
-    weight: 0.8,
-  };
-
-  const styleCounty = {
-    // color: 'blue',
-    fillColor: "orange",
-    // fillOpacity: -1,
-    weight: 0.5,
-  };
-
-  const forEachHover = (location, layer) => {
-    // console.log('hi', location)
-    layer.on({
-      mouseover: (e) => {
-        // console.log(e)
-        e.target.setStyle({ color: "white" });
-      },
-      mouseout: (e) => {
-        e.target.setStyle(styleState);
-      },
-      click: (e) => {
-        e.target._map.fitBounds(e.target.getBounds());
-      },
-    });
-  };
-
-  let zipBound;
-  zipLayerLng < -100 && zipLayerLng > -170
-    ? (zipBound = bound.features.filter(
-        (zip) =>
-          (zip.properties.zip > 80000 && zip.properties.zip < 100000) ||
-          (zip.properties.zip > 59000 && zip.properties.zip < 60000)
-      ))
-    : zipLayerLng > -100 && zipLayerLng < -87
-    ? (zipBound = bound.features.filter(
-        (zip) =>
-          (zip.properties.zip > 30000 && zip.properties.zip < 80000) ||
-          (zip.properties.zip < 59000 && zip.properties.zip > 60000)
-      ))
-    : zipLayerLng > -87 && zipLayerLng < -45
-    ? (zipBound = bound.features.filter(
-        (zip) => zip.properties.zip > 0 && zip.properties.zip < 30000
-      ))
-    : "not on map!";
-  // console.log(bound.features.filter(zip => zip.properties.zip > 0 && zip.properties.zip < 1000))
-  // zipBound = bound.features.filter(zip => zip.properties.zip > 80000 && zip.properties.zip < 100000 || zip.properties.zip > 59000 && zip.properties.zip < 60000)
-  // 0 - 30000     30000 - 80000         80000-100000 || 590000-600000
-  // console.log(zipLayerLng, zipBound)
-
-  // console.log(zoomLevel);
-  if (zoomLevel < 13 && zoomLevel > 6) {
-    return (
-      <GeoJSON
-        key="County"
-        style={styleCounty}
-        data={zipBound}
-        onEachFeature={forEachHover}
-      />
-    );
     // return  <GeoJSON key='County' style={styleCounty} data={Counties.features} onEachFeature={forEachHover} />
   }
   // else if(zoomLevel < 9)
@@ -233,8 +147,13 @@ class Map extends Component {
     });
   }
 
-  async componentWillMount() {
-    await this.props.fetchAll();
+  async componentWillMount()
+  {
+    console.log(this.props)
+    await this.props.fetchAll()
+    await this.props.setState()
+    await this.props.setCounty()
+    await this.props.setZip()
   }
 
   // onClick(e) {
@@ -323,14 +242,22 @@ class Map extends Component {
 
 const mapState = (state) => {
   return {
-    homeCoord: state.home.all,
-    house: state.home.single,
-  };
+
+   homeCoord: state.home.all,
+   house: state.home.single,
+   state: state.geo.state,
+   county: state.geo.county,
+   zip: state.geo.zip
+ };
 };
 const mapDispatch = (dispatch) => ({
-  fetchAll: () => dispatch(setHomes()),
-  fetchSingle: (id) => dispatch(setSingle(id)),
-});
+  fetchAll: ()=> dispatch(setHomes()),
+  fetchSingle: (id)=> dispatch(setSingle(id)),
+  setState: ()=> dispatch(setState()), 
+  setCounty: ()=> dispatch(setCounty()), 
+  setZip: ()=> dispatch(setZip())
+})
+
 
 // import * as SingleBed from './Data/MedPrice/1BedMed.json';
 // import fs from 'fs'

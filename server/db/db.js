@@ -5,6 +5,7 @@ const databaseName = pkg.name + (process.env.NODE_ENV === 'test' ? '-test' : '')
 
 const config = {
   logging: false,
+  
 };
 
 if(process.env.LOGGING === 'true'){
