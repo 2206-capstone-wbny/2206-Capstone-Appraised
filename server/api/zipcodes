@@ -10,3 +10,15 @@ router.get('/', async (req, res, next) => {
     next(err)
   }
 })
+
+
+router.put('/', async (req, res, next) => {
+  try {
+    console.log(req.body)
+    const updateOrder = await Zip.findOne({where: {zip: req.body.zipcode}});
+    updateOrder.update({color : req.body.color});
+    res.send(updateOrder);
+  } catch (err) {
+    next(err);
+  }
+});

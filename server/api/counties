@@ -10,3 +10,13 @@ router.get('/', async (req, res, next) => {
     next(err)
   }
 })
+
+router.put('/', async (req, res, next) => {
+  try {
+    const updateOrder = await County.findByPk(req.body.id);
+    updateOrder.update(req.body.reciept);
+    res.send(updateOrder);
+  } catch (err) {
+    next(err);
+  }
+});

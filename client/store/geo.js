@@ -47,6 +47,13 @@ export const setZip = () =>{
     })
 }
 
+export const updateZip = (color) =>{
+  return (async(dispatch) =>{
+    const {data} = await axios.put('/api/zipcodes', color)
+    return dispatch(_setZip(data))
+  })
+}
+
 
 export default function(state = {state:[], zip:[], county:[]}, action) {
   switch (action.type) {
