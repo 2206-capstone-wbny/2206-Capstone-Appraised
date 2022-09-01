@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { withRouter, Route, Switch, Redirect } from "react-router-dom";
 import { Login, Signup } from "./components/AuthForm";
 import Home from "./components/Home";
-import {MapViewPage} from "./components/MapComponent";
+import { MapViewPage } from "./components/MapComponent";
 import Setting from "./components/Setting";
 import { me } from "./store";
 import SingleHome from "./components/SingleHome";
@@ -29,8 +29,8 @@ class Routes extends Component {
             <Route path="/map" component={Map} />
             <Route path="/setting" component={Setting} />
             <Route path="/singleHome/:id" component={SingleHome} />
-            <Route path='/research' component={HistoricChart} />
-            <Route path='/watchlist' component={watchList} />
+            <Route path="/research" component={HistoricChart} />
+            <Route path="/watchlist" component={watchList} />
           </Switch>
         ) : (
           <Switch>
@@ -40,8 +40,7 @@ class Routes extends Component {
             <Route path="/signup" component={Signup} />
             <Route path="/singleHome/:id" component={SingleHome} />
             <Route path="/map" component={Map} />
-            <Route path='/research' component={HistoricChart} />
-
+            <Route path="/research" component={HistoricChart} />
           </Switch>
         )}
       </div>
