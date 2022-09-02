@@ -397,3 +397,7 @@ hr {
 .authForm-buttons button:hover {
   border-color: rgb(255, 255, 255);
 }
+
+#watchlist {
+  position: absolute;
+}

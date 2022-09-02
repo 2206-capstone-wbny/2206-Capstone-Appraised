@@ -1,3 +1,4 @@
+import { AccessTimeOutlined } from "@material-ui/icons";
 import axios from "axios";
 
 const TOKEN = "token";
@@ -13,14 +14,14 @@ const _getWatchlist = (watchlist) => ({
   watchlist,
 });
 
-const _addHouse = (house) => ({
+const _addHouse = (watchlist) => ({
   type: ADD_HOUSE,
-  house,
+  watchlist,
 });
 
-const _removeHouse = (house) => ({
+const _removeHouse = (watchlist) => ({
   type: REMOVE_HOUSE,
-  house,
+  watchlist,
 });
 
 // THUNKS
@@ -37,40 +38,43 @@ export const getWatchlist = () => {
   };
 };
 
-export const addHouse = (house) => {
+export const addHouse = (id) => {
   const token = window.localStorage.getItem(TOKEN);
   return async (dispatch) => {
-    const { data: added } = await axios.put("/api/users/addWatchlist", {
-      house,
+    const { data: watchlist } = await axios.post("/api/users/addWatchlist", {
+      id,
       headers: {
         authorization: token,
       },
     });
-    dispatch(_addHouse(added));
+    dispatch(_addHouse(watchlist));
   };
 };
 
-export const removeHouse = (house) => {
+export const removeHouse = (id) => {
   const token = window.localStorage.getItem(TOKEN);
   return async (dispatch) => {
-    const { data: removed } = await axios.put("/api/users/addWatchlist", {
-      house,
-      headers: {
-        authorization: token,
-      },
-    });
-    dispatch(_removeHouse(removed));
+    const { data: watchlist } = await axios.delete(
+      "/api/users/removeWatchlist",
+      {
+        id,
+        headers: {
+          authorization: token,
+        },
+      }
+    );
+    dispatch(_removeHouse(watchlist));
   };
 };
 
-export default function (state = [], action) {
+export default function (state = {}, action) {
   switch (action.type) {
     case GET_WATCHLIST:
       return action.watchlist;
     case ADD_HOUSE:
-      return [...state, action.house];
+      return action.watchlist;
     case REMOVE_HOUSE:
-      return state.filter((house) => house.id !== action.house.id);
+      return action.watchlist;
     default:
       return state;
   }

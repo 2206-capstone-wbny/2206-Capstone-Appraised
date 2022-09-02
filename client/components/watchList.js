@@ -15,15 +15,16 @@ export class watchList extends Component {
   constructor(props) {
     super(props);
     this.fetchHouse = this.fetchHouse.bind(this);
-    this.removeHouse = this.removeHouse.bind(this);
+    this.remove = this.remove.bind(this);
   }
 
   fetchHouse(id) {
     this.props.fetchSingle(id);
   }
 
-  removeHouse(house) {
-    this.props.removeHouse(house);
+  remove(evt) {
+    const id = evt.target.value;
+    this.props.removeHouse(id);
   }
 
   componentDidMount() {
@@ -31,21 +32,23 @@ export class watchList extends Component {
   }
 
   render() {
-    const { watchlist } = this.props;
-    const { fetchHouse, removeHouse } = this;
+    const watchlist = this.props.watchlist.homes || [];
+    console.log("watchlist-----", watchlist);
+    const { fetchHouse, remove } = this;
     return (
-      <div>
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <Link to="/singleHome">
-          <button value={1} onClick={fetchHouse}>
-            House 1
-          </button>
-        </Link>
-        {watchlist.map((house) => {})}
+      <div id="watchlist">
+        {watchlist.map((house) => {
+          return (
+            <div key={house.id}>
+              <img src={house.imageURL}></img>
+              <h1>{house.price}</h1>
+              <h2>{house.type}</h2>
+              <button value={house.id} onClick={remove}>
+                Delete
+              </button>
+            </div>
+          );
+        })}
       </div>
     );
   }
@@ -62,7 +65,7 @@ const mapState = (state) => ({
 const mapDispatch = (dispatch) => ({
   fetchSingle: (id) => dispatch(setSingle(id)),
   getWatchlist: () => dispatch(getWatchlist()),
-  removeHouse: (house) => dispatch(removeHouse(house)),
+  removeHouse: (id) => dispatch(removeHouse(id)),
 });
 
 export default connect(mapState, mapDispatch)(watchList);
