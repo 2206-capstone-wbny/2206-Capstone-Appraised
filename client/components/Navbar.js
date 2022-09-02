@@ -37,7 +37,11 @@ const Navbar = ({ handleClick, isLoggedIn, image }) => {
     <div>
       <nav>
         <div id="navbar">
-          <img id="nbf-logo" src="/Appraised.png" />
+          <span>
+            <Link to="/home">
+              <img id="nbf-logo" src="/Appraised.png" />
+            </Link>
+          </span>
           {isLoggedIn ? (
             <div>
               {/* The navbar will show these links after you log in */}
