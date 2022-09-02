@@ -57,7 +57,7 @@ export const removeHouse = (id) => {
     const { data: watchlist } = await axios.delete(
       "/api/users/removeWatchlist",
       {
-        id,
+        data: { id },
         headers: {
           authorization: token,
         },
