@@ -32,21 +32,26 @@ router.post("/addWatchlist", async (req, res, next) => {
   try {
     const user = await User.findByToken(req.headers.authorization);
     let { id } = req.body;
-    const watchlist = await user.addHouse(id);
-    res.send(watchlist);
+    await Watchlist.create({
+      where: { userId: user.id, homeId: id },
+    });
+    res.send(await user.getWatchlist());
   } catch (err) {
     next(err);
   }
 });
 
+// the error is the id from request is constantly undefined.
+// This router works with integer ex) homeId : 1
 router.delete("/removeWatchlist", async (req, res, next) => {
   try {
     const user = await User.findByToken(req.headers.authorization);
-    let { id } = req.body;
+    let data = req.body;
+    console.log("id------------", id);
     await Watchlist.destroy({
       where: {
         userId: user.id,
-        homeId: id,
+        homeId: data.id,
       },
     });
     res.send(await user.getWatchlist());
