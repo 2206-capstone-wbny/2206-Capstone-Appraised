@@ -33,7 +33,8 @@ router.post("/addWatchlist", async (req, res, next) => {
     const user = await User.findByToken(req.headers.authorization);
     let { id } = req.body;
     await Watchlist.create({
-      where: { userId: user.id, homeId: id },
+      userId: user.id,
+      homeId: id,
     });
     res.send(await user.getWatchlist());
   } catch (err) {
