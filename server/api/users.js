@@ -32,10 +32,8 @@ router.post("/addWatchlist", async (req, res, next) => {
   try {
     const user = await User.findByToken(req.headers.authorization);
     let { id } = req.body;
-    await Watchlist.create({
-      userId: user.id,
-      homeId: id,
-    });
+    const adding = await Home.findByPk(id);
+    await user.addHome(adding);
     res.send(await user.getWatchlist());
   } catch (err) {
     next(err);
@@ -48,7 +46,6 @@ router.delete("/removeWatchlist", async (req, res, next) => {
   try {
     const user = await User.findByToken(req.headers.authorization);
     let data = req.body;
-    console.log("id------------", id);
     await Watchlist.destroy({
       where: {
         userId: user.id,

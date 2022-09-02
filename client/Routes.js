@@ -10,12 +10,19 @@ import SingleHome from "./components/SingleHome";
 import Map from "./components/MapComponent";
 import HistoricChart from "./components/HistoricChart";
 import watchList from "./components/watchList";
+import { getWatchlist } from "./store/watchlist";
 /**
  * COMPONENT
  */
 class Routes extends Component {
   componentDidMount() {
     this.props.loadInitialData();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (!prevProps.isLoggedIn && this.props.isLoggedIn) {
+      this.props.fetchWatchlist();
+    }
   }
 
   render() {
@@ -63,6 +70,9 @@ const mapDispatch = (dispatch) => {
   return {
     loadInitialData() {
       dispatch(me());
+    },
+    fetchWatchlist() {
+      dispatch(getWatchlist());
     },
   };
 };
