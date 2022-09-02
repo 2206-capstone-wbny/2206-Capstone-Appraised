@@ -38,11 +38,11 @@ export const getWatchlist = () => {
   };
 };
 
-export const addHouse = (house) => {
+export const addHouse = (id) => {
   const token = window.localStorage.getItem(TOKEN);
   return async (dispatch) => {
-    const { data: watchlist } = await axios.put("/api/users/addWatchlist", {
-      house,
+    const { data: watchlist } = await axios.post("/api/users/addWatchlist", {
+      id,
       headers: {
         authorization: token,
       },
@@ -51,15 +51,18 @@ export const addHouse = (house) => {
   };
 };
 
-export const removeHouse = (house) => {
+export const removeHouse = (id) => {
   const token = window.localStorage.getItem(TOKEN);
   return async (dispatch) => {
-    const { data: watchlist } = await axios.put("/api/users/removeWatchlist", {
-      house,
-      headers: {
-        authorization: token,
-      },
-    });
+    const { data: watchlist } = await axios.delete(
+      "/api/users/removeWatchlist",
+      {
+        id,
+        headers: {
+          authorization: token,
+        },
+      }
+    );
     dispatch(_removeHouse(watchlist));
   };
 };
@@ -67,7 +70,7 @@ export const removeHouse = (house) => {
 export default function (state = {}, action) {
   switch (action.type) {
     case GET_WATCHLIST:
-      return { ...action.watchlist };
+      return action.watchlist;
     case ADD_HOUSE:
       return action.watchlist;
     case REMOVE_HOUSE:

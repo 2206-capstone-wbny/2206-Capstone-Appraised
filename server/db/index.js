@@ -9,6 +9,7 @@ const State = require("./models/State");
 const County = require("./models/County");
 const Zip = require("./models/Zip");
 const HistoricData = require("./models/HistoricData");
+const Watchlist = require("./models/Watchlist");
 //associations could go here!
 
 const manyZip = Zip.belongsTo(County);
@@ -20,11 +21,8 @@ County.State = County.belongsTo(State);
 Home.belongsTo(Zip);
 Zip.hasMany(Home);
 
-User.belongsToMany(Home, { through: "Watchlist" });
-Home.belongsToMany(User, { through: "Watchlist" });
-
-// User.hasMany(Home);
-// Home.hasMany(User);
+User.belongsToMany(Home, { through: Watchlist });
+Home.belongsToMany(User, { through: Watchlist });
 
 module.exports = {
   db,
@@ -37,5 +35,6 @@ module.exports = {
     County,
     Zip,
     HistoricData,
+    Watchlist,
   },
 };
