@@ -21,7 +21,7 @@ router.get("/", async (req, res, next) => {
 router.get("/watchlist", async (req, res, next) => {
   try {
     const user = await User.findByToken(req.headers.authorization);
-    const watchlist = user.getWatchlist();
+    const watchlist = await user.getWatchlist();
     res.send(watchlist);
   } catch (err) {
     next(err);
@@ -34,7 +34,8 @@ router.put("/addWatchlist", async (req, res, next) => {
     let { house } = req.body;
     let adding = await Home.findByPk(house.id);
     await user.addHome(adding);
-    res.send(adding);
+    const watchlist = await user.getWatchlist();
+    res.send(watchlist);
   } catch (err) {
     next(err);
   }
@@ -46,7 +47,8 @@ router.put("/removeWatchlist", async (req, res, next) => {
     let { house } = req.body;
     let removing = await Home.findByPk(house.id);
     await user.removeHome(removing);
-    res.send(removing);
+    const watchlist = await user.getWatchlist();
+    res.send(watchlist);
   } catch (err) {
     next(err);
   }

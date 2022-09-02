@@ -1,3 +1,4 @@
+import { AccessTimeOutlined } from "@material-ui/icons";
 import axios from "axios";
 
 const TOKEN = "token";
@@ -13,14 +14,14 @@ const _getWatchlist = (watchlist) => ({
   watchlist,
 });
 
-const _addHouse = (house) => ({
+const _addHouse = (watchlist) => ({
   type: ADD_HOUSE,
-  house,
+  watchlist,
 });
 
-const _removeHouse = (house) => ({
+const _removeHouse = (watchlist) => ({
   type: REMOVE_HOUSE,
-  house,
+  watchlist,
 });
 
 // THUNKS
@@ -40,37 +41,37 @@ export const getWatchlist = () => {
 export const addHouse = (house) => {
   const token = window.localStorage.getItem(TOKEN);
   return async (dispatch) => {
-    const { data: added } = await axios.put("/api/users/addWatchlist", {
+    const { data: watchlist } = await axios.put("/api/users/addWatchlist", {
       house,
       headers: {
         authorization: token,
       },
     });
-    dispatch(_addHouse(added));
+    dispatch(_addHouse(watchlist));
   };
 };
 
 export const removeHouse = (house) => {
   const token = window.localStorage.getItem(TOKEN);
   return async (dispatch) => {
-    const { data: removed } = await axios.put("/api/users/addWatchlist", {
+    const { data: watchlist } = await axios.put("/api/users/removeWatchlist", {
       house,
       headers: {
         authorization: token,
       },
     });
-    dispatch(_removeHouse(removed));
+    dispatch(_removeHouse(watchlist));
   };
 };
 
-export default function (state = [], action) {
+export default function (state = {}, action) {
   switch (action.type) {
     case GET_WATCHLIST:
-      return action.watchlist;
+      return { ...action.watchlist };
     case ADD_HOUSE:
-      return [...state, action.house];
+      return action.watchlist;
     case REMOVE_HOUSE:
-      return state.filter((house) => house.id !== action.house.id);
+      return action.watchlist;
     default:
       return state;
   }

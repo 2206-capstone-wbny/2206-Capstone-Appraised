@@ -3,10 +3,10 @@ body {
   margin: 0;
 }
 
-html,
+/* html,
 body {
   overflow: hidden;
-}
+} */
 
 a {
   text-decoration: none;
@@ -384,4 +384,8 @@ hr {
 
 .authForm-buttons button:hover {
   border-color: rgb(255, 255, 255);
+}
+
+#watchlist {
+  position: absolute;
 }

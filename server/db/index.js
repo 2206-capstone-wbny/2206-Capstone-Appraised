@@ -1,6 +1,5 @@
 //this is the access point for all things database related!
 
-const { ReactWrapper } = require("enzyme");
 const db = require("./db");
 const axios = require("axios");
 
@@ -21,11 +20,11 @@ County.State = County.belongsTo(State);
 Home.belongsTo(Zip);
 Zip.hasMany(Home);
 
-// User.belongsToMany(Home, { through: "Watchlist" });
-// Home.belongsToMany(User, { through: "Watchlist" });
+User.belongsToMany(Home, { through: "Watchlist" });
+Home.belongsToMany(User, { through: "Watchlist" });
 
-User.hasMany(Home);
-Home.hasMany(User);
+// User.hasMany(Home);
+// Home.hasMany(User);
 
 module.exports = {
   db,

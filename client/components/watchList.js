@@ -31,21 +31,21 @@ export class watchList extends Component {
   }
 
   render() {
-    const { watchlist } = this.props;
+    const watchlist = this.props.watchlist.homes || [];
+    // console.log("watchlist-----", watchlist);
     const { fetchHouse, removeHouse } = this;
     return (
-      <div>
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <Link to="/singleHome">
-          <button value={1} onClick={fetchHouse}>
-            House 1
-          </button>
-        </Link>
-        {watchlist.map((house) => {})}
+      <div id="watchlist">
+        {watchlist.map((house) => {
+          return (
+            <div key={house.id}>
+              <img src={house.imageURL}></img>
+              <h1>{house.price}</h1>
+              <h2>{house.type}</h2>
+              <button onClick={(house) => removeHouse(house)}>Delete</button>
+            </div>
+          );
+        })}
       </div>
     );
   }
