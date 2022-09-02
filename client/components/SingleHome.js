@@ -29,6 +29,7 @@ export class SingleHome extends Component {
 
   render() {
     const { home, addHome, removeHome } = this.props;
+    console.log(home);
     const { toggle } = this.state;
     const landSize = home.landSize ? home.landSize : "";
     const toggleCheck = toggle ? (
