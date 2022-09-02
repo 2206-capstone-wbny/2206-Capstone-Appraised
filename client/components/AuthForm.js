@@ -73,6 +73,7 @@ const AuthForm = (props) => {
                 <Link to={"/home"}>
                   <button className="cancel">Cancel</button>
                 </Link>
+
               </div>
               {error && error.response && <div>{error.response.data}</div>}
             </form>
