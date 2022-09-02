@@ -152,15 +152,32 @@ function ZipLayer(props) {
       },
     });
   };
-  // let zipBound
-  // zipLayerLng < -100 && zipLayerLng > -170? zipBound = bound.features.filter(zip => zip.properties.zip > 80000 && zip.properties.zip < 100000 || zip.properties.zip > 59000 && zip.properties.zip < 60000) :
-  //       zipLayerLng > -100 && zipLayerLng < -87? zipBound = bound.features.filter(zip => zip.properties.zip > 30000 && zip.properties.zip < 80000 || zip.properties.zip < 59000 && zip.properties.zip > 60000) :
-  //       zipLayerLng > -87 && zipLayerLng < -45? zipBound = bound.features.filter(zip => zip.properties.zip > 0 && zip.properties.zip < 30000) : 'not on map!'
-  // console.log(bound.features.filter(zip => zip.properties.zip > 0 && zip.properties.zip < 1000))
+  // let zipBound;
+  // zipLayerLng < -100 && zipLayerLng > -170
+  //   ? (zipBound = bound.features.filter(
+  //       (zip) =>
+  //         (zip.properties.zip > 80000 && zip.properties.zip < 100000) ||
+  //         (zip.properties.zip > 59000 && zip.properties.zip < 60000)
+  //     ))
+  //   : zipLayerLng > -100 && zipLayerLng < -87
+  //   ? (zipBound = bound.features.filter(
+  //       (zip) =>
+  //         (zip.properties.zip > 30000 && zip.properties.zip < 80000) ||
+  //         (zip.properties.zip < 59000 && zip.properties.zip > 60000)
+  //     ))
+  //   : zipLayerLng > -87 && zipLayerLng < -45
+  //   ? (zipBound = bound.features.filter(
+  //       (zip) => zip.properties.zip > 0 && zip.properties.zip < 30000
+  //     ))
+  //   : "not on map!";
+  // console.log(
+  //   bound.features.filter(
+  //     (zip) => zip.properties.zip > 0 && zip.properties.zip < 1000
+  //   )
+  // );
   // zipBound = bound.features.filter(zip => zip.properties.zip > 80000 && zip.properties.zip < 100000 || zip.properties.zip > 59000 && zip.properties.zip < 60000)
   // 0 - 30000     30000 - 80000         80000-100000 || 590000-600000
   // console.log(zipLayerLng, zipBound)
-  let allState = props.state.map((state) => state.features);
   let allZip = props.zip.map((state) => state.features);
   if (zoomLevel < 13 && zoomLevel > 6) {
     return (
@@ -196,6 +213,7 @@ class Map extends Component {
     this.mapRef = React.createRef();
     this.houseInformation = this.houseInformation.bind(this);
   }
+
   houseInformation() {
     this.setState({
       house: true,
@@ -209,6 +227,7 @@ class Map extends Component {
     await this.props.setZip();
   }
   render() {
+    document.body.style.overflow = "hidden";
     console.log(`@@@@@@@@`, this.props);
     return (
       <main className="leafletMap">
