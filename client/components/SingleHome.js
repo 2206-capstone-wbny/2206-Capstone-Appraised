@@ -1,12 +1,15 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import home, { setSingle } from "../store/home";
+import { HeartSwitch } from "@anatoliygatt/heart-switch";
+import { addHouse, removeHouse } from "../store/watchlist";
 
 export class SingleHome extends Component {
   constructor(props) {
     super(props);
     this.state = {
       home: null,
+      toggle: null,
     };
   }
 
@@ -14,12 +17,39 @@ export class SingleHome extends Component {
     const { id } = this.props.match.params;
     const singleHouse = await this.props.fetchSingleHome(id);
     this.setState({ home: singleHouse });
+    let homes = this.props.watchlist.homes || [];
+    for (let i = 0; i < homes.length; i++) {
+      if (homes[i].id === id) {
+        this.setState({ toggle: true });
+        return;
+      }
+    }
+    this.setState({ toggle: false });
   }
 
   render() {
-    const { home } = this.props;
+    const { home, addHome, removeHome } = this.props;
+    console.log(home);
+    const { toggle } = this.state;
     const landSize = home.landSize ? home.landSize : "";
-    console.log(`@@@@`, this.props);
+    const toggleCheck = toggle ? (
+      <HeartSwitch
+        size="md"
+        toggle={toggle}
+        onChange={() => {
+          this.setState({ toggle: !this.state.toggle }), removeHome(home.id);
+        }}
+      ></HeartSwitch>
+    ) : (
+      <HeartSwitch
+        size="md"
+        toggle={toggle}
+        onChange={() => {
+          this.setState({ toggle: !this.state.toggle }), addHome(home.id);
+        }}
+      ></HeartSwitch>
+    );
+
     return (
       <div className="singleHome-body">
         <div className="map-container">
@@ -30,6 +60,7 @@ export class SingleHome extends Component {
               </div>
               <div className="singleHome-right">
                 <h1>Overview</h1>
+                <span>{toggleCheck}</span>
                 <div>
                   <h2>{home.price}</h2>
                   <span>
@@ -70,11 +101,14 @@ const mapStateToProps = (state) => {
   console.log(state);
   return {
     home: state.home.single,
+    watchlist: state.watchlist,
   };
 };
 
 const mapDispatchToProps = (dispatch) => ({
   fetchSingleHome: (id) => dispatch(setSingle(id)),
+  addHome: (id) => dispatch(addHouse(id)),
+  removeHome: (id) => dispatch(removeHouse(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SingleHome);

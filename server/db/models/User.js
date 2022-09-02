@@ -74,30 +74,6 @@ User.prototype.getWatchlist = async function () {
   return watchlist;
 };
 
-// User.prototype.addHouse = async function (id) {
-//   const house = await Home.findByPk(id);
-//   await this.addHome(house);
-//   return this.getWatchlist();
-// };
-
-// User.prototype.removeHouse = async function (id) {
-//   const house = await Home.findByPk(id);
-//   await this.removeHome(house);
-//   return this.getWatchlist();
-// };
-
-// User.prototype.getWatchlist = async function () {
-//   const watchlist = await Home.findAll({
-//     include: {
-//       model: User,
-//       where: {
-//         id: this.id,
-//       },
-//     },
-//   });
-//   return watchlist;
-// };
-
 /**
  * classMethods
  */
