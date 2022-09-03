@@ -2,53 +2,47 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import home, { setSingle } from "../store/home";
 import { HeartSwitch } from "@anatoliygatt/heart-switch";
-import { addHouse, removeHouse } from "../store/watchlist";
+import { addHouse, removeHouse, getWatchlist } from "../store/watchlist";
 
 export class SingleHome extends Component {
   constructor(props) {
     super(props);
     this.state = {
       home: null,
-      toggle: null,
+      toggle: false,
     };
+    this.handleClick = this.handleClick.bind(this);
   }
 
-  async componentDidMount() {
-    const { id } = this.props.match.params;
-    const singleHouse = await this.props.fetchSingleHome(id);
-    this.setState({ home: singleHouse });
-    let homes = this.props.watchlist.homes || [];
-    for (let i = 0; i < homes.length; i++) {
-      if (homes[i].id === id) {
-        this.setState({ toggle: true });
-        return;
-      }
+  handleClick(id) {
+    if (this.state.toggle) {
+      this.props.removeHome(id);
+    } else {
+      this.props.addHome(id);
     }
-    this.setState({ toggle: false });
+  }
+
+  componentDidMount() {
+    // console.log("it is mounted!!!!!------");
+    const { id } = this.props.match.params;
+    const singleHouse = this.props.fetchSingleHome(id);
+    // this.props.fetchWatchlist();
+    this.setState({ home: singleHouse });
+    // const watchlist = this.props.watchlist.homes || [];
+    // const watchlistCheck = watchlist.filter((home) => home.id);
+    // console.log("watchlist---------", watchlistCheck);
+    // console.log("id---------", id);
+    // if (watchlistCheck.includes(id)) {
+    //   this.setState({ toggle: true });
+    // }
   }
 
   render() {
-    const { home, addHome, removeHome } = this.props;
-    console.log(home);
+    const { home, watchlist } = this.props;
     const { toggle } = this.state;
+    const { handleClick } = this;
+    console.log("toggle ------", toggle);
     const landSize = home.landSize ? home.landSize : "";
-    const toggleCheck = toggle ? (
-      <HeartSwitch
-        size="md"
-        toggle={toggle}
-        onChange={() => {
-          this.setState({ toggle: !this.state.toggle }), removeHome(home.id);
-        }}
-      ></HeartSwitch>
-    ) : (
-      <HeartSwitch
-        size="md"
-        toggle={toggle}
-        onChange={() => {
-          this.setState({ toggle: !this.state.toggle }), addHome(home.id);
-        }}
-      ></HeartSwitch>
-    );
 
     return (
       <div className="singleHome-body">
@@ -60,7 +54,16 @@ export class SingleHome extends Component {
               </div>
               <div className="singleHome-right">
                 <h1>Overview</h1>
-                <span>{toggleCheck}</span>
+                <span>
+                  <HeartSwitch
+                    size="md"
+                    checked={toggle}
+                    onChange={() => {
+                      this.setState({ toggle: !this.state.toggle }),
+                        handleClick(home.id);
+                    }}
+                  />
+                </span>
                 <div>
                   <h2>{home.price}</h2>
                   <span>
@@ -109,6 +112,7 @@ const mapDispatchToProps = (dispatch) => ({
   fetchSingleHome: (id) => dispatch(setSingle(id)),
   addHome: (id) => dispatch(addHouse(id)),
   removeHome: (id) => dispatch(removeHouse(id)),
+  fetchWatchlist: () => dispatch(getWatchlist()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SingleHome);
