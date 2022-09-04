@@ -13,7 +13,6 @@ const useStyles = makeStyles({
     paddingRight: "4vw",
     maxHeight: "400px",
     textOverflow: "ellipsis",
-    wordWrap: "break",
   },
   title: {
     paddingLeft: "2vw",
@@ -32,6 +31,7 @@ function News() {
     };
     getArticles();
   }, []);
+
   console.log(newsArticles);
   return (
     <div>
@@ -62,10 +62,31 @@ function News() {
                     image={article.urlToImage}
                   />
                   <CardContent>
-                    <Typography gutterBottom variant="h6" component="div">
+                    <Typography
+                      variant="subtitle1"
+                      component="div"
+                      sx={{
+                        display: "-webkit-box",
+                        overflow: "hidden",
+                        WebkitBoxOrient: "vertical",
+                        WebkitLineClamp: 3,
+                      }}
+                    >
                       {article.title}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
+                      {article.publishedAt.slice(0, 10)}
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      sx={{
+                        display: "-webkit-box",
+                        overflow: "hidden",
+                        WebkitBoxOrient: "vertical",
+                        WebkitLineClamp: 3,
+                      }}
+                    >
                       {article.description}
                     </Typography>
                   </CardContent>
