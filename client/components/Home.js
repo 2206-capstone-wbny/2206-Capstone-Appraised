@@ -21,6 +21,7 @@ import {
   FormControl,
   NativeSelect,
   Slider,
+  Grid,
 } from "@mui/material";
 import { alpha, makeStyles, styled } from "@material-ui/core/styles";
 
@@ -55,6 +56,7 @@ const useStyles = makeStyles((theme) => ({
 // ];
 
 export const Home = (props) => {
+  console.log(`@@@@@@`, props);
   const classes = useStyles();
   const { username, history } = props;
   const [price, setPrice] = useState(0);
@@ -98,7 +100,7 @@ export const Home = (props) => {
   return (
     <React.Fragment>
       {renderCheck}
-      <Container maxWidth="md">
+      {/* <Container maxWidth="md">
         <Box
           m={2}
           display="flex"
@@ -211,7 +213,7 @@ export const Home = (props) => {
             </Dialog>
           </Stack>
         </Box>
-      </Container>
+      </Container> */}
       <Container maxWidth="md">
         <Box
           m={2}
@@ -235,6 +237,58 @@ export const Home = (props) => {
           </Link>
         </Box>
       </Container>
+      <Container maxWidth="md">
+        <Box
+          m={2}
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          sx={{
+            bgcolor: "lightblue",
+            height: "40vh",
+            backgroundImage: `url(https://www.nawy.com/blog/wp-content/uploads/2022/07/Modern-Interior-Design.jpg)`,
+          }}
+        >
+          <Link to="/research">
+            <Button
+              variant="contained"
+              color="primary"
+              style={{ height: 40, width: 250, background: "#72bcd4" }}
+            >
+              Research
+            </Button>
+          </Link>
+        </Box>
+      </Container>
+      {username ? (
+        <Container maxWidth="md">
+          <Box
+            m={2}
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            sx={{
+              bgcolor: "lightblue",
+              height: "40vh",
+              backgroundImage: `url(https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1)`,
+              backgroundSize: "cover",
+              backgroundPostion: "center bottom",
+            }}
+          >
+            <Link to="/watchlist">
+              <Button
+                variant="contained"
+                color="primary"
+                style={{ height: 40, width: 250, background: "#72bcd4" }}
+              >
+                My Watchlist
+              </Button>
+            </Link>
+          </Box>
+        </Container>
+      ) : (
+        ""
+      )}
     </React.Fragment>
   );
 };
