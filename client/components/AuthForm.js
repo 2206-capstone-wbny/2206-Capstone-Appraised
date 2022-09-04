@@ -17,24 +17,6 @@ const AuthForm = (props) => {
   return (
     <div className="bg">
       <div id="authForm-body">
-        {/* <form onSubmit={handleSubmit} name={name}>
-        <div>
-          <label htmlFor="username">
-            <small>Username Hello World</small>
-          </label>
-          <input name="username" type="text" />
-        </div>
-        <div>
-          <label htmlFor="password">
-            <small>Password</small>
-          </label>
-          <input name="password" type="password" />
-        </div>
-        <div>
-          <button type="submit">{displayName}</button>
-        </div>
-        {error && error.response && <div> {error.response.data} </div>}
-      </form> */}
         <div className="authForm-container">
           <div className="authForm-form">
             <span className="title">{title}</span>
