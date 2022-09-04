@@ -33,16 +33,16 @@ export class watchList extends Component {
 
   render() {
     const watchlist = this.props.watchlist.homes || [];
-    console.log("watchlist-----", watchlist);
 
     const { fetchHouse, remove } = this;
     return (
       <div id="watchlist">
         {watchlist.map((house, index) => {
-          console.log(house.id);
           return (
             <div key={index}>
-              <img src={house.imageURL}></img>
+              <Link to={`/singleHome/${house.id}`}>
+                <img src={house.imageURL}></img>
+              </Link>
               <h1>{house.price}</h1>
               <h2>{house.type}</h2>
               <button value={house.id} onClick={remove}>
