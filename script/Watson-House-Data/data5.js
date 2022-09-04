@@ -27584,6 +27584,8 @@ const data5 = [
   },
 ];
 
-const data5Updated = data5.filter((home) => home.zpid);
+const data5Filtered = data5.filter((home) => home.zpid);
 
-console.log(`@@@@@@@@@`, data5Updated.length);
+console.log(`@@@@@@@@@`, data5Filtered.length);
+
+module.exports = data5Filtered;

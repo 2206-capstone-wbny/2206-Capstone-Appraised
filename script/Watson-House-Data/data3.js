@@ -29338,6 +29338,8 @@ const data3 = [
   },
 ];
 
-const data3Updated = data3.filter((home) => home.zpid);
+const data3Filtered = data3.filter((home) => home.zpid);
 
-console.log(`@@@@@@@@@`, data3Updated.length);
+console.log(`@@@@@@@@@`, data3Filtered.length);
+
+module.exports = data3Filtered;

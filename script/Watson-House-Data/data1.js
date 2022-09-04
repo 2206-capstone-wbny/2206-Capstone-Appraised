@@ -1,4 +1,11 @@
 const homeData = require("../dummydata")
+const data2Filtered = require("./data2")
+const data3Filtered = require("./data3")
+const data4Filtered = require("./data4")
+const data5Filtered = require("./data5")
+const data6Filtered = require("./data6")
+const data7Filtered = require("./data7")
+const data8Filtered = require("./data8")
 
 const data1 = [
   {
@@ -39097,4 +39104,10 @@ const data1 = [
 
 const data1Updated = data1.filter((home) => home.zpid).concat(homeData)
 
-console.log(`@@@@@@@@@`, data1Updated.length)
+let combineData = [];
+
+for(let i = 0; i < 8; i++) {
+    combineData.concat(data`${i}`);
+}
+
+console.log(`@@@@@@@@@`, combineData.length)
