@@ -23,18 +23,17 @@ export class SingleHome extends Component {
   }
 
   componentDidMount() {
-    // console.log("it is mounted!!!!!------");
     const { id } = this.props.match.params;
     const singleHouse = this.props.fetchSingleHome(id);
-    // this.props.fetchWatchlist();
     this.setState({ home: singleHouse });
-    // const watchlist = this.props.watchlist.homes || [];
-    // const watchlistCheck = watchlist.filter((home) => home.id);
-    // console.log("watchlist---------", watchlistCheck);
-    // console.log("id---------", id);
-    // if (watchlistCheck.includes(id)) {
-    //   this.setState({ toggle: true });
-    // }
+    const watchlist = this.props.watchlist.homes || [];
+    if (watchlist.length) {
+      for (let i = 0; i < watchlist.length; i++) {
+        if (watchlist[i].id === Number(id)) {
+          this.setState({ toggle: true });
+        }
+      }
+    }
   }
 
   render() {
@@ -101,7 +100,6 @@ export class SingleHome extends Component {
  * CONTAINER
  */
 const mapStateToProps = (state) => {
-  console.log(state);
   return {
     home: state.home.single,
     watchlist: state.watchlist,

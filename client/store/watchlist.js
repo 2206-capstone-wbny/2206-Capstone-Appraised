@@ -40,7 +40,6 @@ export const getWatchlist = () => {
 
 export const addHouse = (id) => {
   const token = window.localStorage.getItem(TOKEN);
-  console.log("from THUNK -----------", id);
   return async (dispatch) => {
     const { data: watchlist } = await axios.post(
       "/api/users/addWatchlist",
