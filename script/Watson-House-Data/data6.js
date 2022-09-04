@@ -33255,6 +33255,8 @@ const data6 = [
   },
 ];
 
-const data6Updated = data6.filter((home) => home.zpid);
+const data6Filtered = data6.filter((home) => home.zpid);
 
-console.log(`@@@@@@@@@`, data6Updated.length);
+console.log(`@@@@@@@@@`, data6Filtered.length);
+
+module.exports = data6Filtered;

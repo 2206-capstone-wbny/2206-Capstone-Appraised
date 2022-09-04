@@ -38831,6 +38831,8 @@ const data8 = [
                 }
             ]
 
-const data8Updated = data8.filter((home) => home.zpid);
+const data8Filtered = data8.filter((home) => home.zpid);
 
-console.log(`@@@@@@@@@`, data8Updated.length);
+console.log(`@@@@@@@@@`, data8Filtered.length);
+
+module.exports = data8Filtered;

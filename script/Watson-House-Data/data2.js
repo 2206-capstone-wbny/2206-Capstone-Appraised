@@ -38826,6 +38826,8 @@ const data2 = [
   },
 ];
 
-const data2Updated = data2.filter((home) => home.zpid);
+const data2Filtered = data2.filter((home) => home.zpid);
 
-console.log(`@@@@@@@@@`, data2Updated.length);
+console.log(`@@@@@@@@@`, data2Filtered.length);
+
+module.exports = data2Filtered;

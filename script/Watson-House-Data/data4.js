@@ -38999,6 +38999,8 @@ const data4 = [
 ];
 
 
-const data4Updated = data4.filter((home) => home.zpid);
+const data4Filtered = data4.filter((home) => home.zpid);
 
-console.log(`@@@@@@@@@`, data4Updated.length);
+console.log(`@@@@@@@@@`, data4Filtered.length);
+
+module.exports = data4;
