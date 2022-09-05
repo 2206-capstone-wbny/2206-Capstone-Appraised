@@ -3,7 +3,7 @@ const db = require("../db");
 
 const Zip = db.define("zip",{
     zip:{
-        type: Sequelize.STRING,
+        type: Sequelize.STRING
     },
     color:{
         type: Sequelize.STRING,

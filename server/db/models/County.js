@@ -34,6 +34,9 @@ const County = db.define("county", {
     },
     features:{
         type: Sequelize.JSON,
+    },
+    fips: {
+        type: Sequelize.STRING,
     }
 });
 
