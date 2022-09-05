@@ -11,11 +11,11 @@ const useStyles = makeStyles({
   gridContainer: {
     paddingLeft: "4vw",
     paddingRight: "4vw",
-    maxHeight: "400px",
+    height: "400px",
     textOverflow: "ellipsis",
   },
   title: {
-    paddingLeft: "2vw",
+    paddingLeft: "10px",
   },
 });
 
@@ -35,7 +35,7 @@ function News() {
   console.log(newsArticles);
   return (
     <div>
-      <h1 className={classes.title}>Housing Market News</h1>
+      <h2 className={classes.title}>Housing Market News</h2>
       <Grid container spacing={4} className={classes.gridContainer}>
         {newsArticles.map((article) => {
           return (

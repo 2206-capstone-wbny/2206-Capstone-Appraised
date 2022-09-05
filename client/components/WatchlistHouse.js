@@ -27,7 +27,6 @@ function WatchlistHouse({ house, index, removeHouse }) {
           }}
         />
       </span>
-      {alterCheck}
       <h1>{house.price}</h1>
       <h2>{house.type}</h2>
     </div>
