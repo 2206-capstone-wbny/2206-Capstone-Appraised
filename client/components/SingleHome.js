@@ -37,10 +37,10 @@ export class SingleHome extends Component {
   }
 
   render() {
-    const { home, watchlist } = this.props;
+    const { home, watchlist, isLoggedIn } = this.props;
     const { toggle } = this.state;
     const { handleClick } = this;
-    console.log("toggle ------", toggle);
+    console.log(`@@@@@`, this.props.isLoggedIn);
     const landSize = home.landSize ? home.landSize : "";
 
     return (
@@ -53,16 +53,21 @@ export class SingleHome extends Component {
               </div>
               <div className="singleHome-right">
                 <h1>Overview</h1>
-                <span>
-                  <HeartSwitch
-                    size="md"
-                    checked={toggle}
-                    onChange={() => {
-                      this.setState({ toggle: !this.state.toggle }),
-                        handleClick(home.id);
-                    }}
-                  />
-                </span>
+                {isLoggedIn ? (
+                  <span>
+                    <HeartSwitch
+                      size="md"
+                      checked={toggle}
+                      onChange={() => {
+                        this.setState({ toggle: !this.state.toggle }),
+                          handleClick(home.id);
+                      }}
+                    />
+                  </span>
+                ) : (
+                  ""
+                )}
+
                 <div>
                   <h2>{home.price}</h2>
                   <span>
@@ -101,6 +106,7 @@ export class SingleHome extends Component {
  */
 const mapStateToProps = (state) => {
   return {
+    isLoggedIn: !!state.auth.id,
     home: state.home.single,
     watchlist: state.watchlist,
   };
