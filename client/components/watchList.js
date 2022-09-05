@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 import { setSingle } from "../store/home";
 import { Link } from "react-router-dom";
 import { getWatchlist, addHouse, removeHouse } from "../store/watchlist";
+import { HeartSwitch } from "@anatoliygatt/heart-switch";
+import WatchlistHouse from "./WatchlistHouse";
 // import Data from "../dummydata"
 
 // Data.houseData.map((house, idx) => {
@@ -14,6 +16,9 @@ import { getWatchlist, addHouse, removeHouse } from "../store/watchlist";
 export class watchList extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      home: null,
+    };
     this.fetchHouse = this.fetchHouse.bind(this);
     this.remove = this.remove.bind(this);
   }
@@ -22,9 +27,12 @@ export class watchList extends Component {
     this.props.fetchSingle(id);
   }
 
-  remove(evt) {
-    let id = evt.target.value;
+  remove(id) {
     this.props.removeHouse(id);
+  }
+
+  add(id) {
+    this.props.addHouse(id);
   }
 
   componentDidMount() {
@@ -33,21 +41,13 @@ export class watchList extends Component {
 
   render() {
     const watchlist = this.props.watchlist.homes || [];
-    console.log("watchlist-----", watchlist);
 
-    const { fetchHouse, remove } = this;
     return (
       <div id="watchlist">
         {watchlist.map((house, index) => {
-          console.log(house.id);
           return (
-            <div key={index}>
-              <img src={house.imageURL}></img>
-              <h1>{house.price}</h1>
-              <h2>{house.type}</h2>
-              <button value={house.id} onClick={remove}>
-                Delete
-              </button>
+            <div>
+              <WatchlistHouse house={house} index={index} />
             </div>
           );
         })}

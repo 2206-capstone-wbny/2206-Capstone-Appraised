@@ -41,12 +41,15 @@ export const getWatchlist = () => {
 export const addHouse = (id) => {
   const token = window.localStorage.getItem(TOKEN);
   return async (dispatch) => {
-    const { data: watchlist } = await axios.post("/api/users/addWatchlist", {
-      id,
-      headers: {
-        authorization: token,
-      },
-    });
+    const { data: watchlist } = await axios.post(
+      "/api/users/addWatchlist",
+      { id },
+      {
+        headers: {
+          authorization: token,
+        },
+      }
+    );
     dispatch(_addHouse(watchlist));
   };
 };
