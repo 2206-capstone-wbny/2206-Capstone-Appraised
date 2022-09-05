@@ -99,20 +99,17 @@ async function seed() {
         let sorted = countyData.features.filter(cnty => cnty.properties.fips == county.fips)
         
       //  console.log(sorted)
-      var filtered = countySF.filter(county1 => county1.RegionName == county.name)[0]
+      var filtered = countySF.filter(county1 => county1.RegionName == county.name)[0];
             if(filtered != null && filtered != '' && filtered != undefined )
           {
           var countySingleMed = Object.values(filtered).pop()
-          if(countySingleMed == '')
-      {
+          if(countySingleMed == ''){
         countySingleMed = 0
       }
-          }else{
+          else{
             countySingleMed = 0
           }
-        } else {
-          countySingleMed = 0;
-        }
+        
 
         var filtered1 = county1B.filter(
           (county1) => county1.RegionName == county.name
@@ -186,8 +183,6 @@ async function seed() {
         fips: county.fips
       })
         
-      })
-      
       console.log(home.properties.postal, home.properties.label_en)
         return({
         stateName: home.properties.label_en,
