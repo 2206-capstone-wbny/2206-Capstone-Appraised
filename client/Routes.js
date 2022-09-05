@@ -32,6 +32,7 @@ class Routes extends Component {
       <div>
         {isLoggedIn ? (
           <Switch>
+            <Route path="/" exact component={Home} />
             <Route path="/home" component={Home} />
             <Route path="/map" component={Map} />
             <Route path="/setting" component={Setting} />
@@ -41,7 +42,7 @@ class Routes extends Component {
           </Switch>
         ) : (
           <Switch>
-            <Route path="/" exact component={Login} />
+            <Route path="/" exact component={Home} />
             <Route path="/home" component={Home} />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
