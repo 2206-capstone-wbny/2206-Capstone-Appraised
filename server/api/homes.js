@@ -13,6 +13,16 @@ router.get("/", async (req, res, next) => {
   }
 });
 
+router.get("/zip/:id", async (req, res, next) => {
+  try {
+    let zip = req.params.id
+    const homes = await Home.findAll({where:{ zipcode: zip }})
+    res.json(homes)
+  } catch (err) {
+    next(err);
+  }
+});
+
 router.get("/:id", async (req, res, next) => {
   try {
     let id = req.params.id;

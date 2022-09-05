@@ -45,7 +45,7 @@ const {
   db,
   manyCounty,
   manyZip,
-  models: { User, Home, State, County, Zip, HistoricData },
+  models: { User, Home, State, County, Zip, HistoricData},
 } = require("../server/db");
 const { contextType } = require("google-map-react");
 
@@ -225,7 +225,7 @@ async function seed() {
       })
     }))
       await State.bulkCreate(steve, {
-      include:[{ association: manyCounty, ignoreDuplicates: true}],
+      include:[{ association: manyCounty}],
       })
   
 
@@ -390,7 +390,7 @@ async function seed() {
           })
         }))
           await State.bulkCreate(steve1, {
-          include:[{ association: manyCounty, ignoreDuplicates: true}],
+          include:[{ association: manyCounty}],
           })
 
           let steve2 = await Promise.all(
@@ -554,7 +554,7 @@ async function seed() {
               })
             }))
               await State.bulkCreate(steve2, {
-              include:[{ association: manyCounty, ignoreDuplicates: true}],
+              include:[{ association: manyCounty}],
               })
 
               let steve3 = await Promise.all(
@@ -718,7 +718,7 @@ async function seed() {
                   })
                 }))
                   await State.bulkCreate(steve3, {
-                  include:[{ association: manyCounty, ignoreDuplicates: true}],
+                  include:[{ association: manyCounty}],
                   })
 
                   let steve4 = await Promise.all(
@@ -882,7 +882,7 @@ async function seed() {
                       })
                     }))
                       await State.bulkCreate(steve4, {
-                      include:[{ association: manyCounty, ignoreDuplicates: true}],
+                      include:[{ association: manyCounty}],
                       })
 
                       let steve5 = await Promise.all(
@@ -1046,7 +1046,7 @@ async function seed() {
                           })
                         }))
                           await State.bulkCreate(steve5, {
-                          include:[{ association: manyCounty, ignoreDuplicates: true}],
+                          include:[{ association: manyCounty}],
                           })
 
                           let steve6 = await Promise.all(
@@ -1210,7 +1210,7 @@ async function seed() {
                               })
                             }))
                               await State.bulkCreate(steve6, {
-                              include:[{ association: manyCounty, ignoreDuplicates: true}],
+                              include:[{ association: manyCounty}],
                               })
 
 
@@ -1375,7 +1375,7 @@ async function seed() {
                                   })
                                 }))
                                   await State.bulkCreate(steve7, {
-                                  include:[{ association: manyCounty, ignoreDuplicates: true}],
+                                  include:[{ association: manyCounty}],
                                   })
 
 
@@ -1540,7 +1540,7 @@ async function seed() {
                                       })
                                     }))
                                       await State.bulkCreate(steve8, {
-                                      include:[{ association: manyCounty, ignoreDuplicates: true}],
+                                      include:[{ association: manyCounty}],
                                       })
 
 
@@ -1705,7 +1705,7 @@ async function seed() {
                                           })
                                         }))
                                           await State.bulkCreate(steve9, {
-                                          include:[{ association: manyCounty, ignoreDuplicates: true}],
+                                          include:[{ association: manyCounty}],
                                           })
 
 
@@ -1870,7 +1870,7 @@ async function seed() {
                                               })
                                             }))
                                               await State.bulkCreate(steve10, {
-                                              include:[{ association: manyCounty, ignoreDuplicates: true}],
+                                              include:[{ association: manyCounty}],
                                               })
 
 
@@ -2035,22 +2035,13 @@ async function seed() {
                                                   })
                                                 }))
                                                   await State.bulkCreate(steve11, {
-                                                  include:[{ association: manyCounty, ignoreDuplicates: true}],
+                                                  include:[{ association: manyCounty}],
                                                   })
 
 
-
-
-
-
-
+      
         await Promise.all(
-          zipData.features.map((zip) => {
-          
-
-
-
-          
+          zipData.features.map((zip) => {          
         var filteredzip = zipSF.filter(zip1 => zip1.RegionName == zip.properties.zip)[0]
       
         if(filteredzip)
@@ -2163,11 +2154,148 @@ async function seed() {
         features : zip,
         }))
       })
-                                                  
-                                                  );
+      );
 
 
-                                  
+
+      await Promise.all(
+        state1B.map(state => {
+           let singleData = stateSinglePriceMed.filter(single => single.RegionName == state.RegionName)
+           let twoBed = state2B.filter(single => single.RegionName == state.RegionName)
+           let threeBed = state3B.filter(single => single.RegionName == state.RegionName)
+           let fourBed = state4B.filter(single => single.RegionName == state.RegionName)
+           let fiveBed = state5B.filter(single => single.RegionName == state.RegionName)
+           let coopBed = stateCo.filter(single => single.RegionName == state.RegionName)
+           let allBed = stateAH.filter(single => single.RegionName == state.RegionName)
+          return HistoricData.create({
+            name: state.RegionName,
+            singleHMed : singleData,
+        oneBedMed: state,
+        twoBedMed: twoBed,
+        threeBedMed: threeBed,
+        fourBedMed: fourBed,
+        fiveBedMed: fiveBed,
+        aHBedMed: allBed,
+        coopMed: coopBed,
+          })
+        })
+      )
+
+      await Promise.all(
+        county1B.map(state => {
+           let singleData = countySF.filter(single => single.RegionName == state.RegionName)
+           let twoBed = county2B.filter(single => single.RegionName == state.RegionName)
+           let threeBed = county3B.filter(single => single.RegionName == state.RegionName)
+           let fourBed = county4B.filter(single => single.RegionName == state.RegionName)
+           let fiveBed = county5B.filter(single => single.RegionName == state.RegionName)
+           let coopBed = countyCo.filter(single => single.RegionName == state.RegionName)
+           let allBed = countyAH.filter(single => single.RegionName == state.RegionName)
+          return HistoricData.create({
+            name: state.RegionName,
+            singleHMed : singleData,
+        oneBedMed: state,
+        twoBedMed: twoBed,
+        threeBedMed: threeBed,
+        fourBedMed: fourBed,
+        fiveBedMed: fiveBed,
+        aHBedMed: allBed,
+        coopMed: coopBed,
+          })
+        })
+      )
+
+      await Promise.all(
+        zip1B.map(state => {
+           let singleData = zipSF.filter(single => single.RegionName == state.RegionName)
+           let twoBed = zip2B.filter(single => single.RegionName == state.RegionName)
+           let threeBed = zip3B.filter(single => single.RegionName == state.RegionName)
+           let fourBed = zip4B.filter(single => single.RegionName == state.RegionName)
+           let fiveBed = zip5B.filter(single => single.RegionName == state.RegionName)
+           let coopBed = zipCo.filter(single => single.RegionName == state.RegionName)
+           let allBed = zipAH.filter(single => single.RegionName == state.RegionName)
+          return HistoricData.create({
+            name: state.RegionName,
+            singleHMed : singleData,
+        oneBedMed: state,
+        twoBedMed: twoBed,
+        threeBedMed: threeBed,
+        fourBedMed: fourBed,
+        fiveBedMed: fiveBed,
+        aHBedMed: allBed,
+        coopMed: coopBed,
+          })
+        })
+      )
+     
+     
+  
+    //Creating Homes
+    await Promise.all(
+      homeData.map((home) => {
+        return Home.create({
+          imageURL: home.imgSrc,
+          city: home.hdpData.homeInfo.city,
+          state: home.hdpData.homeInfo.state,
+          zipcode: home.hdpData.homeInfo.zipcode,
+          type: home.hdpData.homeInfo.homeType,
+          price: home.price,
+          priceNum: home.hdpData.homeInfo.price,
+          bathrooms: home.baths,
+          beds: home.beds,
+          landSize: home.hdpData.homeInfo.livingArea,
+          latitude: home.hdpData.homeInfo.latitude,
+          longitude: home.hdpData.homeInfo.longitude,
+        });
+      })
+    );
+
+  console.log(`seeded ${users.length} users`);
+  console.log(`seeded successfully`);
+
+  return {
+    users: {
+      cody: users[0],
+      murphy: users[1],
+    },
+  };
+}
+
+
+
+
+
+
+/*
+ We've separated the `seed` function from the `runSeed` function.
+ This way we can isolate the error handling and exit trapping.
+ The `seed` function is concerned only with modifying the database.
+*/
+async function runSeed() {
+  console.log("seeding...");
+  try {
+    await seed();
+  } catch (err) {
+    console.error(err);
+    process.exitCode = 1;
+  } finally {
+    console.log("closing db connection");
+    await db.close();
+    console.log("db connection closed");
+  }
+}
+
+/*
+  Execute the `seed` function, IF we ran this module directly (`node seed`).
+  `Async` functions always return a promise, so we can use `catch` to handle
+  any errors that might occur inside of `seed`.
+*/
+if (module === require.main) {
+  runSeed();
+}
+
+// we export the seed function for testing purposes (see `./seed.spec.js`)
+module.exports = seed;
+                             
   
   // let steve = await Promise.all(
   //   statesData.features.map((home, index) => {
@@ -2454,7 +2582,7 @@ async function seed() {
   //     })
   //   }))
   //     await State.bulkCreate(steve, {
-  //     include:[{ association: manyCounty, ignoreDuplicates: true, include:[Zip]}],
+  //     include:[{ association: manyCounty, include:[Zip]}],
   //     })
 
   
@@ -2744,7 +2872,7 @@ async function seed() {
   //         })
   //       }))
   //         await State.bulkCreate(steve1, {
-  //         include:[{ association: manyCounty, ignoreDuplicates: true, include:[Zip]}],
+  //         include:[{ association: manyCounty, include:[Zip]}],
   //         })
 
 
@@ -3033,7 +3161,7 @@ async function seed() {
   //             })
   //           }))
   //             await State.bulkCreate(steve2, {
-  //             include:[{ association: manyCounty, ignoreDuplicates: true, include:[Zip]}],
+  //             include:[{ association: manyCounty, include:[Zip]}],
   //             })
 
 
@@ -3322,7 +3450,7 @@ async function seed() {
   //                 })
   //               }))
   //                 await State.bulkCreate(steve3, {
-  //                 include:[{ association: manyCounty, ignoreDuplicates: true, include:[Zip]}],
+  //                 include:[{ association: manyCounty, include:[Zip]}],
   //                 })
 
 
@@ -3611,7 +3739,7 @@ async function seed() {
   //                     })
   //                   }))
   //                     await State.bulkCreate(steve4, {
-  //                     include:[{ association: manyCounty, ignoreDuplicates: true, include:[Zip]}],
+  //                     include:[{ association: manyCounty, include:[Zip]}],
   //                     })
 
 
@@ -3900,7 +4028,7 @@ async function seed() {
   //                         })
   //                       }))
   //                         await State.bulkCreate(steve5, {
-  //                         include:[{ association: manyCounty, ignoreDuplicates: true, include:[Zip]}],
+  //                         include:[{ association: manyCounty, include:[Zip]}],
   //                         })
 
 
@@ -4189,7 +4317,7 @@ async function seed() {
   //                             })
   //                           }))
   //                             await State.bulkCreate(steve6, {
-  //                             include:[{ association: manyCounty, ignoreDuplicates: true, include:[Zip]}],
+  //                             include:[{ association: manyCounty, include:[Zip]}],
   //                             })
 
 
@@ -4478,7 +4606,7 @@ async function seed() {
   //                                 })
   //                               }))
   //                                 await State.bulkCreate(steve11, {
-  //                                 include:[{ association: manyCounty, ignoreDuplicates: true, include:[Zip]}],
+  //                                 include:[{ association: manyCounty, include:[Zip]}],
   //                                 })
 
 
@@ -4768,7 +4896,7 @@ async function seed() {
   //                                     })
   //                                   }))
   //                                     await State.bulkCreate(steve7, {
-  //                                     include:[{ association: manyCounty, ignoreDuplicates: true, include:[Zip]}],
+  //                                     include:[{ association: manyCounty, include:[Zip]}],
   //                                     })
 
 
@@ -5059,7 +5187,7 @@ async function seed() {
   //                                         })
   //                                       }))
   //                                         await State.bulkCreate(steve8, {
-  //                                         include:[{ association: manyCounty, ignoreDuplicates: true, include:[Zip]}],
+  //                                         include:[{ association: manyCounty, include:[Zip]}],
   //                                         })
 
 
@@ -5349,7 +5477,7 @@ async function seed() {
   //                                             })
   //                                           }))
   //                                             await State.bulkCreate(steve9, {
-  //                                             include:[{ association: manyCounty, ignoreDuplicates: true, include:[Zip]}],
+  //                                             include:[{ association: manyCounty, include:[Zip]}],
   //                                             })
 
 
@@ -5639,74 +5767,5 @@ async function seed() {
   //                                                 })
   //                                               })) 
   //                                                 await State.bulkCreate(steve10, {
-  //                                                 include:[{ association: manyCounty, ignoreDuplicates: true, include:[Zip]}],
+  //                                                 include:[{ association: manyCounty, include:[Zip]}],
   //                                                 })
-
-     
-  
-    //Creating Homes
-    await Promise.all(
-      homeData.map((home) => {
-        return Home.create({
-          imageURL: home.imgSrc,
-          city: home.hdpData.homeInfo.city,
-          state: home.hdpData.homeInfo.state,
-          zipcode: home.hdpData.homeInfo.zipcode,
-          type: home.hdpData.homeInfo.homeType,
-          price: home.price,
-          priceNum: home.hdpData.homeInfo.price,
-          bathrooms: home.baths,
-          beds: home.beds,
-          landSize: home.hdpData.homeInfo.livingArea,
-          latitude: home.hdpData.homeInfo.latitude,
-          longitude: home.hdpData.homeInfo.longitude,
-        });
-      })
-    );
-
-  console.log(`seeded ${users.length} users`);
-  console.log(`seeded successfully`);
-
-  return {
-    users: {
-      cody: users[0],
-      murphy: users[1],
-    },
-  };
-}
-
-
-
-
-
-
-/*
- We've separated the `seed` function from the `runSeed` function.
- This way we can isolate the error handling and exit trapping.
- The `seed` function is concerned only with modifying the database.
-*/
-async function runSeed() {
-  console.log("seeding...");
-  try {
-    await seed();
-  } catch (err) {
-    console.error(err);
-    process.exitCode = 1;
-  } finally {
-    console.log("closing db connection");
-    await db.close();
-    console.log("db connection closed");
-  }
-}
-
-/*
-  Execute the `seed` function, IF we ran this module directly (`node seed`).
-  `Async` functions always return a promise, so we can use `catch` to handle
-  any errors that might occur inside of `seed`.
-*/
-if (module === require.main) {
-  runSeed();
-}
-
-// we export the seed function for testing purposes (see `./seed.spec.js`)
-module.exports = seed;

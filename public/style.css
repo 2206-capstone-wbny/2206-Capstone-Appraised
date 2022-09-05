@@ -159,12 +159,25 @@ hr {
 
 #infoContainer {
   flex: 1;
-  max-width: 30vw;
+  max-width: 25%;
+  border-radius: 2%;
   box-shadow: -5px 0 10px 0 rgba(0, 0, 0, 0.25);
-  z-index: 10;
-  overflow-y: auto;
+  overflow-y: scroll;
+  text-align: center;
+  border-width: 0.4px;
+  border-top-style: solid;
+  border-color: black;
+  /* z-index: 0; */
 }
 
+#infoContainer h2{
+  border-bottom-style: solid;
+  width: 60%;
+  border-width: 1px;
+  margin: auto;
+  margin-top: 40px;
+  border-color: black;
+}
 #infoText {
   padding-left: 10px;
   padding-top: 5px;
@@ -382,6 +395,98 @@ hr {
   min-width: 120px;
 }
 
+.filterGroup{
+  position: absolute;
+  display:flex;
+  margin-left: 10%;
+}
+
+.chart-graph{
+  text-align: center;
+  width: 90%;
+  margin: auto;
+  margin-top: 30px;
+}
+
+.lineGraph{
+  margin-bottom: 80px;
+}
+
+
+
+.houseContainer{
+  width:100%;
+  transition: transform .2s;
+  margin-bottom: 5px;
+  text-align: left;
+  box-shadow: 0 2px 4px -1px rgb(0 0 0 / 16%), 0 4px 5px 0 rgb(0 0 0 / 11%), 0 1px 10px 0 rgb(0 0 0 / 10%);
+}
+
+.houseContainer:hover {
+  transform: scale(1.005); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+}
+
+.houseContainer img{
+  width: 100%;
+  height: 300px;
+}
+
+.houseContainer h3{
+ padding: 0;
+  margin: 0;
+  margin-left: 5px;
+}
+
+.houseContainer p{
+  padding: 0;
+  margin: 0;
+  font-size: 14px;
+  margin-left: 5px;
+ }
+
 .authForm-buttons button:hover {
   border-color: rgb(255, 255, 255);
+}
+
+svg.leaflet-zoom-animated > g > path {
+  transition-property: fill, fill-opacity, stroke, stroke-opacity, stroke-width;
+  transition-duration: 0.4s;
+}
+
+
+.loader-container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  background: lightblue;
+  z-index: 1;
+}
+
+.spinner {
+  width: 64px;
+  height: 64px;
+  border: 8px solid;
+  border-color: white transparent white transparent;
+  border-radius: 50%;
+  animation: spin-anim 1.2s linear infinite;
+}
+
+@keyframes spin-anim {
+  0% {
+      transform: rotate(0deg);
+  }
+  100% {
+      transform: rotate(360deg);
+  }
+}
+
+.buttonDiv{
+  display: flex;
+  z-index: 1;
+  position: absolute;
+  width: 100%;
+  justify-content: space-between
 }

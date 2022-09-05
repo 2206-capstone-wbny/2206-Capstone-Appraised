@@ -7,7 +7,7 @@ const axios = require("axios");
 const User = require("./models/User");
 const Home = require("./models/Home");
 const State = require("./models/State");
-const County = require("./models/County");
+const County = require("./models/County")
 const Zip = require("./models/Zip");
 const HistoricData = require("./models/HistoricData");
 //associations could go here!

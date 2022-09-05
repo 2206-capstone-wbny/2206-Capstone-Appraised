@@ -5,7 +5,6 @@ const axios = require("axios");
 const County = db.define("county", {
     county:{
         type: Sequelize.STRING,
-        unique: true
     },
     color:{
         type: Sequelize.STRING,
