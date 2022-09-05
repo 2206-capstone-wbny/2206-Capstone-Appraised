@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import Stack from "@mui/material/Stack";
@@ -66,7 +66,7 @@ export const Home = (props) => {
   const [searchOpt, setSearchOpt] = useState(false);
   const [minPriceOpt, setMinPriceOpt] = useState(false);
   const [maxPriceOpt, setMaxPriceOpt] = useState(false);
-  const renderCheck = username ? <h1>Hello, {username}</h1> : "";
+  const renderCheck = username ? <h5>Hello, {username}</h5> : "";
 
   function searchClickOpen() {
     setSearchOpt(true);
@@ -95,11 +95,15 @@ export const Home = (props) => {
     setBaths(baths);
   }
 
-  console.log(address);
+  useEffect(() => {
+    document.body.style.overflow = "auto";
+    return () => {
+      document.body.style.overflow = "hidden";
+    };
+  }, []);
 
   return (
     <React.Fragment>
-      {renderCheck}
       {/* <Container maxWidth="md">
         <Box
           m={2}
