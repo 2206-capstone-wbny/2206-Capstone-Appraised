@@ -406,3 +406,7 @@ hr {
 .newsCard {
   max-height: 360px;
 }
+
+#historicText {
+  padding-left: 10px;
+}
