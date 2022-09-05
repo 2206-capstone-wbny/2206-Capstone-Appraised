@@ -37,7 +37,11 @@ const Navbar = ({ handleClick, isLoggedIn, image }) => {
     <div>
       <nav>
         <div id="navbar">
-          <img id="nbf-logo" src="/Appraised.png" />
+          <span>
+            <Link to="/home">
+              <img id="nbf-logo" src="/Appraised.png" />
+            </Link>
+          </span>
           {isLoggedIn ? (
             <div>
               {/* The navbar will show these links after you log in */}
@@ -68,7 +72,7 @@ const Navbar = ({ handleClick, isLoggedIn, image }) => {
                 <Link to="/map">
                   <MenuItem onClick={handleClose}>Map</MenuItem>
                 </Link>
-                <Link to="/reasearch">
+                <Link to="/research">
                   <MenuItem onClick={handleClose}>Research</MenuItem>
                 </Link>
                 <Link to="/watchlist">
@@ -135,14 +139,8 @@ const Navbar = ({ handleClick, isLoggedIn, image }) => {
                 <Link to="/map">
                   <MenuItem onClick={handleClose}>Map</MenuItem>
                 </Link>
-                <Link to="/reasearch">
+                <Link to="/research">
                   <MenuItem onClick={handleClose}>Research</MenuItem>
-                </Link>
-                <Link to="/watchlist">
-                  <MenuItem onClick={handleClose}>Watchlist</MenuItem>
-                </Link>
-                <Link to="/myvalue">
-                  <MenuItem onClick={handleClose}>My Value</MenuItem>
                 </Link>
               </Menu>
 

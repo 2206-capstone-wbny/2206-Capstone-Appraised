@@ -3,10 +3,10 @@ body {
   margin: 0;
 }
 
-html,
+/* html,
 body {
   overflow: hidden;
-}
+} */
 
 a {
   text-decoration: none;
@@ -34,14 +34,16 @@ form div {
   justify-content: space-between;
   background-color: white;
   align-items: center;
-  z-index: 0;
+  z-index: 1;
+  border-bottom: 1px solid lightgray;
 }
 
 #nbf-logo {
-  padding: 10px;
+  padding: 0;
   /*padding-left: 60px;*/
   height: 50px;
-  width: 50px;
+  width: 265px;
+  border: 0;
 }
 
 .profile-pic {
@@ -127,15 +129,18 @@ hr {
 /*  display: flex*/
 /*}*/
 
+#appName {
+  font-size: 20;
+}
+
 .filter {
   display: flex;
   flex-direction: row;
-  border-bottom: thin;
   font-size: 14px;
   align-items: center;
   padding-left: 10px;
-  border-top: thin;
-  border-color: black;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 
 #clearFilterBtn {
@@ -150,6 +155,7 @@ hr {
   max-height: 100%;
   box-sizing: border-box;
   overflow: hidden;
+  border-top: 1px solid lightgray;
 }
 
 #mapContainer {
@@ -222,6 +228,7 @@ hr {
   flex-direction: row;
   margin-left: 50px;
   margin-right: 50px;
+  margin-top: 50px;
 }
 
 .singleHome-left {
@@ -257,19 +264,24 @@ hr {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  height: 80vh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: lightblue;
+  align-content: center;
+  overflow: hidden;
+  background-image: url("Login.jpeg");
+  background-size: cover;
+  background-position: center;
+  position: relative;
 }
 
 .authForm-container {
   position: relative;
   max-width: 430px;
   width: 100%;
-  background: #fff;
+  background: rgba(255, 255, 255, 0.6);
   border-radius: 10px;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
 }
@@ -336,6 +348,7 @@ hr {
   display: flex;
   justify-content: space-between;
   margin-right: 5%;
+  border: 3px black;
 }
 
 .authForm-buttons .log-in {
@@ -475,6 +488,7 @@ hr {
   border-color: rgb(255, 255, 255);
 }
 
+
 svg.leaflet-zoom-animated > g > path {
   transition-property: fill, fill-opacity, stroke, stroke-opacity, stroke-width;
   transition-duration: 0.4s;
@@ -516,4 +530,12 @@ svg.leaflet-zoom-animated > g > path {
   position: absolute;
   width: 100%;
   justify-content: space-between
+}
+
+#watchlist {
+  position: absolute;
+}
+
+.newsCard {
+  max-height: 360px;
 }

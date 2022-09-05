@@ -1,25 +1,48 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import home, { setSingle } from "../store/home";
+import { HeartSwitch } from "@anatoliygatt/heart-switch";
+import { addHouse, removeHouse, getWatchlist } from "../store/watchlist";
 
 export class SingleHome extends Component {
   constructor(props) {
     super(props);
     this.state = {
       home: null,
+      toggle: false,
     };
+    this.handleClick = this.handleClick.bind(this);
   }
 
-  async componentDidMount() {
+  handleClick(id) {
+    if (this.state.toggle) {
+      this.props.removeHome(id);
+    } else {
+      this.props.addHome(id);
+    }
+  }
+
+  componentDidMount() {
     const { id } = this.props.match.params;
-    const singleHouse = await this.props.fetchSingleHome(id);
+    const singleHouse = this.props.fetchSingleHome(id);
     this.setState({ home: singleHouse });
+    const watchlist = this.props.watchlist.homes || [];
+    if (watchlist.length) {
+      for (let i = 0; i < watchlist.length; i++) {
+        if (watchlist[i].id === Number(id)) {
+          this.setState({ toggle: true });
+        }
+      }
+    }
   }
 
   render() {
-    const { home } = this.props;
+    const { home, watchlist, isLoggedIn } = this.props;
+    const { toggle } = this.state;
+    const { handleClick } = this;
+    console.log(`@@@@@`, this.props.isLoggedIn);
     const landSize = home.landSize ? home.landSize : "";
-    console.log(`@@@@`, this.props);
+
     return (
       <div className="singleHome-body">
         <div className="map-container">
@@ -30,6 +53,21 @@ export class SingleHome extends Component {
               </div>
               <div className="singleHome-right">
                 <h1>Overview</h1>
+                {isLoggedIn ? (
+                  <span>
+                    <HeartSwitch
+                      size="md"
+                      checked={toggle}
+                      onChange={() => {
+                        this.setState({ toggle: !this.state.toggle }),
+                          handleClick(home.id);
+                      }}
+                    />
+                  </span>
+                ) : (
+                  ""
+                )}
+
                 <div>
                   <h2>{home.price}</h2>
                   <span>
@@ -67,14 +105,18 @@ export class SingleHome extends Component {
  * CONTAINER
  */
 const mapStateToProps = (state) => {
-  console.log(state);
   return {
+    isLoggedIn: !!state.auth.id,
     home: state.home.single,
+    watchlist: state.watchlist,
   };
 };
 
 const mapDispatchToProps = (dispatch) => ({
   fetchSingleHome: (id) => dispatch(setSingle(id)),
+  addHome: (id) => dispatch(addHouse(id)),
+  removeHome: (id) => dispatch(removeHouse(id)),
+  fetchWatchlist: () => dispatch(getWatchlist()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SingleHome);

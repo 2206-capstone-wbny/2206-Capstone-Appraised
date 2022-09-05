@@ -34,3 +34,4 @@ const HistoricData = db.define("historicData", {
   });
   
   module.exports = HistoricData;
+
