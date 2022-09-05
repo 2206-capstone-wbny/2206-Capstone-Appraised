@@ -22,24 +22,24 @@ const state4B = require("./HouseData/state4B.json");
 const state5B = require("./HouseData/state5B.json");
 const stateAH = require("./HouseData/stateAH.json");
 const stateCo = require("./HouseData/stateCo.json");
-const countySF = require("./HouseData/county/countySF.json");
-const county1B = require("./HouseData/county/county1B.json");
-const county2B = require("./HouseData/county/county2B.json");
-const county3B = require("./HouseData/county/county3B.json");
-const county4B = require("./HouseData/county/county4B.json");
-const county5B = require("./HouseData/county/county5B.json");
-const countyAH = require("./HouseData/county/countyAH.json");
+const countySF = require("./HouseData/county/countySF.json")
+const county1B = require("./HouseData/county/county1B.json")
+const county2B = require("./HouseData/county/county2B.json")
+const county3B = require("./HouseData/county/county3B.json")
+const county4B = require("./HouseData/county/county4B.json")
+const county5B = require("./HouseData/county/county5B.json")
+const countyAH = require("./HouseData/county/countyAH.json")
 const countyCo = require("./HouseData/county/countyCO.json");
-const zipSF = require("./HouseData/zip/zipSF.json");
-const zip1B = require("./HouseData/zip/zip1B.json");
-const zip2B = require("./HouseData/zip/zip2B.json");
-const zip3B = require("./HouseData/zip/zip3B.json");
-const zip4B = require("./HouseData/zip/zip4B.json");
-const zip5B = require("./HouseData/zip/zip5B.json");
-const zipAH = require("./HouseData/zip/zipAH.json");
-const zipCo = require("./HouseData/zip/zipCO.json");
-const associations = require("./associations");
-const countyAss = require("./countyAssociation");
+const zipSF = require("./HouseData/zip/zipSF.json")
+const zip1B = require("./HouseData/zip/zip1B.json")
+const zip2B = require("./HouseData/zip/zip2B.json")
+const zip3B = require("./HouseData/zip/zip3B.json")
+const zip4B = require("./HouseData/zip/zip4B.json")
+const zip5B = require("./HouseData/zip/zip5B.json")
+const zipAH = require("./HouseData/zip/zipAH.json")
+const zipCo = require("./HouseData/zip/zipCO.json")
+const associations  = require("./associations");
+const countyAss  = require("./countyAssociation");
 
 const {
   db,
@@ -47,7 +47,7 @@ const {
   manyZip,
   models: { User, Home, State, County, Zip, HistoricData},
 } = require("../server/db");
-// const { contextType } = require("google-map-react");
+const { contextType } = require("google-map-react");
 
 /**
  * seed - this function clears the database, updates tables to
@@ -60,7 +60,6 @@ async function seed() {
     User.create({ username: "cody", password: "123" }),
     User.create({ username: "murphy", password: "123" }),
   ]);
-
 
  
 
@@ -88,12 +87,9 @@ async function seed() {
         stateSingleMed6 = 0
         stateSingleMed7 = 0
       }
-
-      let filiteredCounty = countyAss.filter(
-        (county, index) => home.properties.postal == county.state
-      );
+      
+      let filiteredCounty = countyAss.filter((county, index) => home.properties.postal == county.state)
       // console.log(filiteredCounty)
-
 
       let filiteredStuff = filiteredCounty.map((county, countyIndex) =>{
         let sorted = countyData.features.filter(cnty => cnty.properties.fips == county.fips)
@@ -110,66 +106,90 @@ async function seed() {
           }else{
             countySingleMed = 0
           }
-        } else {
-          countySingleMed = 0;
-        }
 
-        var filtered1 = county1B.filter(
-          (county1) => county1.RegionName == county.name
-        )[0];
-        if (filtered1 != null && filtered1 != "" && filtered1 != undefined) {
-          var countySingleMed1 = Object.values(filtered1).pop();
-          if (countySingleMed1 == "") {
-            countySingleMed1 = 0;
+          var filtered1 = county1B.filter(county1 => county1.RegionName == county.name)[0]
+          if(filtered1 != null && filtered1 != '' && filtered1 != undefined )
+          {
+          var countySingleMed1 = Object.values(filtered1).pop()
+          if(countySingleMed1 == '')
+      {
+        countySingleMed1 = 0
+      }
+          }else{
+            countySingleMed1 = 0
           }
-        } else {
-          countySingleMed1 = 0;
-        }
+          
+          var filtered2 = county2B.filter(county1 => county1.RegionName == county.name)[0]
+          if(filtered2 != null && filtered2 != '' && filtered2 != undefined )
+          {
+          var countySingleMed2 = Object.values(filtered2).pop()
+          if(countySingleMed2 == '')
+      {
+        countySingleMed2 = 0
+      }
+          }else{
+            countySingleMed2 = 0
+          }
 
-        var filtered2 = county2B.filter(
-          (county1) => county1.RegionName == county.name
-        )[0];
-        if (filtered2 != null && filtered2 != "" && filtered2 != undefined) {
-          var countySingleMed2 = Object.values(filtered2).pop();
-          if (countySingleMed2 == "") {
-            countySingleMed2 = 0;
+          var filtered3 = county3B.filter(county1 => county1.RegionName == county.name)[0]
+          if(filtered3 != null && filtered3 != '' && filtered3 != undefined )
+          {
+          var countySingleMed3 = Object.values(filtered3).pop()
+          if(countySingleMed3 == '')
+      {
+        countySingleMed3 = 0
+      }
+          }else{
+            countySingleMed3 = 0
           }
-        } else {
-          countySingleMed2 = 0;
-        }
 
-        var filtered3 = county3B.filter(
-          (county1) => county1.RegionName == county.name
-        )[0];
-        if (filtered3 != null && filtered3 != "" && filtered3 != undefined) {
-          var countySingleMed3 = Object.values(filtered3).pop();
-          if (countySingleMed3 == "") {
-            countySingleMed3 = 0;
+          var filtered4 = county4B.filter(county1 => county1.RegionName == county.name)[0]
+          if(filtered4 != null && filtered4 != '' && filtered4 != undefined )
+          {
+          var countySingleMed4 = Object.values(filtered4).pop()
+          if(countySingleMed4 == '')
+      {
+        countySingleMed4 = 0
+      }
+          }else{
+            countySingleMed4 = 0
           }
-        } else {
-          countySingleMed3 = 0;
-        }
 
-        var filtered4 = county4B.filter(
-          (county1) => county1.RegionName == county.name
-        )[0];
-        if (filtered4 != null && filtered4 != "" && filtered4 != undefined) {
-          var countySingleMed4 = Object.values(filtered4).pop();
-          if (countySingleMed4 == "") {
-            countySingleMed4 = 0;
+          var filtered5 = county5B.filter(county1 => county1.RegionName == county.name)[0]
+          if(filtered5 != null && filtered5 != '' && filtered5 != undefined )
+          {
+          var countySingleMed5 = Object.values(filtered5).pop()
+          if(countySingleMed5 == '')
+      {
+        countySingleMed5 = 0
+      }
+          }else{
+            countySingleMed5 = 0
           }
-        } else {
-          countySingleMed4 = 0;
-        }
 
-        var filtered5 = county5B.filter(
-          (county1) => county1.RegionName == county.name
-        )[0];
-        if (filtered5 != null && filtered5 != "" && filtered5 != undefined) {
-          var countySingleMed5 = Object.values(filtered5).pop();
-          if (countySingleMed5 == "") {
-            countySingleMed5 = 0;
+          var filtered6  = countyAH.filter(county1 => county1.RegionName == county.name)[0]
+          if(filtered6  != null && filtered6  != '' && filtered6 != undefined )
+          {
+          var countySingleMed6 = Object.values(filtered6).pop()
+          if(countySingleMed6 == '')
+      {
+        countySingleMed6 = 0
+      }
+          }else{
+            countySingleMed6 = 0
           }
+          var filtered7 = countyCo.filter(county1 => county1.RegionName == county.name)[0]
+          if(filtered7 != null && filtered7 != '' && filtered7 != undefined )
+          {
+            var countySingleMed7 = Object.values(filtered7).pop()
+            if(countySingleMed7 == '')
+            {
+              countySingleMed7 = 0
+            }
+          }else{
+            countySingleMed7 = 0
+          }
+        
 
         
         return ({
@@ -2232,17 +2252,21 @@ async function seed() {
       })
     );
 
-
   console.log(`seeded ${users.length} users`);
   console.log(`seeded successfully`);
 
-  // return {
-  //   users: {
-  //     cody: users[0],
-  //     murphy: users[1],
-  //   },
-  // };
+  return {
+    users: {
+      cody: users[0],
+      murphy: users[1],
+    },
+  };
 }
+
+
+
+
+
 
 /*
  We've separated the `seed` function from the `runSeed` function.
@@ -5724,12 +5748,7 @@ module.exports = seed;
   //                                                   coopMed: countySingleMed7,
   //                                                   features : sorted,
   //                                                   zips: zipFilter
-                                             
-
-
-
-
-
+                                                
   //                                                 })
                                                     
   //                                                 })
