@@ -1,20 +1,33 @@
 import React, { useState, Component, useEffect } from "react";
+import associations from './function/associations.json'
+import countyAsso from './function/countyAssociation.json'
 import { connect } from "react-redux";
 import {
   MapContainer,
   TileLayer,
   useMap,
-  GeoJSON,
-  Marker,
-  LayerGroup,
-  useMapEvents,
 } from "react-leaflet";
-import { setSingle, setHomes } from "../store/home";
-import { setState, setCounty, setZip } from "../store/geo";
+import home, { setSingle, setHomes, setForZip } from "../store/home";
+import { getData, unselectCounty, unselectState, setState, setCounty, setZip, updateZip, setSingleState, setSingleCounty } from "../store/geo";
 import L from "leaflet";
+import axios from 'axios'
+import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
 import Filter from "./Filters";
 import { GeoSearchControl, OpenStreetMapProvider } from "leaflet-geosearch";
+import Markers from './function/Markers'
+import StateLayer from './function/stateLayer'
+import CountyLayer from './function/countyLayer'
+import ZipLayer from './function/zipLayer'
+import SideInfoView from './SideInfoView'
+import StateInfo from './function/StateInfo'
+import CountyInfo from './function/CountyInfo'
+import HouseInfo from './function/HouseInfo'
+import Fab from '@mui/material/Fab';
+
+let buttonStyle = {width: "80px", height: '40px', backgroundColor:'white', margin: '20px', right: '0'}
+let circleStyle = {backgroundColor:'lightBlue', margin: '20px'}
+let circleStylet = {backgroundColor:'lightBlue', margin: '20px', position: 'absolute', right: '0'}
 
 function LeafletgeoSearch() {
   let map = useMap();
@@ -46,172 +59,89 @@ function LeafletgeoSearch() {
   return null;
 }
 
-function Markers(props) {
-  const [zoomLevel, setZoomLevel] = useState(13); // initial zoom level provided for MapContainer
-  const mapEvents = useMapEvents({
-    zoomend: () => {
-      setZoomLevel(mapEvents.getZoom());
-    },
-  });
-  var greenIcon = L.icon({
-    iconUrl: "/green.png",
-    iconSize: [10, 10],
-    className: "leaflet-div-icon",
-  });
-  var blueIcon = L.icon({
-    iconUrl: "/blue.png",
-    iconSize: [10, 10],
-    className: "leaflet-div-icon",
-  });
-  var orangeIcon = L.icon({
-    iconUrl: "/orange.png",
-    iconSize: [10, 10],
-    className: "leaflet-div-icon",
-  });
-  var redIcon = L.icon({
-    iconUrl: "/red.png",
-    iconSize: [10, 10],
-    className: "leaflet-div-icon",
-  });
-  var yellowIcon = L.icon({
-    iconUrl: "/yellow.png",
-    iconSize: [10, 10],
-    className: "leaflet-div-icon",
-  });
-  const getIcon = (price) => {
-    return price > 800000
-      ? redIcon
-      : price > 650000
-      ? orangeIcon
-      : price > 500000
-      ? yellowIcon
-      : price > 300000
-      ? greenIcon
-      : blueIcon;
-  };
-  // console.log(zoomLevel, props);
-  if (zoomLevel > 14) {
-    return props.homeCoord.map((house) => (
-      <Marker
-        icon={getIcon(house.priceNum)}
-        value={house.id}
-        key={house.id}
-        position={{
-          lat: house.latitude,
-          lng: house.longitude,
-        }}
-        // style ={{borderStyle: 'solid', borderColor: 'white', borderWidth: '10px'}}
-        eventHandlers={{
-          click: async (e) => {
-            e.target._map.setView([house.latitude, house.longitude], 16);
-            await props.fetchSingle(e.target.options.value);
-            props.houseInformation();
-          },
-        }}
-      />
-    ));
-  }
-  return null;
-}
-function ZipLayer(props) {
-  const [zoomLevel, setZoomLevel] = useState(13); // initial zoom level provided for MapContainer
-  const [zipLayerLng, setZipLayerLng] = useState(-50);
-  const mapEvents = useMapEvents({
-    zoomend: () => {
-      setZoomLevel(mapEvents.getZoom());
-    },
-    moveend: (e) => {
-      let latlng = e.target.getCenter();
-      setZipLayerLng(latlng.lng);
-    },
-  });
-  const styleState = {
-    color: "blue",
-    fillColor: "transparent",
-    // fillOpacity: -1,
-    weight: 0.8,
-  };
-  const styleCounty = {
-    // color: 'blue',
-    fillColor: "orange",
-    // fillOpacity: -1,
-    weight: 0.5,
-  };
-  const forEachHover = (location, layer) => {
-    // console.log('hi', location)
-    layer.on({
-      mouseover: (e) => {
-        // console.log(e)
-        e.target.setStyle({ color: "white" });
-      },
-      mouseout: (e) => {
-        e.target.setStyle(styleState);
-      },
-      click: (e) => {
-        e.target._map.fitBounds(e.target.getBounds());
-      },
-    });
-  };
-  // let zipBound;
-  // zipLayerLng < -100 && zipLayerLng > -170
-  //   ? (zipBound = bound.features.filter(
-  //       (zip) =>
-  //         (zip.properties.zip > 80000 && zip.properties.zip < 100000) ||
-  //         (zip.properties.zip > 59000 && zip.properties.zip < 60000)
-  //     ))
-  //   : zipLayerLng > -100 && zipLayerLng < -87
-  //   ? (zipBound = bound.features.filter(
-  //       (zip) =>
-  //         (zip.properties.zip > 30000 && zip.properties.zip < 80000) ||
-  //         (zip.properties.zip < 59000 && zip.properties.zip > 60000)
-  //     ))
-  //   : zipLayerLng > -87 && zipLayerLng < -45
-  //   ? (zipBound = bound.features.filter(
-  //       (zip) => zip.properties.zip > 0 && zip.properties.zip < 30000
-  //     ))
-  //   : "not on map!";
-  // console.log(
-  //   bound.features.filter(
-  //     (zip) => zip.properties.zip > 0 && zip.properties.zip < 1000
-  //   )
-  // );
-  // zipBound = bound.features.filter(zip => zip.properties.zip > 80000 && zip.properties.zip < 100000 || zip.properties.zip > 59000 && zip.properties.zip < 60000)
-  // 0 - 30000     30000 - 80000         80000-100000 || 590000-600000
-  // console.log(zipLayerLng, zipBound)
-  let allZip = props.zip.map((state) => state.features);
-  if (zoomLevel < 13 && zoomLevel > 6) {
-    return (
-      <GeoJSON
-        key="County"
-        style={styleCounty}
-        data={allZip}
-        onEachFeature={forEachHover}
-      />
-    );
-    // return  <GeoJSON key='County' style={styleCounty} data={Counties.features} onEachFeature={forEachHover} />
-  }
-  // else if(zoomLevel < 9)
-  // {
-  //   return(
-  //     <div>
-  //     <GeoJSON key='County' style={styleCounty} data={Counties.features} />
-  //     <GeoJSON style={styleState} key='statesGeo' data={States.features}
-  //     onEachFeature={forEachHover}/>
-  //       </div>
-  //           )
-  // }
-  return null;
-}
 class Map extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      loading: true,
       house: null,
-      MarkerZoom: false,
-      zoom: 13,
+      selectedState: null,
+      stateInfo: null,
+      selectedCounty: null,
+      countyInfo: null,
+      selectedZip: null,
+      zipInfo:null,
+      countyToZip: null,
+      mapCenter: [36.116386, -95.299591],
+      prevBound: null,
+      prevBoundInner: null,
+      prevBoundInnertwo: null,
     };
     this.mapRef = React.createRef();
     this.houseInformation = this.houseInformation.bind(this);
+    this.stateClick = this.stateClick.bind(this);
+    this.stateBack = this.stateBack.bind(this);
+    this.countyClick = this.countyClick.bind(this);
+    this.countyBack = this.countyBack.bind(this);
+    this.prevBound = this.prevBound.bind(this);
+    this.prevBoundIn = this.prevBoundIn.bind(this);
+    this.prevBoundInner = this.prevBoundInner.bind(this);
+    this.zipClick = this.zipClick.bind(this);
+    this.zipBack = this.zipBack.bind(this);
+    this.closeInfo = this.closeInfo.bind(this);
+    this.openStateInfo = this.openStateInfo.bind(this);
+    this.openCountyInfo = this.openCountyInfo.bind(this);
+    this.openZipInfo = this.openZipInfo.bind(this);
+    this.closeHouseInfo = this.closeHouseInfo.bind(this);
+    this.getHouseFromInfo = this.getHouseFromInfo.bind(this);
+  }
+
+  async getHouseFromInfo(event)
+    {
+      
+      await this.props.fetchSingle(event.target.id)
+      let {latitude, longitude} = this.props.house
+      this.setState({house: true})
+      this.mapRef.current.setView([latitude, longitude] ,16)
+    }
+
+  openStateInfo(){
+    this.setState({
+      stateInfo: true
+    })
+  }
+
+  openCountyInfo(){
+    this.setState({
+      countyInfo: true
+    })
+  }
+
+  openZipInfo(){
+    this.setState({
+      zipInfo: true
+    })
+  }
+
+  openHouseInfo(){
+    this.setState({
+      stateInfo: true
+    })
+  }
+
+  closeInfo(){
+    this.setState({
+      stateInfo: null,
+      countyInfo: null,
+      zipInfo: null
+    })
+  }
+
+  closeHouseInfo(){
+    this.setState({
+      house: null
+    })
+    this.mapRef.current.fitBounds(this.state.prevBoundInnertwo)
   }
 
   houseInformation() {
@@ -219,90 +149,285 @@ class Map extends Component {
       house: true,
     });
   }
-  async componentWillMount() {
-    console.log(this.props);
-    await this.props.fetchAll();
-    await this.props.setState();
-    await this.props.setCounty();
-    await this.props.setZip();
+
+  prevBound(bound){
+    this.setState({
+      prevBound: bound
+    })
   }
+
+  prevBoundIn(bound){
+    this.setState({
+      prevBoundInner: bound
+    })
+  }
+
+  prevBoundInner(bound){
+    this.setState({
+      prevBoundInnertwo: bound
+    })
+  }
+
+  async stateClick(id){
+    await this.props.setSingleState(id)
+    await this.props.getData(id)
+    this.setState({
+      selectedState: true,
+      stateInfo: true,
+    })
+    
+  }
+
+  stateBack(){
+    this.setState({
+      selectedState: null,
+      stateInfo:null,
+    }
+    )
+   this.mapRef.current.setView(this.state.mapCenter, 5)
+   this.props.unselectState();
+  }
+
+  async countyClick(id){
+    await this.props.setSingleCounty(id)
+    await this.props.getData(id)
+    let zipArr = associations.filter(county => county.county == this.props.selectedCounty.county && county.state_abbr == this.props.selectedState.state).map(zip => zip.zipcode)
+    let zipCoord = this.props.zip.filter(zipod => zipArr.includes(Number(zipod.zip)))
+    this.setState({
+      selectedCounty: true,
+      countyInfo: true,
+      countyToZip: zipCoord
+    })
+  }
+
+  countyBack(){
+    this.setState({
+      selectedCounty: null,
+      countyInfo: null,
+      countyToZip: null,
+    })
+      this.mapRef.current.fitBounds(this.state.prevBound)
+      this.props.unselectCounty();
+  }
+
+  async zipClick(zip){
+    await this.props.getData(zip)
+    await this.props.setForZip(zip)
+    this.setState({
+      selectedZip: zip,
+      zipInfo: true,
+    })
+  }
+
+    zipBack(){
+    this.setState({
+      selectedZip: null,
+      house: null,
+      zipInfo: null,
+      // countyToZip: null,
+    })
+      this.mapRef.current.fitBounds(this.state.prevBoundInner)
+      // this.props.unselectCounty();
+  }
+
+  async componentWillMount() {
+    await this.props.fetchAll();
+    let {states}= await this.props.setState()
+    await this.props.setCounty()
+    let {zip} = await this.props.setZip()
+    this.setState({loading: false})
+
+    // steps to set colors. Need to run after seeding
+
+    // let zipcodes = this.props.homeCoord.map(home => home.zipcode)
+    // zipcodes.filter((item, pos) => zipcodes.indexOf(item) == pos)
+    // let currentZips = zipcodes.filter((item, pos) => zipcodes.indexOf(item) == pos)
+    // currentZips.map(async(idZips) =>{
+    //   let r = 0;
+    //   let o = 0;
+    //   let y = 0;
+    //   let g = 0;
+    //   let b = 0;
+
+    //   if(this.props.homeCoord.filter(homm => homm.zipcode == idZips))
+    //   {
+    //     this.props.homeCoord.filter(homm => homm.zipcode == idZips).map(async(homes) => {
+    //       let medPrice
+    //       if(zip.filter(priceSearch => priceSearch.zip == homes.zipcode) && zip.filter(priceSearch => priceSearch.zip == homes.zipcode).length > 0){
+    //       medPrice = zip.filter(priceSearch => priceSearch.zip == homes.zipcode)[0]
+    //       console.log(medPrice)
+    //     }
+    //       else{
+    //       medPrice = states.filter(state => state.state == homes.state)[0]
+    //       }
+    //       if(homes.type == 'SINGLE_FAMILY')
+    //       {
+    //         // console.log(medPrice)
+    //         homes.priceNum >= (medPrice.singleHMed * 1.25)? await axios.put('./api/homes', {color:'red', id: homes.id}).then(r++) : homes.priceNum >= (medPrice.singleHMed * 1.15)? await axios.put('./api/homes', {color:'orange', id: homes.id}).then(o++) : 
+    //         homes.priceNum >= (medPrice.singleHMed * 1.05)? await axios.put('./api/homes', {color:'yellow', id: homes.id}).then(y++): homes.priceNum >= (medPrice.singleHMed * .80)? await axios.put('./api/homes', {color:'green', id: homes.id}).then(g++) : await axios.put('./api/homes', {color:'blue', id: homes.id}).then(b++) 
+    //       }else if(homes.type == 'CONDO')
+    //       {
+    //         homes.priceNum >= (medPrice.coopMed * 1.25)? await axios.put('./api/homes', {color:'red', id: homes.id}).then(r++) : homes.priceNum >= (medPrice.coopMed * 1.15)? await axios.put('./api/homes', {color:'orange', id: homes.id}).then(o++) : 
+    //         homes.priceNum >= (medPrice.coopMed * 1.05)? await axios.put('./api/homes', {color:'yellow', id: homes.id}).then(y++): homes.priceNum >= (medPrice.coopMed * .80)? await axios.put('./api/homes', {color:'green', id: homes.id}).then(g++) : await axios.put('./api/homes', {color:'blue', id: homes.id}).then(b++) 
+    //       }else if(homes.beds == 1)
+    //       {
+    //         homes.priceNum >= (medPrice.oneBedMed * 1.25)? await axios.put('./api/homes', {color:'red', id: homes.id}).then(r++) : homes.priceNum >= (medPrice.oneBedMed * 1.15)? await axios.put('./api/homes', {color:'orange', id: homes.id}).then(o++) : 
+    //         homes.priceNum >= (medPrice.oneBedMed * 1.05)? await axios.put('./api/homes', {color:'yellow', id: homes.id}).then(y++): homes.priceNum >= (medPrice.oneBedMed * .80)? await axios.put('./api/homes', {color:'green', id: homes.id}).then(g++) : await axios.put('./api/homes', {color:'blue', id: homes.id}).then(b++) 
+    //       }else if(homes.beds == 2)
+    //       {
+    //         homes.priceNum >= (medPrice.twoBedMed * 1.25)? await axios.put('./api/homes', {color:'red', id: homes.id}).then(r++) : homes.priceNum >= (medPrice.twoBedMed * 1.15)? await axios.put('./api/homes', {color:'orange', id: homes.id}).then(o++) : 
+    //         homes.priceNum >= (medPrice.twoBedMed * 1.05)? await axios.put('./api/homes', {color:'yellow', id: homes.id}).then(y++): homes.priceNum >= (medPrice.twoBedMed * .80)? await axios.put('./api/homes', {color:'green', id: homes.id}).then(g++) : await axios.put('./api/homes', {color:'blue', id: homes.id}).then(b++) 
+    //       }else if(homes.beds == 3)
+    //       {
+    //         homes.priceNum >= (medPrice.threeBedMed * 1.25)? await axios.put('./api/homes', {color:'red', id: homes.id}).then(r++) : homes.priceNum >= (medPrice.threeBedMed * 1.15)? await axios.put('./api/homes', {color:'orange', id: homes.id}).then(o++) : 
+    //         homes.priceNum >= (medPrice.threeBedMed * 1.05)? await axios.put('./api/homes', {color:'yellow', id: homes.id}).then(y++): homes.priceNum >= (medPrice.threeBedMed * .80)? await axios.put('./api/homes', {color:'green', id: homes.id}).then(g++) : await axios.put('./api/homes', {color:'blue', id: homes.id}).then(b++) 
+    //       }else if(homes.beds == 4)
+    //       {
+    //         homes.priceNum >= (medPrice.fourBedMed * 1.25)? await axios.put('./api/homes', {color:'red', id: homes.id}).then(r++) : homes.priceNum >= (medPrice.fourBedMed * 1.15)? await axios.put('./api/homes', {color:'orange', id: homes.id}).then(o++) : 
+    //         homes.priceNum >= (medPrice.fourBedMed * 1.05)? await axios.put('./api/homes', {color:'yellow', id: homes.id}).then(y++): homes.priceNum >= (medPrice.fourBedMed * .80)? await axios.put('./api/homes', {color:'yellow', id: homes.id}).then(g++) : await axios.put('./api/homes', {color:'blue', id: homes.id}).then(b++) 
+    //       }else if(homes.beds >= 5)
+    //       {
+    //         homes.priceNum >= (medPrice.fiveBedMed * 1.25)? await axios.put('./api/homes', {color:'red', id: homes.id}).then(r++) : homes.priceNum >= (medPrice.fiveBedMed * 1.15)? await axios.put('./api/homes', {color:'orange', id: homes.id}).then(o++) : 
+    //         homes.priceNum >= (medPrice.fiveBedMed * 1.05)? await axios.put('./api/homes', {color:'yellow', id: homes.id}).then(y++): homes.priceNum >= (medPrice.fiveBedMed * .80)? await axios.put('./api/homes', {color:'green', id: homes.id}).then(g++) : await axios.put('./api/homes', {color:'blue', id: homes.id}).then(b++) 
+    //       }
+    //     }
+    //   )
+    //   }
+
+
+    // let zipID = idZips.toString()
+    //   if(r >= y && r >= o && r >= g && r >= b) 
+    //  {
+    //   await this.props.updateZip({color:'red', zipcode: zipID})
+    //  }
+    // else if(y >= r && y >= o && y >= g && y >= b) 
+    //  {
+    //    await this.props.updateZip({color: 'yellow', zipcode: zipID})
+    //  }else if(o >= y && o >= r && o >= g && o >= b) 
+    //  {
+    //   await this.props.updateZip({color: 'orange', zipcode: zipID})
+    //  }else if(g >= y && g >= o && g >= r && g >= b) 
+    //  {
+    //   console.log(' this is green', r, o, y, g, b, idZips)
+    //   await this.props.updateZip({color: 'green', zipcode: zipID})
+    //  }else 
+    //  {
+    //   await this.props.updateZip({color: 'blue', zipcode: zipID})
+    //  }
+    //  return console.log('color updated complete!')
+    // })
+
+    // countyAsso.map(async(county) => 
+    //   {
+    //     let r = 0;
+    //     let o = 0;
+    //     let y = 0;
+    //     let g = 0;
+    //     let b = 0;
+    //     let zipsFromAsso = associations.filter(findZip => findZip.state_abbr == county.state && findZip.county == county.name).map(mapZip => mapZip.zipcode)
+    //     let allZipsForCounty = zip.filter(assoc => zipsFromAsso.includes(Number(assoc.zip)))
+    //     allZipsForCounty.map(xip => 
+    //       {
+    //         if(xip.color != null)
+    //         {
+    //          if(xip.color == 'red')
+    //          {
+    //           r++
+    //          }else
+    //          if(xip.color == 'orange')
+    //          {
+    //           o++
+    //          }else
+    //          if(xip.color == 'yellow')
+    //          {
+    //           y++
+    //          }else
+    //          if(xip.color == "green")
+    //          {
+    //           g++
+    //          }else
+    //          {
+    //           b++
+    //          }
+    //         }
+    //       })
+
+    //       if(r >= y && r >= o && r >= g && r >= b) 
+    //        {
+    //         await axios.put('./api/counties', {color: 'red', fips: county.fips})
+    //        }
+    //       else if(y >= r && y >= o && y >= g && y >= b) 
+    //        {
+    //         await axios.put('./api/counties', {color: 'yellow', fips: county.fips})
+    //        }else if(o >= y && o >= r && o >= g && o >= b) 
+    //        {
+    //         await axios.put('./api/counties', {color: 'orange', fips: county.fips})
+    //        }else if(g >= y && g >= o && g >= r && g >= b) 
+    //        {
+    //         await axios.put('./api/counties', {color: 'green', fips: county.fips})
+    //        }else 
+    //        {
+    //         await axios.put('./api/counties', {color: 'blue', fips: county.fips})
+    //        }
+    //        return console.log('color updated complete!', r, o, y, g, b)
+    //   })
+}
+
+
+
+
+
   render() {
-    document.body.style.overflow = "hidden";
-    console.log(`@@@@@@@@`, this.props);
+    const {loading} = this.state
     return (
+      <div> {!loading ?
       <main className="leafletMap">
-        <Filter />
         <div id="mainContainer">
           <div id="mapContainer">
             <MapContainer
               ref={this.mapRef}
-              center={[40.7, -73.9859]}
-              zoom={this.state.zoom}
-              scrollWheelZoom={true}
+              center={this.state.mapCenter}
+              zoom={5}
+              zoomControl={false}
+              // scrollWheelZoom={false}
+              // dragging={false}
               style={{ width: "100%", height: "100vh" }}
             >
-              <LeafletgeoSearch />
               <TileLayer
                 attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               />
-              <ZipLayer state={this.props.state} zip={this.props.zip} />
+              {!this.state.selectedState?
+              <StateLayer prevBound={this.prevBound} selectState={this.stateClick} state={this.props.state} county={this.props.county}/>
+              :
+              !this.state.selectedCounty? 
+              <CountyLayer prevBound={this.prevBoundIn} prevBounds={this.prevBound} selectCounty={this.countyClick} state={this.props.state} selectState={this.stateClick} county={this.props.county} selected={this.props.selectedState} />
+              :
+              !this.state.selectedZip?
+              <ZipLayer prevBounds={this.prevBoundIn} prevBound={this.prevBoundInner}  selectZip={this.zipClick} state={this.props.selectedState.state} zip={this.state.countyToZip} county={this.props.county} selected={this.props.selectedCounty} />
+              :
               <Markers
-                homeCoord={this.props.homeCoord}
+                currentZip={this.state.selectedZip}
+                homeCoord={this.props.forZipcode}
                 fetchSingle={this.props.fetchSingle}
                 houseInformation={this.houseInformation}
               />
+              }
+              
             </MapContainer>
           </div>
-          {this.state.house !== null ? (
-            <div id="infoContainer">
-              <img
-                id="housePic"
-                src={this.props.house.imageURL}
-                width="100vw"
-              />
-              <div id="infoText">
-                <span style={{ fontSize: "25px" }}>
-                  {this.props.house.price}{" "}
-                </span>{" "}
-                <span style={{ fontSize: 14, fontWeight: "bold" }}>
-                  {" "}
-                  {this.props.house.beds}{" "}
-                </span>
-                <span style={{ fontSize: 14 }}>bd | </span>
-                <span style={{ fontSize: 14, fontWeight: "bold" }}>
-                  {this.props.house.bathrooms}{" "}
-                </span>{" "}
-                <span style={{ fontSize: 14 }}>ba</span>
-                <div>
-                  <span style={{ fontSize: 14, fontWeight: "bold" }}>
-                    Location:{" "}
-                  </span>
-                  <span style={{ fontSize: 14 }}>
-                    {" "}
-                    {this.props.house.city}, {this.props.house.state},{" "}
-                    {this.props.house.zipcode}
-                  </span>
-                </div>
-                <div>
-                  <span style={{ fontSize: 14, fontWeight: "bold" }}>
-                    Type:{" "}
-                  </span>
-                  <span style={{ fontSize: 14 }}> {this.props.house.type}</span>
-                </div>
-              </div>
-              <Link
-                to={`/singleHome/${this.props.house.id}`}
-                className="MoreInformation"
-              >
-                <a>More Info</a>
-              </Link>
-            </div>
-          ) : (
-            ""
-          )}
+          {this.state.house != null?  <SideInfoView/> : this.state.zipInfo != null? <HouseInfo getSingle={this.getHouseFromInfo} map={this.mapRef} /> : this.state.countyInfo != null? <CountyInfo zip={this.state.countyToZip}/> : this.state.stateInfo !== null ? 
+            <StateInfo/> : ''
+          }
+          {this.state.house? <Fab size="medium" style={circleStylet} onClick={this.closeHouseInfo}></Fab>:this.state.selectedZip? <div className='buttonDiv'><Button style={buttonStyle} onClick={this.zipBack}>Back</Button><Filter /><Fab size="medium" style={circleStyle} onClick={this.state.zipInfo?this.closeInfo:this.openZipInfo}></Fab></div>:this.state.selectedCounty? <div className='buttonDiv'><Button style={buttonStyle} onClick={this.countyBack}>Back</Button><Fab size="medium" style={circleStyle} onClick={this.state.countyInfo?this.closeInfo:this.openCountyInfo}></Fab></div>: this.state.selectedState?  
+          <div className='buttonDiv'><Button style={buttonStyle} onClick={this.stateBack}>Back</Button><Fab size="medium" style={circleStyle} onClick={this.state.stateInfo?this.closeInfo:this.openStateInfo}></Fab></div>: ''}
+
         </div>
       </main>
+      :
+      <div className="loader-container">
+      <div className="spinner"></div>
+    </div>} </div>
     );
   }
 }
@@ -313,6 +438,9 @@ const mapState = (state) => {
     state: state.geo.state,
     county: state.geo.county,
     zip: state.geo.zip,
+    selectedState: state.geo.singletState,
+    selectedCounty: state.geo.singleCounty,
+    forZipcode: state.home.forZipcode,
   };
 };
 const mapDispatch = (dispatch) => ({
@@ -321,435 +449,13 @@ const mapDispatch = (dispatch) => ({
   setState: () => dispatch(setState()),
   setCounty: () => dispatch(setCounty()),
   setZip: () => dispatch(setZip()),
+  updateZip: (data) => dispatch(updateZip(data)),
+  setSingleState: (id) => dispatch(setSingleState(id)),
+  setSingleCounty: (id) => dispatch(setSingleCounty(id)),
+  unselectCounty: () => dispatch(unselectCounty()), 
+  unselectState: () => dispatch(unselectState()),
+  getData: (id) => dispatch(getData(id)),
+  setForZip: (info) => dispatch(setForZip(info))
 });
-// import * as SingleBed from './Data/MedPrice/1BedMed.json';
-// import fs from 'fs'
-// import axios from 'axios'
-// const addToJson = async(arr) => {
-//   const {data} = await axios.get('/api/homes')
-//   console.log(arr.features)
-//   let markerToZip = data
-//   for(let i = 0; i < arr.features.length; i++){
-//       let zip1 = arr.features[i]
-//       let r = 0
-//       let y = 0
-//       let o = 0
-//       let g = 0
-//       let b = 0
-//       let zipMed = SingleBed.filter(med => med.RegionName == zip1.properties.zip)
-//     //   Zipcode Meduin price currently
-//     console.log(zipMed)
-//     //   all houses with that zip zipMed.CurrentMed
-//     let Markers = markerToZip.filter(marker => zip1.properties.zip == marker.zip)
-//     Markers.map(map => map.price > (zipMed.price*1.25)? r++ : map.price > (zipMed.price*1.15)? o++: map.price > (zipMed.price * 1.05)? y++ : map.price > (zipMed.price*.90) ? g++ : b++)
-//     // console.log(Markers)
-//     if(r >= y && r >= o && r >= g && r >= b)
-//     {
-//       fs.readFile('results.json', function (err, data) {
-//       var json = JSON.parse(data)
-//       json.push('search result: ' + 'test')
-//     fs.writeFile("results.json", JSON.stringify(json))
-//           })
-//     }else if(y >= r && y >= o && y >= g && y >= b)
-//     {
-//       fs.readFile('results.json', function (err, data) {
-//       var json = JSON.parse(data)
-//       json.push('search result: ' + 'red')
-//     fs.writeFile("results.json", JSON.stringify(json))
-//           })
-//     }else if(o >= y && o >= r && o >= g && o >= b)
-//     {
-//           fs.readFile('results.json', function (err, data) {
-//       var json = JSON.parse(data)
-//       json.push('search result: ' + 'yellow')
-//     fs.writeFile("results.json", JSON.stringify(json))
-//           })
-//     }else if(g >= y && g >= o && g >= r && g >= b)
-//     {
-//           fs.readFile('results.json', function (err, data) {
-//       var json = JSON.parse(data)
-//       json.push('search result: ' + 'green')
-//     fs.writeFile("results.json", JSON.stringify(json))
-//           })
-//     }else
-//     {
-//           fs.readFile('results.json', function (err, data) {
-//       var json = JSON.parse(data)
-//       json.push('search result: ' + 'blue')
-//     fs.writeFile("results.json", JSON.stringify(json))
-//           })
-//     }
-//   }
-// }
-// addToJson(bound)
-// <GeoJSON key='my-geojson' data={bound.features} />
+
 export default connect(mapState, mapDispatch)(Map);
-
-// import React, { useState, Component, useEffect } from "react";
-// import { connect } from "react-redux";
-// import {
-//   MapContainer,
-//   TileLayer,
-//   useMap,
-//   GeoJSON,
-//   Marker,
-//   LayerGroup,
-//   useMapEvents,
-// } from "react-leaflet";
-// import { setSingle, setHomes } from "../store/home";
-// import { setState, setCounty, setZip } from "../store/geo";
-// import L from "leaflet";
-// import { Link } from "react-router-dom";
-// import { GeoSearchControl, OpenStreetMapProvider } from "leaflet-geosearch";
-// import Filter from "./Filters";
-
-// function LeafletgeoSearch() {
-//   const map = useMap();
-//   const marker = L.mark;
-//   const prov = new OpenStreetMapProvider({
-//     params: {
-//       countrycodes: ["us"],
-//       country: "united states",
-//     },
-//     retainZoomLevel: true,
-//   });
-//   useEffect(() => {
-//     const searchControl = new GeoSearchControl({
-//       style: "bar",
-//       provider: prov,
-//       notFoundMessage: "Sorry, that address could not be found.",
-//       showPopup: true,
-//       showMarker: true,
-//       animateZoom: true,
-//       searchLabel: "Enter Address, Zip, City, or State",
-//       zoomLevel: 15,
-//       keepResult: false,
-//       autoClose: true,
-//       keepResult: true,
-//     });
-//     map.addControl(searchControl);
-
-//     return () => map.removeControl(searchControl);
-//   }, []);
-//   return null;
-// }
-// function Markers(props) {
-//   const [zoomLevel, setZoomLevel] = useState(13); // initial zoom level provided for MapContainer
-//   const mapEvents = useMapEvents({
-//     zoomend: () => {
-//       setZoomLevel(mapEvents.getZoom());
-//     },
-//   });
-//   var greenIcon = L.icon({
-//     iconUrl: "/green.png",
-//     iconSize: [10, 10],
-//     className: "leaflet-div-icon",
-//   });
-//   var blueIcon = L.icon({
-//     iconUrl: "/blue.png",
-//     iconSize: [10, 10],
-//     className: "leaflet-div-icon",
-//   });
-//   var orangeIcon = L.icon({
-//     iconUrl: "/orange.png",
-//     iconSize: [10, 10],
-//     className: "leaflet-div-icon",
-//   });
-//   var redIcon = L.icon({
-//     iconUrl: "/red.png",
-//     iconSize: [10, 10],
-//     className: "leaflet-div-icon",
-//   });
-//   var yellowIcon = L.icon({
-//     iconUrl: "/yellow.png",
-//     iconSize: [10, 10],
-//     className: "leaflet-div-icon",
-//   });
-//   const getIcon = (price) => {
-//     return price > 800000
-//       ? redIcon
-//       : price > 650000
-//       ? orangeIcon
-//       : price > 500000
-//       ? yellowIcon
-//       : price > 300000
-//       ? greenIcon
-//       : blueIcon;
-//   };
-//   // console.log(zoomLevel, props);
-//   if (zoomLevel > 14) {
-//     return props.homeCoord.map((house) => (
-//       <Marker
-//         icon={getIcon(house.priceNum)}
-//         value={house.id}
-//         key={house.id}
-//         position={{
-//           lat: house.latitude,
-//           lng: house.longitude,
-//         }}
-//         // style ={{borderStyle: 'solid', borderColor: 'white', borderWidth: '10px'}}
-//         eventHandlers={{
-//           click: async (e) => {
-//             e.target._map.setView([house.latitude, house.longitude], 16);
-//             await props.fetchSingle(e.target.options.value);
-//             props.houseInformation();
-//           },
-//         }}
-//       />
-//     ));
-//   }
-//   return null;
-// }
-// function ZipLayer(props) {
-//   const [zoomLevel, setZoomLevel] = useState(13); // initial zoom level provided for MapContainer
-//   const [zipLayerLng, setZipLayerLng] = useState(-50);
-//   const mapEvents = useMapEvents({
-//     zoomend: () => {
-//       setZoomLevel(mapEvents.getZoom());
-//     },
-//     moveend: (e) => {
-//       let latlng = e.target.getCenter();
-//       setZipLayerLng(latlng.lng);
-//     },
-//   });
-//   const styleState = {
-//     color: "blue",
-//     fillColor: "transparent",
-//     // fillOpacity: -1,
-//     weight: 0.8,
-//   };
-//   const styleCounty = {
-//     // color: 'blue',
-//     fillColor: "orange",
-//     // fillOpacity: -1,
-//     weight: 0.5,
-//   };
-//   const forEachHover = (location, layer) => {
-//     // console.log('hi', location)
-//     layer.on({
-//       mouseover: (e) => {
-//         // console.log(e)
-//         e.target.setStyle({ color: "white" });
-//       },
-//       mouseout: (e) => {
-//         e.target.setStyle(styleState);
-//       },
-//       click: (e) => {
-//         e.target._map.fitBounds(e.target.getBounds());
-//       },
-//     });
-//   };
-//   // let zipBound
-//   // zipLayerLng < -100 && zipLayerLng > -170? zipBound = bound.features.filter(zip => zip.properties.zip > 80000 && zip.properties.zip < 100000 || zip.properties.zip > 59000 && zip.properties.zip < 60000) :
-//   //       zipLayerLng > -100 && zipLayerLng < -87? zipBound = bound.features.filter(zip => zip.properties.zip > 30000 && zip.properties.zip < 80000 || zip.properties.zip < 59000 && zip.properties.zip > 60000) :
-//   //       zipLayerLng > -87 && zipLayerLng < -45? zipBound = bound.features.filter(zip => zip.properties.zip > 0 && zip.properties.zip < 30000) : 'not on map!'
-//   // console.log(bound.features.filter(zip => zip.properties.zip > 0 && zip.properties.zip < 1000))
-//   // zipBound = bound.features.filter(zip => zip.properties.zip > 80000 && zip.properties.zip < 100000 || zip.properties.zip > 59000 && zip.properties.zip < 60000)
-//   // 0 - 30000     30000 - 80000         80000-100000 || 590000-600000
-//   // console.log(zipLayerLng, zipBound)
-//   let allZip = props.zip.map((state) => state.features);
-//   if (zoomLevel < 13 && zoomLevel > 6) {
-//     return (
-//       <GeoJSON
-//         key="County"
-//         style={styleCounty}
-//         data={allZip}
-//         onEachFeature={forEachHover}
-//       />
-//     );
-//     // return  <GeoJSON key='County' style={styleCounty} data={Counties.features} onEachFeature={forEachHover} />
-//   }
-//   // else if(zoomLevel < 9)
-//   // {
-//   //   return(
-//   //     <div>
-//   //     <GeoJSON key='County' style={styleCounty} data={Counties.features} />
-//   //     <GeoJSON style={styleState} key='statesGeo' data={States.features}
-//   //     onEachFeature={forEachHover}/>
-//   //       </div>
-//   //           )
-//   // }
-//   return null;
-// }
-// class Map extends Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       house: null,
-//       MarkerZoom: false,
-//       zoom: 13,
-//     };
-//     this.mapRef = React.createRef();
-//     this.houseInformation = this.houseInformation.bind(this);
-//   }
-//   houseInformation() {
-//     this.setState({
-//       house: true,
-//     });
-//   }
-//   async componentWillMount() {
-//     console.log(this.props);
-//     await this.props.fetchAll();
-//     await this.props.setState();
-//     await this.props.setCounty();
-//     await this.props.setZip();
-//   }
-
-//   render() {
-//     console.log(`@@@@@@@@`, this.props);
-//     return (
-//       <main className="leafletMap">
-//         <Filter />
-//         <div id="mainContainer">
-//           <div id="mapContainer">
-//             <MapContainer
-//               ref={this.mapRef}
-//               center={[40.7, -73.9859]}
-//               zoom={this.state.zoom}
-//               scrollWheelZoom={true}
-//               style={{ width: "100%", height: "100vh" }}
-//             >
-//               <LeafletgeoSearch />
-//               <TileLayer
-//                 attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-//                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-//               />
-//               <ZipLayer />
-//               <Markers
-//                 homeCoord={this.props.homeCoord}
-//                 fetchSingle={this.props.fetchSingle}
-//                 houseInformation={this.houseInformation}
-//               />
-//             </MapContainer>
-//           </div>
-//           {this.state.house !== null ? (
-//             <div id="infoContainer">
-//               <img
-//                 id="housePic"
-//                 src={this.props.house.imageURL}
-//                 width="100vw"
-//               />
-//               <div id="infoText">
-//                 <span style={{ fontSize: "25px" }}>
-//                   {this.props.house.price}{" "}
-//                 </span>{" "}
-//                 <span style={{ fontSize: 14, fontWeight: "bold" }}>
-//                   {" "}
-//                   {this.props.house.beds}{" "}
-//                 </span>
-//                 <span style={{ fontSize: 14 }}>bd | </span>
-//                 <span style={{ fontSize: 14, fontWeight: "bold" }}>
-//                   {this.props.house.bathrooms}{" "}
-//                 </span>{" "}
-//                 <span style={{ fontSize: 14 }}>ba</span>
-//                 <div>
-//                   <span style={{ fontSize: 14, fontWeight: "bold" }}>
-//                     Location:{" "}
-//                   </span>
-//                   <span style={{ fontSize: 14 }}>
-//                     {" "}
-//                     {this.props.house.city}, {this.props.house.state},{" "}
-//                     {this.props.house.zipcode}
-//                   </span>
-//                 </div>
-//                 <div>
-//                   <span style={{ fontSize: 14, fontWeight: "bold" }}>
-//                     Type:{" "}
-//                   </span>
-//                   <span style={{ fontSize: 14 }}> {this.props.house.type}</span>
-//                 </div>
-//               </div>
-//               <Link
-//                 to={`/singleHome/${this.props.house.id}`}
-//                 className="MoreInformation"
-//               >
-//                 <a>More Info</a>
-//               </Link>
-//             </div>
-//           ) : (
-//             ""
-//           )}
-//         </div>
-//       </main>
-//     );
-//   }
-// }
-
-// const mapState = (state) => {
-//   return {
-//     homeCoord: state.home.all,
-//     house: state.home.single,
-//     state: state.geo.state,
-//     county: state.geo.county,
-//     zip: state.geo.zip,
-//   };
-// };
-// const mapDispatch = (dispatch) => ({
-//   fetchAll: () => dispatch(setHomes()),
-//   fetchSingle: (id) => dispatch(setSingle(id)),
-//   setState: () => dispatch(setState()),
-//   setCounty: () => dispatch(setCounty()),
-//   setZip: () => dispatch(setZip()),
-// });
-
-// export default connect(mapState, mapDispatch)(Map);
-// // import * as SingleBed from './Data/MedPrice/1BedMed.json';
-// // import fs from 'fs'
-// // import axios from 'axios'
-// // const addToJson = async(arr) => {
-// //   const {data} = await axios.get('/api/homes')
-// //   console.log(arr.features)
-// //   let markerToZip = data
-// //   for(let i = 0; i < arr.features.length; i++){
-// //       let zip1 = arr.features[i]
-// //       let r = 0
-// //       let y = 0
-// //       let o = 0
-// //       let g = 0
-// //       let b = 0
-// //       let zipMed = SingleBed.filter(med => med.RegionName == zip1.properties.zip)
-// //     //   Zipcode Meduin price currently
-// //     console.log(zipMed)
-// //     //   all houses with that zip zipMed.CurrentMed
-// //     let Markers = markerToZip.filter(marker => zip1.properties.zip == marker.zip)
-// //     Markers.map(map => map.price > (zipMed.price*1.25)? r++ : map.price > (zipMed.price*1.15)? o++: map.price > (zipMed.price * 1.05)? y++ : map.price > (zipMed.price*.90) ? g++ : b++)
-// //     // console.log(Markers)
-// //     if(r >= y && r >= o && r >= g && r >= b)
-// //     {
-// //       fs.readFile('results.json', function (err, data) {
-// //       var json = JSON.parse(data)
-// //       json.push('search result: ' + 'test')
-// //     fs.writeFile("results.json", JSON.stringify(json))
-// //           })
-// //     }else if(y >= r && y >= o && y >= g && y >= b)
-// //     {
-// //       fs.readFile('results.json', function (err, data) {
-// //       var json = JSON.parse(data)
-// //       json.push('search result: ' + 'red')
-// //     fs.writeFile("results.json", JSON.stringify(json))
-// //           })
-// //     }else if(o >= y && o >= r && o >= g && o >= b)
-// //     {
-// //           fs.readFile('results.json', function (err, data) {
-// //       var json = JSON.parse(data)
-// //       json.push('search result: ' + 'yellow')
-// //     fs.writeFile("results.json", JSON.stringify(json))
-// //           })
-// //     }else if(g >= y && g >= o && g >= r && g >= b)
-// //     {
-// //           fs.readFile('results.json', function (err, data) {
-// //       var json = JSON.parse(data)
-// //       json.push('search result: ' + 'green')
-// //     fs.writeFile("results.json", JSON.stringify(json))
-// //           })
-// //     }else
-// //     {
-// //           fs.readFile('results.json', function (err, data) {
-// //       var json = JSON.parse(data)
-// //       json.push('search result: ' + 'blue')
-// //     fs.writeFile("results.json", JSON.stringify(json))
-// //           })
-// //     }
-// //   }
-// // }
-// // addToJson(bound)
