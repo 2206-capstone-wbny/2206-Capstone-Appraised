@@ -202,8 +202,8 @@ async function seed() {
         fiveBedMed: countySingleMed5,
         aHBedMed: countySingleMed6,
         coopMed: countySingleMed7,
-        features : sorted
-    
+        features : sorted,
+        fips: county.fips
       })
         
       })
@@ -367,8 +367,8 @@ async function seed() {
             fiveBedMed: countySingleMed5,
             aHBedMed: countySingleMed6,
             coopMed: countySingleMed7,
-            features : sorted
-        
+            features : sorted,
+            fips: county.fips    
           })
             
           })
@@ -531,8 +531,8 @@ async function seed() {
                 fiveBedMed: countySingleMed5,
                 aHBedMed: countySingleMed6,
                 coopMed: countySingleMed7,
-                features : sorted
-            
+                   features : sorted,
+                   fips: county.fips
               })
                 
               })
@@ -695,8 +695,8 @@ async function seed() {
                     fiveBedMed: countySingleMed5,
                     aHBedMed: countySingleMed6,
                     coopMed: countySingleMed7,
-                    features : sorted
-                
+                    features : sorted,
+                    fips: county.fips
                   })
                     
                   })
@@ -859,7 +859,8 @@ async function seed() {
                         fiveBedMed: countySingleMed5,
                         aHBedMed: countySingleMed6,
                         coopMed: countySingleMed7,
-                        features : sorted
+                          features : sorted,
+                          fips: county.fips
                     
                       })
                         
@@ -1023,8 +1024,8 @@ async function seed() {
                             fiveBedMed: countySingleMed5,
                             aHBedMed: countySingleMed6,
                             coopMed: countySingleMed7,
-                            features : sorted
-                        
+                             features : sorted,
+                             fips: county.fips
                           })
                             
                           })
@@ -1187,8 +1188,8 @@ async function seed() {
                                 fiveBedMed: countySingleMed5,
                                 aHBedMed: countySingleMed6,
                                 coopMed: countySingleMed7,
-                                features : sorted
-                            
+                                 features : sorted,
+                                 fips: county.fips
                               })
                                 
                               })
@@ -1352,8 +1353,8 @@ async function seed() {
                                     fiveBedMed: countySingleMed5,
                                     aHBedMed: countySingleMed6,
                                     coopMed: countySingleMed7,
-                                    features : sorted
-                                
+                                     features : sorted,
+                                      fips: county.fips
                                   })
                                     
                                   })
@@ -1517,8 +1518,8 @@ async function seed() {
                                         fiveBedMed: countySingleMed5,
                                         aHBedMed: countySingleMed6,
                                         coopMed: countySingleMed7,
-                                        features : sorted
-                                    
+                                        features : sorted,
+                                      fips: county.fips
                                       })
                                         
                                       })
@@ -1682,8 +1683,8 @@ async function seed() {
                                             fiveBedMed: countySingleMed5,
                                             aHBedMed: countySingleMed6,
                                             coopMed: countySingleMed7,
-                                            features : sorted
-                                        
+                                              features : sorted,
+                                             fips: county.fips
                                           })
                                             
                                           })
@@ -1847,7 +1848,8 @@ async function seed() {
                                                 fiveBedMed: countySingleMed5,
                                                 aHBedMed: countySingleMed6,
                                                 coopMed: countySingleMed7,
-                                                features : sorted
+                                                features : sorted,
+                                                 fips: county.fips
                                             
                                               })
                                                 
@@ -2012,8 +2014,9 @@ async function seed() {
                                                     fiveBedMed: countySingleMed5,
                                                     aHBedMed: countySingleMed6,
                                                     coopMed: countySingleMed7,
-                                                    features : sorted
-                                                
+                                                    features : sorted,
+                                                    fips: county.fips
+
                                                   })
                                                     
                                                   })

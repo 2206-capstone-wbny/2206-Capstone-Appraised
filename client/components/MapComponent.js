@@ -1,5 +1,6 @@
 import React, { useState, Component, useEffect } from "react";
 import associations from './function/associations.json'
+import countyAsso from './function/countyAssociation.json'
 import { connect } from "react-redux";
 import {
   MapContainer,
@@ -9,6 +10,7 @@ import {
 import home, { setSingle, setHomes, setForZip } from "../store/home";
 import { getData, unselectCounty, unselectState, setState, setCounty, setZip, updateZip, setSingleState, setSingleCounty } from "../store/geo";
 import L from "leaflet";
+import axios from 'axios'
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
 import Filter from "./Filters";
@@ -99,7 +101,6 @@ class Map extends Component {
       
       await this.props.fetchSingle(event.target.id)
       let {latitude, longitude} = this.props.house
-      console.log(latitude)
       this.setState({house: true})
       this.mapRef.current.setView([latitude, longitude] ,16)
     }
@@ -235,8 +236,147 @@ class Map extends Component {
     await this.props.setCounty()
     let {zip} = await this.props.setZip()
     this.setState({loading: false})
-    // console.log(this.props)
-  }
+
+    // steps to set colors. Need to run after seeding
+
+    // let zipcodes = this.props.homeCoord.map(home => home.zipcode)
+    // zipcodes.filter((item, pos) => zipcodes.indexOf(item) == pos)
+    // let currentZips = zipcodes.filter((item, pos) => zipcodes.indexOf(item) == pos)
+    // currentZips.map(async(idZips) =>{
+    //   let r = 0;
+    //   let o = 0;
+    //   let y = 0;
+    //   let g = 0;
+    //   let b = 0;
+
+    //   if(this.props.homeCoord.filter(homm => homm.zipcode == idZips))
+    //   {
+    //     this.props.homeCoord.filter(homm => homm.zipcode == idZips).map(async(homes) => {
+    //       let medPrice
+    //       if(zip.filter(priceSearch => priceSearch.zip == homes.zipcode) && zip.filter(priceSearch => priceSearch.zip == homes.zipcode).length > 0){
+    //       medPrice = zip.filter(priceSearch => priceSearch.zip == homes.zipcode)[0]
+    //       console.log(medPrice)
+    //     }
+    //       else{
+    //       medPrice = states.filter(state => state.state == homes.state)[0]
+    //       }
+    //       if(homes.type == 'SINGLE_FAMILY')
+    //       {
+    //         // console.log(medPrice)
+    //         homes.priceNum >= (medPrice.singleHMed * 1.25)? await axios.put('./api/homes', {color:'red', id: homes.id}).then(r++) : homes.priceNum >= (medPrice.singleHMed * 1.15)? await axios.put('./api/homes', {color:'orange', id: homes.id}).then(o++) : 
+    //         homes.priceNum >= (medPrice.singleHMed * 1.05)? await axios.put('./api/homes', {color:'yellow', id: homes.id}).then(y++): homes.priceNum >= (medPrice.singleHMed * .80)? await axios.put('./api/homes', {color:'green', id: homes.id}).then(g++) : await axios.put('./api/homes', {color:'blue', id: homes.id}).then(b++) 
+    //       }else if(homes.type == 'CONDO')
+    //       {
+    //         homes.priceNum >= (medPrice.coopMed * 1.25)? await axios.put('./api/homes', {color:'red', id: homes.id}).then(r++) : homes.priceNum >= (medPrice.coopMed * 1.15)? await axios.put('./api/homes', {color:'orange', id: homes.id}).then(o++) : 
+    //         homes.priceNum >= (medPrice.coopMed * 1.05)? await axios.put('./api/homes', {color:'yellow', id: homes.id}).then(y++): homes.priceNum >= (medPrice.coopMed * .80)? await axios.put('./api/homes', {color:'green', id: homes.id}).then(g++) : await axios.put('./api/homes', {color:'blue', id: homes.id}).then(b++) 
+    //       }else if(homes.beds == 1)
+    //       {
+    //         homes.priceNum >= (medPrice.oneBedMed * 1.25)? await axios.put('./api/homes', {color:'red', id: homes.id}).then(r++) : homes.priceNum >= (medPrice.oneBedMed * 1.15)? await axios.put('./api/homes', {color:'orange', id: homes.id}).then(o++) : 
+    //         homes.priceNum >= (medPrice.oneBedMed * 1.05)? await axios.put('./api/homes', {color:'yellow', id: homes.id}).then(y++): homes.priceNum >= (medPrice.oneBedMed * .80)? await axios.put('./api/homes', {color:'green', id: homes.id}).then(g++) : await axios.put('./api/homes', {color:'blue', id: homes.id}).then(b++) 
+    //       }else if(homes.beds == 2)
+    //       {
+    //         homes.priceNum >= (medPrice.twoBedMed * 1.25)? await axios.put('./api/homes', {color:'red', id: homes.id}).then(r++) : homes.priceNum >= (medPrice.twoBedMed * 1.15)? await axios.put('./api/homes', {color:'orange', id: homes.id}).then(o++) : 
+    //         homes.priceNum >= (medPrice.twoBedMed * 1.05)? await axios.put('./api/homes', {color:'yellow', id: homes.id}).then(y++): homes.priceNum >= (medPrice.twoBedMed * .80)? await axios.put('./api/homes', {color:'green', id: homes.id}).then(g++) : await axios.put('./api/homes', {color:'blue', id: homes.id}).then(b++) 
+    //       }else if(homes.beds == 3)
+    //       {
+    //         homes.priceNum >= (medPrice.threeBedMed * 1.25)? await axios.put('./api/homes', {color:'red', id: homes.id}).then(r++) : homes.priceNum >= (medPrice.threeBedMed * 1.15)? await axios.put('./api/homes', {color:'orange', id: homes.id}).then(o++) : 
+    //         homes.priceNum >= (medPrice.threeBedMed * 1.05)? await axios.put('./api/homes', {color:'yellow', id: homes.id}).then(y++): homes.priceNum >= (medPrice.threeBedMed * .80)? await axios.put('./api/homes', {color:'green', id: homes.id}).then(g++) : await axios.put('./api/homes', {color:'blue', id: homes.id}).then(b++) 
+    //       }else if(homes.beds == 4)
+    //       {
+    //         homes.priceNum >= (medPrice.fourBedMed * 1.25)? await axios.put('./api/homes', {color:'red', id: homes.id}).then(r++) : homes.priceNum >= (medPrice.fourBedMed * 1.15)? await axios.put('./api/homes', {color:'orange', id: homes.id}).then(o++) : 
+    //         homes.priceNum >= (medPrice.fourBedMed * 1.05)? await axios.put('./api/homes', {color:'yellow', id: homes.id}).then(y++): homes.priceNum >= (medPrice.fourBedMed * .80)? await axios.put('./api/homes', {color:'yellow', id: homes.id}).then(g++) : await axios.put('./api/homes', {color:'blue', id: homes.id}).then(b++) 
+    //       }else if(homes.beds >= 5)
+    //       {
+    //         homes.priceNum >= (medPrice.fiveBedMed * 1.25)? await axios.put('./api/homes', {color:'red', id: homes.id}).then(r++) : homes.priceNum >= (medPrice.fiveBedMed * 1.15)? await axios.put('./api/homes', {color:'orange', id: homes.id}).then(o++) : 
+    //         homes.priceNum >= (medPrice.fiveBedMed * 1.05)? await axios.put('./api/homes', {color:'yellow', id: homes.id}).then(y++): homes.priceNum >= (medPrice.fiveBedMed * .80)? await axios.put('./api/homes', {color:'green', id: homes.id}).then(g++) : await axios.put('./api/homes', {color:'blue', id: homes.id}).then(b++) 
+    //       }
+    //     }
+    //   )
+    //   }
+
+
+    // let zipID = idZips.toString()
+    //   if(r >= y && r >= o && r >= g && r >= b) 
+    //  {
+    //   await this.props.updateZip({color:'red', zipcode: zipID})
+    //  }
+    // else if(y >= r && y >= o && y >= g && y >= b) 
+    //  {
+    //    await this.props.updateZip({color: 'yellow', zipcode: zipID})
+    //  }else if(o >= y && o >= r && o >= g && o >= b) 
+    //  {
+    //   await this.props.updateZip({color: 'orange', zipcode: zipID})
+    //  }else if(g >= y && g >= o && g >= r && g >= b) 
+    //  {
+    //   console.log(' this is green', r, o, y, g, b, idZips)
+    //   await this.props.updateZip({color: 'green', zipcode: zipID})
+    //  }else 
+    //  {
+    //   await this.props.updateZip({color: 'blue', zipcode: zipID})
+    //  }
+    //  return console.log('color updated complete!')
+    // })
+
+    // countyAsso.map(async(county) => 
+    //   {
+    //     let r = 0;
+    //     let o = 0;
+    //     let y = 0;
+    //     let g = 0;
+    //     let b = 0;
+    //     let zipsFromAsso = associations.filter(findZip => findZip.state_abbr == county.state && findZip.county == county.name).map(mapZip => mapZip.zipcode)
+    //     let allZipsForCounty = zip.filter(assoc => zipsFromAsso.includes(Number(assoc.zip)))
+    //     allZipsForCounty.map(xip => 
+    //       {
+    //         if(xip.color != null)
+    //         {
+    //          if(xip.color == 'red')
+    //          {
+    //           r++
+    //          }else
+    //          if(xip.color == 'orange')
+    //          {
+    //           o++
+    //          }else
+    //          if(xip.color == 'yellow')
+    //          {
+    //           y++
+    //          }else
+    //          if(xip.color == "green")
+    //          {
+    //           g++
+    //          }else
+    //          {
+    //           b++
+    //          }
+    //         }
+    //       })
+
+    //       if(r >= y && r >= o && r >= g && r >= b) 
+    //        {
+    //         await axios.put('./api/counties', {color: 'red', fips: county.fips})
+    //        }
+    //       else if(y >= r && y >= o && y >= g && y >= b) 
+    //        {
+    //         await axios.put('./api/counties', {color: 'yellow', fips: county.fips})
+    //        }else if(o >= y && o >= r && o >= g && o >= b) 
+    //        {
+    //         await axios.put('./api/counties', {color: 'orange', fips: county.fips})
+    //        }else if(g >= y && g >= o && g >= r && g >= b) 
+    //        {
+    //         await axios.put('./api/counties', {color: 'green', fips: county.fips})
+    //        }else 
+    //        {
+    //         await axios.put('./api/counties', {color: 'blue', fips: county.fips})
+    //        }
+    //        return console.log('color updated complete!', r, o, y, g, b)
+    //   })
+}
+
+
+
+
+
   render() {
     const {loading} = this.state
     return (

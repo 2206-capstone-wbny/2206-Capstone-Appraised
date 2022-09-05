@@ -1,7 +1,17 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import HistoricChart from './HistoricChart';
+import { PolarArea, Bar, Line } from 'react-chartjs-2';
+import { Chart, registerables } from 'chart.js';
+Chart.register(...registerables);
+
+
+const valueCal = (color) => {
+  return (color == 'red'? 'This house is over price in the current market. It is 25% above its marketvalue'
+  : color == 'orange'? 'The price of this house for its type is over 15% market value': 
+  color == 'yellow'? 'The price is 5% above marketvalue' : color == 'green'? 'This house is currently at average cost in the current market'
+  : 'This house is currently going below the average market value. ') 
+}
 
 
 class SideInfoView extends Component {
@@ -17,51 +27,62 @@ class SideInfoView extends Component {
   
     render(){
         console.log(this.props)
+        let {house, similar, data} = this.props
+
+        let forIn = Object.values(data.aHBedMed[0])
+        let collect = forIn[forIn.length - 2]
+        // console.log(collect, house.price)
+
+        let otherHousePrice = similar.filter(homes => homes.type == house.type && homes.beds == house.beds).map(houseInfo => Number(houseInfo.priceNum))
+        console.log(otherHousePrice)
     return(
-        
         <div id="infoContainer">
-        <img
-          id="housePic"
-          src={this.props.house.imageURL}
-          width="100vw"
-        />
-        <div id="infoText">
-          <span style={{ fontSize: "25px" }}>
-            {this.props.house.price}{" "}
-          </span>{" "}
-          <span style={{ fontSize: 14, fontWeight: "bold" }}>
-            {" "}
-            {this.props.house.beds}{" "}
-          </span>
-          <span style={{ fontSize: 14 }}>bd | </span>
-          <span style={{ fontSize: 14, fontWeight: "bold" }}>
-            {this.props.house.bathrooms}{" "}
-          </span>{" "}
-          <span style={{ fontSize: 14 }}>ba</span>
-          <div>
-            <span style={{ fontSize: 14, fontWeight: "bold" }}>
-              Location:{" "}
-            </span>
-            <span style={{ fontSize: 14 }}>
-              {" "}
-              {this.props.house.city}, {this.props.house.state},{" "}
-              {this.props.house.zipcode}
-            </span>
-          </div>
-          <div>
-            <span style={{ fontSize: 14, fontWeight: "bold" }}>
-              Type:{" "}
-            </span>
-            <span style={{ fontSize: 14 }}> {this.props.house.type}</span>
-          </div>
-        </div>
+       <div className='houseContainer2' key={house.id} onClick={this.props.getSingle}>
+        <img src={house.imageURL} id={house.id}/>
+        <h3>Current listing price: {house.price}</h3>
+        <p>{house.beds} bedroooms | {house.bathrooms} bathrooms | {house.landSize}sqft</p>
+        <p>Type: {house.type} | {house.city}, {house.state} {house.zipcode}</p>
+        </div>    
+
+        <Bar data ={{
+            labels: [
+              'House',
+              'Market Value',
+            ],
+            datasets: [{
+            
+              data: [house.priceNum, collect],
+              backgroundColor: [
+                'rgb(255, 99, 132)',
+                'rgb(75, 192, 192)',
+                'rgb(255, 205, 86)',
+                'rgb(201, 203, 207)',
+                'rgb(54, 162, 235)'
+              ]
+            }]
+        }}/>
+        <p>{valueCal(house.color)}</p>
+
+<Bar data ={{
+            labels: [
+              `This house (${house.priceNum})`,
+              ...otherHousePrice
+            ],
+            datasets: [{
+              label: 'Similar houses in the neighborhood',
+              data: [house.priceNum,...otherHousePrice],
+              backgroundColor: [
+                'rgb(255, 99, 132)',
+              ]
+            }]
+        }}/>
+
         <Link
           to={`/singleHome/${this.props.house.id}`}
           className="MoreInformation"
         >
           <a>More Info</a>
         </Link>
-        <HistoricChart/>
       </div>
       )
     }
@@ -71,9 +92,10 @@ class SideInfoView extends Component {
    * CONTAINER
    */
   const mapStateToProps = (state) => {
-    console.log(state)
     return {
      house: state.home.single,
+     similar: state.home.forZipcode,
+     data: state.geo.historic
     };
   };
   

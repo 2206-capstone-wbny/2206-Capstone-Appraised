@@ -8,44 +8,39 @@ import {
 import { ZoomOutMap } from "@material-ui/icons";
 
 export default function ZipLayer(props) {
-    // const [zoomLevel, setZoomLevel] = useState(13); // initial zoom level provided for MapContainer
-    // const [zipLayerLng, setZipLayerLng] = useState(-50);
-    // const mapEvents = useMapEvents({
-    //   zoomend: () => {
-    //     setZoomLevel(mapEvents.getZoom());
-    //   },
-    //   moveend: (e) => {
-    //     let latlng = e.target.getCenter();
-    //     setZipLayerLng(latlng.lng);
-    //   },
-    // });
-    const styleState = {
-      color: "blue",
-      fillColor: "transparent",
-      fillOpacity: 0,
-      // zIndex: -1,
-      weight: 0.8,
+    const styleState = (zip) => {
+      return {
+      fillColor: zipCodeColor(zip.properties.color),
+      fillOpacity: .8,
+      color: 'white',
+      weight: 2,}
     };
+
     const styleCounty = {
-      // color: 'blue',
-      fillColor: "green",
-      fillOpacity: .6,
-      weight: 0.5,
+      fillOpacity: 0,
+      weight: 0,
     };
     const forEachHover = (location, layer) => {
-      // console.log('hi', location)
       layer.on({
         mouseover: (e) => {
-          // console.log(e)
-          e.target.setStyle({ color: "white" });
+          layer.bindPopup(e.target.feature.properties.zip).openPopup()
+          e.target.setStyle({  color: 'white',
+          weight: 2,
+          fillColor: "white",
+          fillOpacity: .6, });
         },
         mouseout: (e) => {
-          e.target.setStyle(styleState);
+          layer.closePopup()
+          e.target.setStyle({
+            fillColor: zipCodeColor(e.target.feature.properties.color),
+            fillOpacity: .6,
+            color: 'white',
+            weight: 5
+          });
         },
         click: (e) => {
           props.prevBound(e.target.getBounds())
           e.target._map.fitBounds(e.target.getBounds());
-        //   console.log(e.target.feature.properties.zip)
           props.selectZip(e.target.feature.properties.zip)
           
         },
@@ -53,14 +48,17 @@ export default function ZipLayer(props) {
     };
 
     const forNotSelected = (location, layer) => {
-      // console.log('hi', location)
       layer.on({
         mouseover: (e) => {
-          // console.log(e)
-          e.target.setStyle({ color: "white" });
+          layer.bindPopup(e.target.feature.properties.label_en).openPopup()
+          e.target.setStyle({  color: 'white',
+          weight: 2,
+          fillColor: "white",
+          fillOpacity: .6,});
         },
         mouseout: (e) => {
-          e.target.setStyle(styleState);
+          e.target.setStyle(styleCounty);
+          layer.closePopup()
         },
         click: (e) => {
           props.prevBounds(e.target.getBounds())
@@ -73,18 +71,9 @@ export default function ZipLayer(props) {
     const zipCodeColor = (color) =>{
       return color == 'red' ? 'red' : 
       color == 'orange' ? 'orange' : color == 'yellow' ?
-      'yellow' : color == 'green' ? 'green' : 'blue'
+      'yellow' : color == 'green' ? 'green' : '#00bfff'
     }
-    const styleForZip = (zip) =>{
-      // console.log(zip)
-      return {
-        fillColor: zipCodeColor(zip.properties.color),
-        weight: 2,
-          opacity: 1,
-          color: 'white',
-          fillOpacity: 0.7
-      }
-    }
+
     if(Object.keys(props.selected).length != 0)
     {
         let allCounty = props.county.filter((county) => county.county != props.selected.county)
@@ -101,7 +90,7 @@ export default function ZipLayer(props) {
         })
    
             return (
-            <div><GeoJSON style={styleCounty} key='zip' data={zipCoord}
+            <div><GeoJSON style={styleState} key='zip' data={zipCoord}
             onEachFeature={forEachHover}/> 
             <GeoJSON style={styleCounty} key='county' data={allCounty}
             onEachFeature={forNotSelected}/> 

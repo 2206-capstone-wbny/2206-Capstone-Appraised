@@ -9,6 +9,7 @@ export default function Markers(props) {
     const mapEvents = useMapEvents({
       zoomend: () => {
         setZoomLevel(mapEvents.getZoom());
+    
       }
     });
     var greenIcon = L.icon({
@@ -42,20 +43,21 @@ export default function Markers(props) {
         className: "leaflet-div-icon",
       });
     const getIcon = (price) => {
-      return price > 800000
+      // console.log(price)
+      return price == 'red'
         ? redIcon
-        : price > 650000
+        : price == 'orange'
         ? orangeIcon
-        : price > 500000
+        : price == 'yellow'
         ? yellowIcon
-        : price > 300000
+        : price == 'green'
         ? greenIcon
         : blueIcon;
     };
   
       return props.homeCoord.map((house) => (
         <Marker
-          icon={getIcon(house.priceNum)}
+          icon={getIcon(house.color)}
           value={house.id}
           key={house.id}
           position={{
@@ -71,7 +73,8 @@ export default function Markers(props) {
             },
             // mouseover: (e) => {
             //     console.log(e)
-            //     e.target.setIcon(yellowIcon2);
+            //     layer.bindPopup(house.priceNum).openPopup()
+            //     // e.target.setIcon(yellowIcon2);
             //   }
           }}
         />

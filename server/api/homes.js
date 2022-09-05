@@ -32,3 +32,14 @@ router.get("/:id", async (req, res, next) => {
     next(error);
   }
 });
+
+router.put('/', async (req, res, next) => {
+  try {
+    console.log(req.body)
+    const updateOrder = await Home.findOne({where: {id: req.body.id}});
+    updateOrder.update({color : req.body.color});
+    res.send(updateOrder);
+  } catch (err) {
+    next(err);
+  }
+});

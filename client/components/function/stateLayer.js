@@ -6,28 +6,39 @@ import {
 
 export default function StateLayer(props) {
     const styleState = {
-      color: "blue",
       fillColor: "transparent",
-      fillOpacity: 0,
-      // zIndex: -1,
-      weight: 0.8,
-    };
-    const styleCounty = {
+      weight: 0,
+    };  
+    
+    const countyColor = (color) =>{
+      return color == 'blue' ? '#00bfff' : 
+      color == 'orange' ? 'orange' : color == 'yellow' ?
+      'yellow' : color == 'green' ? 'green' : 'red'
+    }
+
+    const styleCounty = (county) => {
+   
+      return({
       // color: 'blue',
-      fillColor: "red",
+      fillColor: countyColor(county.properties.color),
       fillOpacity: .6,
       weight: 0.5,
-      color: 'white',
+      color: 'white',})
+    
     };
     const forEachHover = (location, layer) => {
-      // console.log('hi', location)
       layer.on({
         mouseover: (e) => {
-          // console.log(e)
-          e.target.setStyle({ color: "white" });
+          layer.bindPopup(e.target.feature.properties.label_en).openPopup()
+        e.target.setStyle({ 
+        color: 'white',
+        weight: 2,
+        fillColor: "white",
+        fillOpacity: .6,});
         },
         mouseout: (e) => {
           e.target.setStyle(styleState);
+          // layer.closePopup()
         },
         click: (e) => {
           props.prevBound(e.target.getBounds())
@@ -37,29 +48,26 @@ export default function StateLayer(props) {
       });
     };
   
-    const zipCodeColor = (color) =>{
-      return color == 'red' ? 'red' : 
-      color == 'orange' ? 'orange' : color == 'yellow' ?
-      'yellow' : color == 'green' ? 'green' : 'blue'
-    }
-    const styleForZip = (zip) =>{
-      // console.log(zip)
-      return {
-        fillColor: zipCodeColor(zip.properties.color),
-        weight: 2,
-          opacity: 1,
-          color: 'white',
-          fillOpacity: 0.7
-      }
-    }
+ 
+ 
   
     let allState = props.state.map((state) => state.features);
     let allCounty = props.county.filter((county) => county.features.length > 0)
     {
-
+      let countdata = allCounty.map(countyColor => {
+        return({
+          geometry: countyColor.features[0].geometry,
+          properties: {
+          color: countyColor.color,
+          fips: countyColor.features[0].properties.fips,
+          label_en: countyColor.features[0].properties.label_en,
+          },
+          type: "Feature"
+        })
+      })
       return(
         <div>
-         <GeoJSON style={styleCounty} data={allCounty} />
+         <GeoJSON style={styleCounty} data={countdata} />
         <GeoJSON style={styleState} key='statesGeo' data={allState}
         onEachFeature={forEachHover}/> 
           </div>

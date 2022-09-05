@@ -55,30 +55,30 @@ export default function color (arr){
       }
 
 
-    //   if(r >= y && r >= o && r >= g && r >= b) 
-    //  {
-    //   let zipstring5 = idZips.toString()
-    //   await this.props.updateZip({color:'red', zipcode: zipstring5})
-    //  }
-    // else if(y >= r && y >= o && y >= g && y >= b) 
-    //  {
-    //   let zipstring4 = idZips.toString()
-    //    await this.props.updateZip({color: 'orange', zipcode: zipstring4})
-    //  }else if(o >= y && o >= r && o >= g && o >= b) 
-    //  {
-    //   let zipstring3 = idZips.toString()
-    //   await this.props.updateZip({color: 'yellow', zipcode: zipstring3})
-    //  }else if(g >= y && g >= o && g >= r && g >= b) 
-    //  {
-    //   let zipstring2 = idZips.toString()
-    //   await this.props.updateZip({color: 'green', zipcode: zipstring2})
-    //  }else 
-    //  {
-    //   let zipstring1 = idZips.toString()
-    //   console.log(zipstring1)
-    //   await this.props.updateZip({color: 'blue', zipcode: zipstring1})
-    //  }
-    //  console.log(r, o, y, g, b)
+      if(r >= y && r >= o && r >= g && r >= b) 
+     {
+      let zipstring5 = idZips.toString()
+      await this.props.updateZip({color:'red', zipcode: zipstring5})
+     }
+    else if(y >= r && y >= o && y >= g && y >= b) 
+     {
+      let zipstring4 = idZips.toString()
+       await this.props.updateZip({color: 'orange', zipcode: zipstring4})
+     }else if(o >= y && o >= r && o >= g && o >= b) 
+     {
+      let zipstring3 = idZips.toString()
+      await this.props.updateZip({color: 'yellow', zipcode: zipstring3})
+     }else if(g >= y && g >= o && g >= r && g >= b) 
+     {
+      let zipstring2 = idZips.toString()
+      await this.props.updateZip({color: 'green', zipcode: zipstring2})
+     }else 
+     {
+      let zipstring1 = idZips.toString()
+      console.log(zipstring1)
+      await this.props.updateZip({color: 'blue', zipcode: zipstring1})
+     }
+     console.log(r, o, y, g, b)
     })
    
 }

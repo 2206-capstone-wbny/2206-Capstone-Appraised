@@ -23,8 +23,8 @@ router.get('/:id', async (req, res, next) => {
 
 router.put('/', async (req, res, next) => {
   try {
-    const updateOrder = await County.findByPk(req.body.id);
-    updateOrder.update(req.body.reciept);
+    const updateOrder = await County.findOne({where: {fips: req.body.fips}});
+    updateOrder.update({color : req.body.color});
     res.send(updateOrder);
   } catch (err) {
     next(err);
