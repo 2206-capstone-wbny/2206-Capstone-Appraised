@@ -105,10 +105,6 @@ async function seed() {
           else{
             countySingleMed = 0
           }
-<<<<<<< HEAD
-        
-=======
->>>>>>> 006bc77ca3559434947276ced5860dde0ea53225
 
           var filtered1 = county1B.filter(county1 => county1.RegionName == county.name)[0]
           if(filtered1 != null && filtered1 != '' && filtered1 != undefined )
