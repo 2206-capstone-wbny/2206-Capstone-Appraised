@@ -402,3 +402,7 @@ hr {
 #watchlist {
   position: absolute;
 }
+
+.newsCard {
+  max-height: 360px;
+}
