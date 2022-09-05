@@ -1,104 +1,87 @@
-import React, { Component } from "react";
 import accounting from "accounting";
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import Slider from '@mui/material/Slider';
 
-const priceFormat = (price) => {
-  return accounting.formatMoney(price, { symbol: "$", precision: 0 });
-};
+function valuetext(value) {
+  return `$${value}`;
+}
 
-class Filter extends Component {
-  render() {
-    const { handleFilterChange, resetFilter, currentMinPrice } = this.props;
+let style = {width: "80px", marginRight: '20px', marginTop: '20px', backgroundColor:'white'}
+
+const Filter = (props) => {
+  const [type, setType] = React.useState('');
+  const [bed, setBed] = React.useState(null);
+  const [value, setValue] = React.useState([0, 1000000]);
+
+  const handleChange = (event) => {
+    setType(event.target.value);
+  };
+
+  const handleChange1 = (event) => {
+    setBed(event.target.value);
+  };
+
+  const handleChange3 = (event, newValue) => {
+    setValue(newValue);
+  };
+
+
     return (
-      <form ref={(input) => (this.form = input)} className="filter">
-        Filters:
-        <div className="filterBar">
-          <label htmlFor="filterBedrooms"># Bedrooms: </label>
-          <select
-            name="filterBedrooms"
-            id="filterBedrooms"
-            onChange={(event) => {
-              handleFilterChange(event);
-            }}
-          >
-            <option value="any">Any</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5+">5+</option>
-          </select>
-        </div>
-        <div className="filterBar">
-          <label htmlFor="filterBathrooms"># Bathrooms: </label>
-          <select
-            name="filterBathrooms"
-            id="filterBathrooms"
-            onChange={(event) => {
-              handleFilterChange(event);
-            }}
-          >
-            <option value="any">Any</option>
-            <option value="1">1</option>
-            <option value="1.5">1.5</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4+">4+</option>
-          </select>
-        </div>
-        <div className="filterBar">
-          <label htmlFor="minPrice">Min. Price: </label>
-          <select
-            name="minPrice"
-            id="minPrice"
-            onChange={(event) => {
-              handleFilterChange(event);
-            }}
-          >
-            <option value="0">Any</option>
-            <option value="500000">{priceFormat(500000)}</option>
-            <option value="600000">{priceFormat(600000)}</option>
-            <option value="700000">{priceFormat(700000)}</option>
-            <option value="800000">{priceFormat(800000)}</option>
-            <option value="900000">{priceFormat(900000)}</option>
-          </select>
-        </div>
-        <div className="filterBar">
-          <label htmlFor="maxPrice">Max Price: </label>
-          <select
-            name="maxPrice"
-            id="maxPrice"
-            onChange={(event) => {
-              handleFilterChange(event);
-            }}
-          >
-            <option value="999999999">Any</option>
-            <option value="600000">{priceFormat(600000)}</option>
-            <option value="700000">{priceFormat(700000)}</option>
-            <option value="800000">{priceFormat(800000)}</option>
-            <option value="900000">{priceFormat(900000)}</option>
-            <option value="1000000">{priceFormat(1000000)}+</option>
-          </select>
-        </div>
-        <div className="filterBar">
-          <label htmlFor="sortPrice">Order By: </label>
-          <select
-            name="sortPrice"
-            id="sortPrice"
-            onChange={(event) => {
-              handleFilterChange(event);
-            }}
-          >
-            <option value="any">Default</option>
-            <option value="0">Price: Low to High</option>
-            <option value="1">Price: High to Low</option>
-          </select>
-        </div>
-        <div id="clearFilterBtn">
-          <button onClick={(event) => resetFilter(e, this.form)}>Clear</button>
-        </div>
-      </form>
+      <div className='filterGroup'> 
+    <Box style={style}>
+      <FormControl fullWidth>
+        <InputLabel id="demo-simple-select-label">Type</InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={type}
+          label="Age"
+          onChange={handleChange}
+        >
+          <MenuItem value={'House'}>House</MenuItem>
+          <MenuItem value={'Apartment'}>Apartment</MenuItem>
+          <MenuItem value={'Townhouse'}>Townhouse</MenuItem>
+        </Select>
+      </FormControl>
+    </Box>
+     
+
+    <Box style={style}>
+      <FormControl fullWidth>
+        <InputLabel id="demo-simple-select-label">Bed</InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={bed}
+          label="Age"
+          onChange={handleChange1}
+        >
+          <MenuItem value={1}>1</MenuItem>
+          <MenuItem value={2}>2</MenuItem>
+          <MenuItem value={3}>3</MenuItem>
+          <MenuItem value={4}>4</MenuItem>
+          <MenuItem value={5}>5+</MenuItem>
+        </Select>
+      </FormControl>
+    </Box>
+
+    <Box sx={{ width: 300 }}>
+      <Slider
+        getAriaLabel={() => 'Price range'}
+        value={value}
+        onChange={handleChange3}
+        valueLabelDisplay="auto"
+        getAriaValueText={valuetext}
+      />
+    </Box>
+      </div>
     );
   }
-}
+
 
 export default Filter;

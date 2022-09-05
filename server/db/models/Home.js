@@ -38,6 +38,9 @@ const Home = db.define("home", {
   longitude: {
     type: Sequelize.DECIMAL,
   },
+  color:{
+    type: Sequelize.STRING,
+  }
 });
 
 module.exports = Home;
