@@ -1,5 +1,5 @@
 <h2>🏠 APPRAISED 🏢 </h2>
-  *Real estate data and research made convenient!*
+  Real estate data and research made convenient.
   
 <h3>About Appraised</h3>
 <summary>
