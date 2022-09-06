@@ -51,7 +51,7 @@ export class watchList extends Component {
       <div id="watchlist">
         {watchlist.map((house, index) => {
           return (
-            <div>
+            <div key={index}>
               <WatchlistHouse house={house} index={index} />
             </div>
           );
