@@ -184,7 +184,7 @@ hr {
   z-index: 0;
 }
 
-#infoContainer h2{
+#infoContainer h2 {
   border-bottom-style: solid;
   width: 60%;
   border-width: 1px;
@@ -416,92 +416,90 @@ hr {
   min-width: 120px;
 }
 
-.filterGroup{
+.filterGroup {
   position: absolute;
-  display:flex;
+  display: flex;
   margin-left: 10%;
 }
 
-.chart-graph{
+.chart-graph {
   text-align: center;
   width: 90%;
   margin: auto;
   margin-top: 30px;
 }
 
-.lineGraph{
+.lineGraph {
   margin-bottom: 80px;
 }
 
-
-
-.houseContainer{
-  width:100%;
-  transition: transform .2s;
+.houseContainer {
+  width: 100%;
+  transition: transform 0.2s;
   margin-bottom: 5px;
   text-align: left;
-  box-shadow: 0 2px 4px -1px rgb(0 0 0 / 16%), 0 4px 5px 0 rgb(0 0 0 / 11%), 0 1px 10px 0 rgb(0 0 0 / 10%);
+  box-shadow: 0 2px 4px -1px rgb(0 0 0 / 16%), 0 4px 5px 0 rgb(0 0 0 / 11%),
+    0 1px 10px 0 rgb(0 0 0 / 10%);
 }
 
-.houseContainer2{
-  width:100%;
+.houseContainer2 {
+  width: 100%;
   margin-bottom: 5px;
   text-align: left;
 }
 
 .houseContainer:hover {
-  transform: scale(1.005); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+  transform: scale(
+    1.005
+  ); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
 }
 
-.houseContainer img{
+.houseContainer img {
   border-radius: 2%;
   width: 100%;
   height: 300px;
 }
 
-.houseContainer h3{
- padding: 0;
+.houseContainer h3 {
+  padding: 0;
   margin: 0;
   margin-left: 5px;
 }
 
-.houseContainer p{
+.houseContainer p {
   padding: 0;
   margin: 5px;
   font-size: 14px;
   margin-left: 5px;
- }
+}
 
- .houseContainer2 img{
+.houseContainer2 img {
   border-radius: 2%;
   width: 100%;
   height: 300px;
 }
 
-.houseContainer2 h3{
- padding: 0;
+.houseContainer2 h3 {
+  padding: 0;
   margin: 5px;
   margin-left: 10px;
 }
 
-.houseContainer2 p{
+.houseContainer2 p {
   padding: 0;
   margin: 5px;
   font-size: 14px;
   margin-left: 10px;
- }
-
+}
 
 .authForm-buttons button:hover {
   border-color: rgb(255, 255, 255);
 }
 
-
 svg.leaflet-zoom-animated > g > path {
   transition-property: fill, fill-opacity, stroke, stroke-opacity, stroke-width;
   transition-duration: 0.4s;
 }
-
 
 .loader-container {
   width: 100%;
@@ -525,19 +523,19 @@ svg.leaflet-zoom-animated > g > path {
 
 @keyframes spin-anim {
   0% {
-      transform: rotate(0deg);
+    transform: rotate(0deg);
   }
   100% {
-      transform: rotate(360deg);
+    transform: rotate(360deg);
   }
 }
 
-.buttonDiv{
+.buttonDiv {
   display: flex;
   z-index: 1;
   position: absolute;
   width: 100%;
-  justify-content: space-between
+  justify-content: space-between;
 }
 
 #watchlist {
@@ -585,3 +583,35 @@ svg.leaflet-zoom-animated > g > path {
   position: absolute;
   /* background-repeat: repeat-y; */
 }
+
+#sideView {
+  overflow-y: auto;
+
+/* CSS FOR WATCHLIST */
+
+#watchlist {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  display: flex;
+  justify-content: space-between;
+  align-items: space-between;
+  margin: 10px;
+  width: 30vw;
+  padding-left: 10px;
+}
+
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
+
+.container {
+  padding: 2px 16px;
+}
+

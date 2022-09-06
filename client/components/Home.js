@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import Stack from "@mui/material/Stack";
@@ -95,11 +95,15 @@ export const Home = (props) => {
     setBaths(baths);
   }
 
-  console.log(address);
+  useEffect(() => {
+    document.body.style.overflow = "auto";
+    return () => {
+      document.body.style.overflow = "hidden";
+    };
+  }, []);
 
   return (
     <React.Fragment>
-      {renderCheck}
       {/* <Container maxWidth="md">
         <Box
           m={2}

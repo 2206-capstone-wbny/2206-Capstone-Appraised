@@ -251,6 +251,13 @@ class Map extends Component {
     this.mapRef.current.fitBounds(this.state.prevBoundInner);
     // this.props.unselectCounty();
   }
+  componentDidMount() {
+    document.body.style.overflow = "hidden";
+  }
+
+  componentWillUnmount() {
+    document.body.style.overflow = "auto";
+  }
 
   async componentWillMount() {
     await this.props.fetchAll();
@@ -512,7 +519,6 @@ class Map extends Component {
     const { loading } = this.state;
     return (
       <div>
-        {" "}
         {!loading ? (
           <main className="leafletMap">
             <div id="mainContainer">
@@ -571,6 +577,7 @@ class Map extends Component {
                 <SideInfoView />
               ) : this.state.zipInfo != null ? (
                 <HouseInfo
+                  id="sideView"
                   getSingle={this.getHouseFromInfo}
                   map={this.mapRef}
                 />
