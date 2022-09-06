@@ -80,7 +80,6 @@ form div {
   justify-content: center;
   justify-content: space-between;
   padding: 30px;
-  
 }
 
 .accountImage {
@@ -92,7 +91,8 @@ form div {
   border-style: solid;
   border-color: black;
   border-width: 2px;
-  box-shadow: 0 6.4px 14.4px 0 rgb(0 0 0 / 13%), 0 1.2px 3.6px 0 rgb(0 0 0 / 11%);
+  box-shadow: 0 6.4px 14.4px 0 rgb(0 0 0 / 13%),
+    0 1.2px 3.6px 0 rgb(0 0 0 / 11%);
 }
 
 .imgButton {
@@ -108,7 +108,8 @@ form div {
   border-style: solid;
   border-color: black;
   border-width: 2px;
-  box-shadow: 0 6.4px 14.4px 0 rgb(0 0 0 / 13%), 0 1.2px 3.6px 0 rgb(0 0 0 / 11%);
+  box-shadow: 0 6.4px 14.4px 0 rgb(0 0 0 / 13%),
+    0 1.2px 3.6px 0 rgb(0 0 0 / 11%);
 }
 
 hr {
@@ -550,24 +551,24 @@ svg.leaflet-zoom-animated > g > path {
   padding-left: 10px;
 }
 
-.footerContainer{
+.footerContainer {
   width: 100%;
-  height:200px;
+  height: 200px;
   background-color: black;
   display: flex;
   margin-top: 100px;
   justify-content: space-evenly;
 }
 
-.footerContainer h4{
-  color: lightgrey
+.footerContainer h4 {
+  color: lightgrey;
 }
 
-.footerContainer h2{
-  color: rgb(145, 145, 145)
+.footerContainer h2 {
+  color: rgb(145, 145, 145);
 }
 
-.imgForHome{
+.imgForHome {
   width: 100%;
   height: 700px;
   background-color: blue;
@@ -577,7 +578,7 @@ svg.leaflet-zoom-animated > g > path {
   justify-content: center;
 }
 
-.imgForHome img{
+.imgForHome img {
   width: 100%;
   height: 700px;
   position: absolute;
@@ -586,6 +587,7 @@ svg.leaflet-zoom-animated > g > path {
 
 #sideView {
   overflow-y: auto;
+}
 
 /* CSS FOR WATCHLIST */
 
@@ -614,4 +616,3 @@ svg.leaflet-zoom-animated > g > path {
 .container {
   padding: 2px 16px;
 }
-
