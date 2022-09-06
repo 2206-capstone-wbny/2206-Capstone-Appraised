@@ -289,7 +289,9 @@ export const Home = (props) => {
       ) : (
         ""
       )}
+      <Footer/>
     </React.Fragment>
+    
   );
 };
 

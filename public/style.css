@@ -546,6 +546,17 @@ svg.leaflet-zoom-animated > g > path {
 
 .footerContainer{
   width: 100%;
-  height: 100px;
+  height:200px;
   background-color: black;
+  display: flex;
+  margin-top: 100px;
+  justify-content: space-evenly;
+}
+
+.footerContainer h4{
+  color: lightgrey
+}
+
+.footerContainer h2{
+  color: rgb(145, 145, 145)
 }
