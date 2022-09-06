@@ -11,3 +11,28 @@ Appraised is a real estate web application aimed at publicizing data that is hig
 
 
 ## Key Features
+🏘 Interactive map that transforms into a price heatmap when zoomed into a region
+🏘 Customizable user profile with option to upload personal profile image, edit name, and information.
+🏘 Real estate news page with chart depicting national average price of different types of homes as far back as 2000
+🏘 Color coded markers on map depicting value of home compared to region 
+🏘 Personal watchlist for registered users to keep track of homes of interest
+🏘 Detailed data about price of homes compared to homes in the same area and percentage over market value
+
+## Tech Stack 🤖
+### Front End
+💥 HTML
+💥 React
+💥 CSS
+
+### Back End
+💡 PostgreSQL
+💡 Node.js
+💡 Sequelize
+
+### APIs
+🔌 NewsAPI
+
+### Libraries/Frameworks
+📚 Material UI
+📚 Leaflet.js
+📚 Chart.js
