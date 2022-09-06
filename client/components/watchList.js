@@ -37,6 +37,11 @@ export class watchList extends Component {
 
   componentDidMount() {
     this.props.getWatchlist();
+    document.body.style.overflow = "auto";
+  }
+
+  componentWillUnmount() {
+    document.body.style.overflow = "hidden";
   }
 
   render() {

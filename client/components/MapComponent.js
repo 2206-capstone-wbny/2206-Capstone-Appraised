@@ -576,6 +576,7 @@ class Map extends Component {
                 <SideInfoView />
               ) : this.state.zipInfo != null ? (
                 <HouseInfo
+                  id="sideView"
                   getSingle={this.getHouseFromInfo}
                   map={this.mapRef}
                 />
