@@ -20,19 +20,19 @@ Appraised is a real estate web application aimed at publicizing data that is hig
 
 ## Tech Stack 🤖
 ### Front End
-💥 HTML
-💥 React
-💥 CSS
+<li>💥 HTML</li>
+<li>💥 React</li>
+<li>💥 CSS</li>
 
 ### Back End
-💡 PostgreSQL
-💡 Node.js
-💡 Sequelize
+<li>💡 PostgreSQL</li>
+<li>💡 Node.js</li>
+<li>💡 Sequelize</li>
 
 ### APIs
-🔌 NewsAPI
+<li>🔌 NewsAPI</li>
 
 ### Libraries/Frameworks
-📚 Material UI
-📚 Leaflet.js
-📚 Chart.js
+<li>📚 Material UI</li>
+<li>📚 Leaflet.js</li>
+<li>📚 Chart.js</li>
