@@ -44,7 +44,8 @@ class SideInfoView extends Component {
         <p>Type: {house.type} | {house.city}, {house.state} {house.zipcode}</p>
         </div>    
 
-        <Bar data ={{
+        <div className="chart-graph">
+        <PolarArea data ={{
             labels: [
               'House',
               'Market Value',
@@ -62,7 +63,8 @@ class SideInfoView extends Component {
             }]
         }}/>
         <p>{valueCal(house.color)}</p>
-
+        </div>
+        <div className="chart-graph">
 <Bar data ={{
             labels: [
               `This house (${house.priceNum})`,
@@ -76,7 +78,7 @@ class SideInfoView extends Component {
               ]
             }]
         }}/>
-
+</div>
         <Link
           to={`/singleHome/${this.props.house.id}`}
           className="MoreInformation"
@@ -84,6 +86,7 @@ class SideInfoView extends Component {
           <a>More Info</a>
         </Link>
       </div>
+      
       )
     }
   }
