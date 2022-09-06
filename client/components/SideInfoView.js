@@ -53,9 +53,9 @@ class SideInfoView extends Component {
             {house.beds} bedroooms | {house.bathrooms} bathrooms |{" "}
             {house.landSize} sqft
           </p>
+          <p>Type: {house.type}</p>
           <p>
-            Type: {house.type}
-            Location: {house.city}, {house.state} {house.zipcode}
+            Location: {house.city.toUpperCase()}, {house.state} {house.zipcode}
           </p>
         </div>
 
@@ -99,6 +99,9 @@ class SideInfoView extends Component {
         >
           <a>More Info</a>
         </Link>
+        <div> </div>
+        <div> </div>
+        <div> </div>
       </div>
     );
   }

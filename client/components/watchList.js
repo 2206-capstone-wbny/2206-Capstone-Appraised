@@ -43,7 +43,7 @@ export class watchList extends Component {
 
     return (
       <div>
-        <h1>Watchlist</h1>
+        <h1 id="watchlistText">Watchlist</h1>
         {watchlistCheck}
       </div>
     );
