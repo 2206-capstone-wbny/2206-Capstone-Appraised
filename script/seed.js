@@ -40,6 +40,7 @@ const zipAH = require("./HouseData/zip/zipAH.json");
 const zipCo = require("./HouseData/zip/zipCO.json");
 const associations = require("./associations");
 const countyAss = require("./countyAssociation");
+const combinedData = require('./Watson-House-Data/data1');
 
 const {
   db,
@@ -2515,6 +2516,8 @@ async function seed() {
     })
   );
 
+    console.log('completed zip upload')
+
   await Promise.all(
     state1B.map((state) => {
       let singleData = stateSinglePriceMed.filter(
@@ -2625,10 +2628,12 @@ async function seed() {
       });
     })
   );
-
+    console.log('Completed Historic Data')
   //Creating Homes
   await Promise.all(
-    homeData.map((home) => {
+    combinedData.map((home) => {
+      if(home.zpid)
+      {
       return Home.create({
         imageURL: home.imgSrc,
         city: home.hdpData.homeInfo.city,
@@ -2642,7 +2647,7 @@ async function seed() {
         landSize: home.hdpData.homeInfo.livingArea,
         latitude: home.hdpData.homeInfo.latitude,
         longitude: home.hdpData.homeInfo.longitude,
-      });
+      })};
     })
   );
 

@@ -39127,6 +39127,9 @@ function combine (){
   return combinedData
 }
 
-combine();
+combine()
+
+module.exports = combinedData
+
 
 console.log(`@@@@@@@@@`, combinedData.length);
