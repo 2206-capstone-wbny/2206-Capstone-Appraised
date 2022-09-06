@@ -598,9 +598,10 @@ svg.leaflet-zoom-animated > g > path {
   display: flex;
   justify-content: space-between;
   align-items: space-between;
+  position: relative;
   margin: 10px;
-  width: 30vw;
-  padding-left: 10px;
+  width: 31vw;
+  height: 17vw;
 }
 
 .card:hover {
@@ -609,4 +610,17 @@ svg.leaflet-zoom-animated > g > path {
 
 .container {
   padding: 2px 16px;
+}
+
+.heartswitch {
+  position: absolute;
+  top: 10px;
+  right: 30px;
+}
+
+.price {
+  margin: 0;
+  top: 10px;
+  right: 85px;
+  position: absolute;
 }
