@@ -21,17 +21,76 @@ class SideInfoView extends Component {
   
     async componentDidMount() {
     }
-  
+
+    
     render(){
         console.log(this.props)
         let {house, similar, data} = this.props
+        let forIn
+        let datesData
+        let lineData 
+        if(house.beds == 1)
+        { 
+          if(data.oneBedMed.length > 0)
+          {
+          forIn = Object.values(data.oneBedMed[0])
+          datesData = Object.keys(data.oneBedMed[0])
+            lineData = Object.values(data.oneBedMed[0])
+          }else{
+            forIn = Object.values(data.oneBedMed)
+           
+          }
+        }else if(house.beds == 2)
+        {
+          if(data.twoBedMed.length > 0)
+          {
+          forIn = Object.values(data.twoBedMed[0])
+          datesData = Object.keys(data.twoBedMed[0])
+            lineData = Object.values(data.twoBedMed[0])
+          }else{
+            forIn = Object.values(data.twoBedMed)
+          }
+        }else if(house.beds == 3)
+        {
+          if(data.threeBedMed.length > 0)
+          {
+          forIn = Object.values(data.threeBedMed[0])
+          datesData = Object.keys(data.threeBedMed[0])
+            lineData = Object.values(data.threeBedMed[0])
+          }else{
+            forIn = Object.values(data.threeBedMed)
+          }
+        }else if(house.beds == 4)
+        {
+          if(data.fourBedMed.length > 0)
+          {
+            datesData = Object.keys(data.fourBedMed[0])
+            lineData = Object.values(data.fourBedMed[0])
+          forIn = Object.values(data.fourBedMed[0])}
+          else{
+            forIn = Object.values(data.fourBedMed)
+          }
+        }else if(house.beds >= 5)
+        {
+          if(data.fiveBedMed.length > 0)
+          {
+            datesData = Object.keys(data.fiveBedMed[0])
+            lineData = Object.values(data.fiveBedMed[0])
+          forIn = Object.values(data.fiveBedMed[0])
+          }else{
+            forIn = Object.values(data.fiveBedMed)
+          }
+        }else
+        {
+          forIn = Object.values(data.aHBedMed[0])
+        }
 
-        let forIn = Object.values(data.aHBedMed[0])
+        datesData.shift()
+        lineData.shift()
         let collect = forIn[forIn.length - 2]
         // console.log(collect, house.price)
 
         let otherHousePrice = similar.filter(homes => homes.type == house.type && homes.beds == house.beds).map(houseInfo => Number(houseInfo.priceNum))
-        console.log(otherHousePrice)
     return(
         <div id="infoContainer">
        <div className='houseContainer2' key={house.id} onClick={this.props.getSingle}>
@@ -76,6 +135,17 @@ class SideInfoView extends Component {
             }]
         }}/>
 </div>
+
+<div className="chart-graph lineGraph">
+        <Line data={{
+            labels: datesData,
+            datasets: [{
+                label: 'past market value',
+                data: lineData,
+                fill: false,
+            borderColor: ['rgb(54, 162, 235)'],
+             pointRadius: 0,
+            }],}} /></div>
 
       </div>
       
