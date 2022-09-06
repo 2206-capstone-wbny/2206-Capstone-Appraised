@@ -235,6 +235,10 @@ export const Home = (props) => {
           sx={{
             bgcolor: "lightblue",
             height: "40vh",
+            marginTop: '5%',
+            margin: '10px',
+            paddingTop: '40px',
+            borderRadius: '15px' ,
             backgroundImage: `url(https://www.nawy.com/blog/wp-content/uploads/2022/07/Modern-Interior-Design.jpg)`,
           }}
         >
@@ -259,6 +263,10 @@ export const Home = (props) => {
             sx={{
               bgcolor: "lightblue",
               height: "40vh",
+              borderRadius: '15px',
+              marginTop: '5%',
+              margin: '10px',
+              padding: '20px',
               backgroundImage: `url(https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1)`,
               backgroundSize: "cover",
               backgroundPostion: "center bottom",
