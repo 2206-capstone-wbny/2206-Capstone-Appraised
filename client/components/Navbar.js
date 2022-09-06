@@ -78,9 +78,6 @@ const Navbar = ({ handleClick, isLoggedIn, image }) => {
                 <Link to="/watchlist">
                   <MenuItem onClick={handleClose}>Watchlist</MenuItem>
                 </Link>
-                <Link to="/myvalue">
-                  <MenuItem onClick={handleClose}>My Value</MenuItem>
-                </Link>
               </Menu>
 
               <Button
