@@ -20,9 +20,6 @@ class SideInfoView extends Component {
     }
   
     async componentDidMount() {
-    //   const { id } = this.props.match.params;
-    //   const singleHouse = await this.props.fetchSingleHome(id);
-    //   this.setState({ home: singleHouse });
     }
   
     render(){
@@ -79,12 +76,7 @@ class SideInfoView extends Component {
             }]
         }}/>
 </div>
-        <Link
-          to={`/singleHome/${this.props.house.id}`}
-          className="MoreInformation"
-        >
-          <a>More Info</a>
-        </Link>
+
       </div>
       
       )

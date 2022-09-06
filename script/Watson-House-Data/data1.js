@@ -39105,9 +39105,9 @@ const data1 = [
 const data1Updated = data1.filter((home) => home.zpid).concat(homeData)
 
 let combineData = [];
-
-for(let i = 0; i < 8; i++) {
-    combineData.concat(data`${i}`);
+let files = [data1Updated, data2Filtered, data3Filtered, data4Filtered, data5Filtered]
+for(let i = 0; i < files.length; i++) {
+    combineData.concat(files[i]);
 }
 
 console.log(`@@@@@@@@@`, combineData.length)
