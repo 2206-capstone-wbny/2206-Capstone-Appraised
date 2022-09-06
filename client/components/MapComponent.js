@@ -599,7 +599,7 @@ class Map extends Component {
                   <Button style={buttonStyle} onClick={this.zipBack}>
                     Back
                   </Button>
-                  <Filter />
+                  {/* <Filter /> */}
                   <Fab
                     size="medium"
                     style={circleStyle}
