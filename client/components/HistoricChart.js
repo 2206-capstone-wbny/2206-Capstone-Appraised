@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import * as AllHouses from "./Data/Graph/StateAH";
 import * as state1B from "./Data/Graph/state1B";
 import * as state2B from "./Data/Graph/state2B";
@@ -64,6 +64,13 @@ const HistoricChart = (state) => {
     ...stateCoop,
     ...stateSi,
   ];
+
+  useEffect(() => {
+    document.body.style.overflow = "auto";
+    return () => {
+      document.body.style.overflow = "hidden";
+    };
+  }, []);
 
   return (
     <div>

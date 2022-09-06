@@ -541,6 +541,10 @@ svg.leaflet-zoom-animated > g > path {
   padding-left: 10px;
 }
 
+
+#sideView {
+  overflow-y: auto;
+
 /* CSS FOR WATCHLIST */
 
 .card {
