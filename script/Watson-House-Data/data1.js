@@ -1,11 +1,13 @@
-const homeData = require("../dummydata")
-const data2Filtered = require("./data2")
-const data3Filtered = require("./data3")
-const data4Filtered = require("./data4")
-const data5Filtered = require("./data5")
-const data6Filtered = require("./data6")
-const data7Filtered = require("./data7")
-const data8Filtered = require("./data8")
+const homeData = require("../dummydata");
+const data2Filtered = require("./data2");
+const data3Filtered = require("./data3");
+const data4Filtered = require("./data4");
+const data5Filtered = require("./data5");
+const data6Filtered = require("./data6");
+const data7Filtered = require("./data7");
+const data8Filtered = require("./data8");
+const data9Filtered = require("./data9");
+const data10Filtered = require("./data10");
 
 const data1 = [
   {
@@ -39101,13 +39103,29 @@ const data1 = [
   },
 ];
 
+const data1Filtered = data1.filter((home) => home.zpid).concat(homeData);
+const files = [
+  data1Filtered,
+  data2Filtered,
+  data3Filtered,
+  data4Filtered,
+  data5Filtered,
+  data6Filtered,
+  data7Filtered,
+  data8Filtered,
+  data9Filtered,
+  data10Filtered,
+];
 
-const data1Updated = data1.filter((home) => home.zpid).concat(homeData)
+let combinedData = [];
 
-let combineData = [];
-
-for(let i = 0; i < 8; i++) {
-    combineData.concat(data`${i}`);
+function combine (){
+  for (let i = 0; i < files.length; i++) {
+    combinedData = [...combinedData, ...files[i]];
+  }
+  return combinedData
 }
 
-console.log(`@@@@@@@@@`, combineData.length)
+combine();
+
+console.log(`@@@@@@@@@`, combinedData.length);
