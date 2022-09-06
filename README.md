@@ -36,3 +36,8 @@ Appraised is a real estate web application aimed at publicizing data that is hig
 <p>📚 Material UI</p>
 <p>📚 Leaflet.js</p>
 <p>📚 Chart.js</p>
+
+## Future Plans
+🔮 Expand data to cover entirety of the United States
+🔮 Implement filters to allow users to refine search
+🔮 Add machine learning algorithm to give prediction of future house market prices
