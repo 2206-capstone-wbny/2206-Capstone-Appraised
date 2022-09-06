@@ -66,7 +66,7 @@ const HistoricChart = (state) => {
   ];
 
   return (
-    <div>
+    <div className="chart-graph">
       <h2 id="historicText">National House Price Data</h2>
       <Line
         data={{

@@ -56,7 +56,6 @@ const useStyles = makeStyles((theme) => ({
 // ];
 
 export const Home = (props) => {
-  console.log(`@@@@@@`, props);
   const classes = useStyles();
   const { username, history } = props;
   const [price, setPrice] = useState(0);
