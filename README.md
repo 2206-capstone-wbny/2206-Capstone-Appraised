@@ -1,5 +1,5 @@
 # 🏠 APPRAISED 🏢
-  <p>* Real estate data and research made convenient.</p>
+  <p>Real estate data and research made convenient.</p>
   
 ## About Appraised
 <p>
