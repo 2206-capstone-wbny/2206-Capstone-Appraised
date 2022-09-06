@@ -5,9 +5,6 @@ import { getWatchlist } from "../store/watchlist";
 import WatchlistHouse from "./WatchlistHouse";
 import Button from "@mui/material/Button";
 
-/**
- * COMPONENT
- */
 export class watchList extends Component {
   constructor(props) {
     super(props);
@@ -58,10 +55,6 @@ export class watchList extends Component {
     );
   }
 }
-
-/**
- * CONTAINER
- */
 
 const mapState = (state) => ({
   watchlist: state.watchlist,

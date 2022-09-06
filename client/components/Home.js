@@ -26,10 +26,6 @@ import {
 import { alpha, makeStyles, styled } from "@material-ui/core/styles";
 import Footer from "./footer";
 
-/**
- * COMPONENT
- */
-
 const useStyles = makeStyles((theme) => ({
   searchContainer: {
     display: "flex",
@@ -151,9 +147,6 @@ export const Home = (props) => {
   );
 };
 
-/**
- * CONTAINER
- */
 const mapState = (state) => {
   return {
     username: state.auth.username,

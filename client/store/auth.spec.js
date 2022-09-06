@@ -1,4 +1,3 @@
-/* global describe beforeEach afterEach it */
 
 import {expect} from 'chai'
 import {me, logout} from './auth'
@@ -18,7 +17,6 @@ describe('thunk creators', () => {
   const initialState = {user: {}}
 
   beforeEach(() => {
-    //no browser available, we need to stub out localStorage
     global.window = {
       localStorage: {
         removeItem: () => {},
