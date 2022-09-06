@@ -24,6 +24,7 @@ import {
   Grid,
 } from "@mui/material";
 import { alpha, makeStyles, styled } from "@material-ui/core/styles";
+import Footer from './footer'
 
 /**
  * COMPONENT
@@ -56,7 +57,6 @@ const useStyles = makeStyles((theme) => ({
 // ];
 
 export const Home = (props) => {
-  console.log(`@@@@@@`, props);
   const classes = useStyles();
   const { username, history } = props;
   const [price, setPrice] = useState(0);
@@ -66,7 +66,7 @@ export const Home = (props) => {
   const [searchOpt, setSearchOpt] = useState(false);
   const [minPriceOpt, setMinPriceOpt] = useState(false);
   const [maxPriceOpt, setMaxPriceOpt] = useState(false);
-  const renderCheck = username ? <h5>Hello, {username}</h5> : "";
+  const renderCheck = username ?'': "";
 
   function searchClickOpen() {
     setSearchOpt(true);
@@ -218,18 +218,8 @@ export const Home = (props) => {
           </Stack>
         </Box>
       </Container> */}
-      <Container maxWidth="md">
-        <Box
-          m={2}
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-          sx={{
-            bgcolor: "lightblue",
-            height: "40vh",
-            backgroundImage: `url(https://www.bestourism.com/img/items/big/535/Philadelphia_General-view_2120.jpg)`,
-          }}
-        >
+      <div className='imgForHome'>
+        <img src='https://www.breit.com/wp-content/uploads/sites/23/2022/03/breit-home-01.jpg'></img>
           <Link to="/map">
             <Button
               variant="contained"
@@ -239,8 +229,7 @@ export const Home = (props) => {
               View Map
             </Button>
           </Link>
-        </Box>
-      </Container>
+          </div>
       <Container maxWidth="md">
         <Box
           m={2}
@@ -250,6 +239,10 @@ export const Home = (props) => {
           sx={{
             bgcolor: "lightblue",
             height: "40vh",
+            marginTop: '5%',
+            margin: '10px',
+            paddingTop: '40px',
+            borderRadius: '15px' ,
             backgroundImage: `url(https://www.nawy.com/blog/wp-content/uploads/2022/07/Modern-Interior-Design.jpg)`,
           }}
         >
@@ -274,6 +267,10 @@ export const Home = (props) => {
             sx={{
               bgcolor: "lightblue",
               height: "40vh",
+              borderRadius: '15px',
+              marginTop: '5%',
+              margin: '10px',
+              padding: '20px',
               backgroundImage: `url(https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1)`,
               backgroundSize: "cover",
               backgroundPostion: "center bottom",
@@ -293,7 +290,9 @@ export const Home = (props) => {
       ) : (
         ""
       )}
+      <Footer/>
     </React.Fragment>
+    
   );
 };
 

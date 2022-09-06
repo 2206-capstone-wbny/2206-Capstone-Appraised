@@ -30,7 +30,8 @@ import StateInfo from "./function/StateInfo";
 import CountyInfo from "./function/CountyInfo";
 import HouseInfo from "./function/HouseInfo";
 import Fab from "@mui/material/Fab";
-
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 let buttonStyle = {
   width: "80px",
   height: "40px",
@@ -527,8 +528,8 @@ class Map extends Component {
                   center={this.state.mapCenter}
                   zoom={5}
                   zoomControl={false}
-                  // scrollWheelZoom={false}
-                  // dragging={false}
+                  scrollWheelZoom={false}
+                  dragging={false}
                   style={{ width: "100%", height: "100vh" }}
                 >
                   <TileLayer
@@ -592,7 +593,7 @@ class Map extends Component {
                   size="medium"
                   style={circleStylet}
                   onClick={this.closeHouseInfo}
-                ></Fab>
+                ><KeyboardArrowLeftIcon/></Fab>
               ) : this.state.selectedZip ? (
                 <div className="buttonDiv">
                   <Button style={buttonStyle} onClick={this.zipBack}>
@@ -605,7 +606,7 @@ class Map extends Component {
                     onClick={
                       this.state.zipInfo ? this.closeInfo : this.openZipInfo
                     }
-                  ></Fab>
+                  >{this.state.zipInfo ?<KeyboardArrowRightIcon/> : <KeyboardArrowLeftIcon/>}</Fab>
                 </div>
               ) : this.state.selectedCounty ? (
                 <div className="buttonDiv">
@@ -620,7 +621,7 @@ class Map extends Component {
                         ? this.closeInfo
                         : this.openCountyInfo
                     }
-                  ></Fab>
+                  >{this.state.countyInfo ?<KeyboardArrowRightIcon/> : <KeyboardArrowLeftIcon/>}</Fab>
                 </div>
               ) : this.state.selectedState ? (
                 <div className="buttonDiv">
@@ -633,7 +634,7 @@ class Map extends Component {
                     onClick={
                       this.state.stateInfo ? this.closeInfo : this.openStateInfo
                     }
-                  ></Fab>
+                  >{this.state.stateInfo ?<KeyboardArrowRightIcon/> : <KeyboardArrowLeftIcon/>}</Fab>
                 </div>
               ) : (
                 ""

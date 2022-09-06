@@ -7,7 +7,7 @@ Chart.register(...registerables);
 
 const valueCal = (color) => {
   return color == "red"
-    ? "This house is over price in the current market. It is 25% above its market value"
+    ? "This house is over price in the current market. It is 25% above its marketvalue"
     : color == "orange"
     ? "The price of this house for its type is over 15% market value"
     : color == "yellow"
@@ -53,44 +53,46 @@ class SideInfoView extends Component {
             {house.beds} bedroooms | {house.bathrooms} bathrooms |{" "}
             {house.landSize} sqft
           </p>
-          <p>Type: {house.type}</p>
           <p>
+            Type: {house.type}
             Location: {house.city}, {house.state} {house.zipcode}
           </p>
         </div>
 
-        <Bar
-          data={{
-            labels: ["House", "Market Value"],
-            datasets: [
-              {
-                data: [house.priceNum, collect],
-                backgroundColor: [
-                  "rgb(255, 99, 132)",
-                  "rgb(75, 192, 192)",
-                  "rgb(255, 205, 86)",
-                  "rgb(201, 203, 207)",
-                  "rgb(54, 162, 235)",
-                ],
-              },
-            ],
-          }}
-        />
-        <p>{valueCal(house.color)}</p>
-
-        <Bar
-          data={{
-            labels: [`This house (${house.priceNum})`, ...otherHousePrice],
-            datasets: [
-              {
-                label: "Similar houses in the neighborhood",
-                data: [house.priceNum, ...otherHousePrice],
-                backgroundColor: ["rgb(255, 99, 132)"],
-              },
-            ],
-          }}
-        />
-
+        <div className="chart-graph">
+          <PolarArea
+            data={{
+              labels: ["House", "Market Value"],
+              datasets: [
+                {
+                  data: [house.priceNum, collect],
+                  backgroundColor: [
+                    "rgb(255, 99, 132)",
+                    "rgb(75, 192, 192)",
+                    "rgb(255, 205, 86)",
+                    "rgb(201, 203, 207)",
+                    "rgb(54, 162, 235)",
+                  ],
+                },
+              ],
+            }}
+          />
+          <p>{valueCal(house.color)}</p>
+        </div>
+        <div className="chart-graph">
+          <Bar
+            data={{
+              labels: [`This house (${house.priceNum})`, ...otherHousePrice],
+              datasets: [
+                {
+                  label: "Similar houses in the neighborhood",
+                  data: [house.priceNum, ...otherHousePrice],
+                  backgroundColor: ["rgb(255, 99, 132)"],
+                },
+              ],
+            }}
+          />
+        </div>
         <Link
           to={`/singleHome/${this.props.house.id}`}
           className="MoreInformation"
