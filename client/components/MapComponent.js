@@ -491,25 +491,29 @@ class Map extends Component {
     //     }
     //   });
 
+
+    //   let theFips = county.fips.toString()
     //   if (r >= y && r >= o && r >= g && r >= b) {
-    //     await axios.put("./api/counties", { color: "red", fips: county.fips });
+    //     await axios.put("/api/counties", { color: "red", fips: theFips });
     //   } else if (y >= r && y >= o && y >= g && y >= b) {
-    //     await axios.put("./api/counties", {
+    //     await axios.put("/api/counties", {
     //       color: "yellow",
-    //       fips: county.fips,
+    //       fips: theFips,
     //     });
     //   } else if (o >= y && o >= r && o >= g && o >= b) {
-    //     await axios.put("./api/counties", {
+    //     await axios.put("/api/counties", {
     //       color: "orange",
-    //       fips: county.fips,
+    //       fips: theFips,
     //     });
     //   } else if (g >= y && g >= o && g >= r && g >= b) {
-    //     await axios.put("./api/counties", {
+    //     console.log('GREEN')
+    //     await axios.put("/api/counties", {
     //       color: "green",
-    //       fips: county.fips,
+    //       fips: theFips,
     //     });
     //   } else {
-    //     await axios.put("./api/counties", { color: "blue", fips: county.fips });
+    //     console.log('BLUE')
+    //     await axios.put("/api/counties", { color: "blue", fips: theFips });
     //   }
     //   return console.log("color updated complete!", r, o, y, g, b);
     // });
