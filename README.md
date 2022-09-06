@@ -1,5 +1,5 @@
 # 🏠 APPRAISED 🏢
-  <p>Real estate data and research made convenient.</p>
+  <p>* Real estate data and research made convenient.</p>
   
 ## About Appraised
 <p>
@@ -8,3 +8,6 @@ Appraised is a real estate web application aimed at publicizing data that is hig
 
 ## About the Project
 <img width="1424" alt="Screen Shot 2022-09-05 at 8 26 45 PM" src="https://user-images.githubusercontent.com/101467356/188523489-f98f9fec-4e10-4939-9535-dec49d4b1d7c.png">
+
+
+## Key Features
