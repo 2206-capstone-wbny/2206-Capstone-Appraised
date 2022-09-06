@@ -11,23 +11,25 @@ Appraised is a real estate web application aimed at publicizing data that is hig
 
 
 ## Key Features
-🏘 Interactive map that transforms into a price heatmap when zoomed into a region
-🏘 Customizable user profile with option to upload personal profile image, edit name, and information.
-🏘 Real estate news page with chart depicting national average price of different types of homes as far back as 2000
-🏘 Color coded markers on map depicting value of home compared to region 
-🏘 Personal watchlist for registered users to keep track of homes of interest
-🏘 Detailed data about price of homes compared to homes in the same area and percentage over market value
+<p>🏘 Interactive map that transforms into a price heatmap when zoomed into a region</p>
+<p>🏘 Customizable user profile with option to upload personal profile image, edit name, and information</p>
+<p>🏘 Real estate news page with chart depicting national average price of different types of homes as far back as 2000</p>
+<p>🏘 Color coded markers on map depicting value of home compared to region</p>
+<p>🏘 Personal watchlist for registered users to keep track of homes of interest</p>
+<p>🏘 Detailed data about price of homes compared to homes in the same area and percentage over market value</p>
 
 ## Tech Stack 🤖 
 ### Front End 
 <p>💥 HTML</p>
 <p>💥 React</p> 
+<p>💥 Redux</p>
 <p>💥 CSS</p>
 
 ### Back End
 <p>💡 PostgreSQL</p>
 <p>💡 Node.js</p>
 <p>💡 Sequelize</p>
+<p>💡 Express</p>
 
 ### APIs
 <p>🔌 NewsAPI</p>
@@ -38,6 +40,6 @@ Appraised is a real estate web application aimed at publicizing data that is hig
 <p>📚 Chart.js</p>
 
 ## Future Plans
-🔮 Expand data to cover entirety of the United States
-🔮 Implement filters to allow users to refine search
-🔮 Add machine learning algorithm to give prediction of future house market prices
+<p>🔮 Expand data to cover entirety of the United States</p>
+<p>🔮 Implement filters to allow users to refine search</p>
+<p>🔮 Add machine learning algorithm to give prediction of future house market prices</p>

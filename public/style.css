@@ -204,12 +204,6 @@ hr {
   height: 35vh;
 }
 
-/* 
-.leafLetMapwithInfo {
-  width: 80%;
-  height: 100%;
-} */
-
 .leaflet-div-icon {
   border-style: solid;
   border-color: white;
@@ -617,6 +611,10 @@ svg.leaflet-zoom-animated > g > path {
 #sideView {
   overflow-y: auto;
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 338ca4a616d37db64b30d26dcda73879e7609eb4
 /* CSS FOR WATCHLIST */
 
 #watchlist {
