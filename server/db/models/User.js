@@ -12,31 +12,16 @@ const User = db.define("user", {
     type: Sequelize.STRING,
     unique: true,
     allowNull: false,
-    // validate: {
-    //   notEmpty: true,
-    // },
   },
   firstName: {
     type: Sequelize.STRING,
-    // allowNull: false,
-    // validate: {
-    //   notEmpty: true,
-    // },
   },
   lastName: {
     type: Sequelize.STRING,
-    // allowNull: false,
-    // validate: {
-    //   notEmpty: true,
-    // },
   },
   email: {
     type: Sequelize.STRING,
     unique: true,
-    // validate: {
-    //   isEmail: true,
-    //   notEmpty: true,
-    // },
   },
   password: {
     type: Sequelize.STRING,
@@ -53,11 +38,8 @@ const User = db.define("user", {
 
 module.exports = User;
 
-/**
- * instanceMethods
- */
+
 User.prototype.correctPassword = function (candidatePwd) {
-  //we need to compare the plain version to an encrypted version of the password
   return bcrypt.compare(candidatePwd, this.password);
 };
 
@@ -74,9 +56,6 @@ User.prototype.getWatchlist = async function () {
   return watchlist;
 };
 
-/**
- * classMethods
- */
 User.authenticate = async function ({ username, password }) {
   const user = await this.findOne({ where: { username } });
   if (!user || !(await user.correctPassword(password))) {
@@ -102,11 +81,7 @@ User.findByToken = async function (token) {
   }
 };
 
-/**
- * hooks
- */
 const hashPassword = async (user) => {
-  //in case the password has been changed, we want to encrypt it with bcrypt
   if (user.changed("password")) {
     user.password = await bcrypt.hash(user.password, SALT_ROUNDS);
   }

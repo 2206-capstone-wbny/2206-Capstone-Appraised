@@ -14,8 +14,6 @@ import { Chart, registerables } from "chart.js";
 Chart.register(...registerables);
 
 const HistoricChart = (state) => {
-  // let data = AllHouses.map(house =>
-  // Object.keys(house).filter(num => num != 'RegionName' && num != 'StateName'))
   var randomColor = [
     "#bfcff0",
     "#9ce7c9",
@@ -99,14 +97,3 @@ const HistoricChart = (state) => {
 
 export default HistoricChart;
 
-//  labels: data[0],
-//             datasets: AllHouses.map(house => {
-//             return (
-//             {
-//             label: house.RegionName,
-//             data: Object.values(house).filter(num => typeof(num) == 'number'),
-//             fill: true,
-//             backgroundColor: "rgba(75,192,192,0.2)",
-//             borderColor: "rgba(75,192,192,1)"
-//             })
-//         })

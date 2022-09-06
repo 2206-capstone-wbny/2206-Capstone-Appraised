@@ -77,8 +77,6 @@ class SideInfoView extends Component {
     datesData.shift();
     lineData.shift();
     let collect = forIn[forIn.length - 2];
-    // console.log(collect, house.price)
-
     let otherHousePrice = similar
       .filter((homes) => homes.type == house.type && homes.beds == house.beds)
       .map((houseInfo) => Number(houseInfo.priceNum));
@@ -157,9 +155,6 @@ class SideInfoView extends Component {
   }
 }
 
-/**
- * CONTAINER
- */
 const mapStateToProps = (state) => {
   return {
     house: state.home.single,

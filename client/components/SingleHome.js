@@ -101,9 +101,6 @@ export class SingleHome extends Component {
   }
 }
 
-/**
- * CONTAINER
- */
 const mapStateToProps = (state) => {
   return {
     isLoggedIn: !!state.auth.id,

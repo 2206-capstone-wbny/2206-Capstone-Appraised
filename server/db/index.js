@@ -1,4 +1,3 @@
-//this is the access point for all things database related!
 
 const db = require("./db");
 
@@ -9,7 +8,6 @@ const County = require("./models/County");
 const Zip = require("./models/Zip");
 const HistoricData = require("./models/HistoricData");
 const Watchlist = require("./models/Watchlist");
-//associations could go here!
 
 const manyZip = Zip.belongsTo(County);
 County.hasMany(Zip);
