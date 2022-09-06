@@ -24,6 +24,7 @@ import {
   Grid,
 } from "@mui/material";
 import { alpha, makeStyles, styled } from "@material-ui/core/styles";
+import Footer from './footer'
 
 /**
  * COMPONENT
