@@ -32,7 +32,6 @@ function News() {
     getArticles();
   }, []);
 
-  console.log(newsArticles);
   return (
     <div>
       <h2 className={classes.title}>Housing Market News</h2>
