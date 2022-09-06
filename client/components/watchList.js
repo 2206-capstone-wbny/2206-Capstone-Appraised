@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { getWatchlist } from "../store/watchlist";
 import WatchlistHouse from "./WatchlistHouse";
+import Button from "@mui/material/Button";
 
 /**
  * COMPONENT
@@ -35,8 +36,16 @@ export class watchList extends Component {
       </div>
     ) : (
       <div>
-        <Link to={"/map"}>
-          <button>Explore more!</button>
+        <h3>No houses in watchlist</h3>
+        <h4>Whenever you find homes you like, add them.</h4>
+        <Link to="/map">
+          <Button
+            variant="contained"
+            color="primary"
+            style={{ height: 40, width: 250, background: "#72bcd4" }}
+          >
+            View Map
+          </Button>
         </Link>
       </div>
     );

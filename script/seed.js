@@ -47,7 +47,7 @@ const {
   manyZip,
   models: { User, Home, State, County, Zip, HistoricData },
 } = require("../server/db");
-const { contextType } = require("google-map-react");
+
 
 /**
  * seed - this function clears the database, updates tables to
