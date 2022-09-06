@@ -560,3 +560,9 @@ svg.leaflet-zoom-animated > g > path {
 .footerContainer h2{
   color: rgb(145, 145, 145)
 }
+
+.imgForHome{
+  width: 100%;
+  height: 200px;
+  background-repeat: repeat-y;
+}

@@ -66,7 +66,7 @@ export const Home = (props) => {
   const [searchOpt, setSearchOpt] = useState(false);
   const [minPriceOpt, setMinPriceOpt] = useState(false);
   const [maxPriceOpt, setMaxPriceOpt] = useState(false);
-  const renderCheck = username ? <h1>Hello, {username}</h1> : "";
+  const renderCheck = username ?'': "";
 
   function searchClickOpen() {
     setSearchOpt(true);
@@ -214,18 +214,8 @@ export const Home = (props) => {
           </Stack>
         </Box>
       </Container> */}
-      <Container maxWidth="md">
-        <Box
-          m={2}
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-          sx={{
-            bgcolor: "lightblue",
-            height: "40vh",
-            backgroundImage: `url(https://www.bestourism.com/img/items/big/535/Philadelphia_General-view_2120.jpg)`,
-          }}
-        >
+      <div className='imgForHome'>
+        <img src='https://www.breit.com/wp-content/uploads/sites/23/2022/03/breit-home-01.jpg'></img>
           <Link to="/map">
             <Button
               variant="contained"
@@ -235,8 +225,7 @@ export const Home = (props) => {
               View Map
             </Button>
           </Link>
-        </Box>
-      </Container>
+          </div>
       <Container maxWidth="md">
         <Box
           m={2}
