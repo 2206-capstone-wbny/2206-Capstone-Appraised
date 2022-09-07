@@ -76,7 +76,7 @@ export default function Markers(props) {
             mouseover: (e) => {
               e.target.openPopup();
               },
-              mouseuut:(e) => {
+              mouseout:(e) => {
                 e.target.closePopup();
               }
           }}
