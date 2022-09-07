@@ -96,7 +96,7 @@ class SideInfoView extends Component {
        <div className='houseContainer2' key={house.id} onClick={this.props.getSingle}>
         <img src={house.imageURL} id={house.id}/>
         <h3>Current listing price: {house.price}</h3>
-        <p>{house.beds} bedroooms | {house.bathrooms} bathrooms | {house.landSize}sqft</p>
+        <p>{house.beds} bedrooms | {house.bathrooms} bathrooms | {house.landSize}sqft</p>
         <p>Type: {house.type} | {house.city}, {house.state} {house.zipcode}</p>
         </div>    
 

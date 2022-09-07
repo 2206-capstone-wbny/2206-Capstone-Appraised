@@ -115,10 +115,12 @@ class Map extends Component {
   }
 
   async getHouseFromInfo(event) {
-    await this.props.fetchSingle(event.target.id);
+    let {homes} = await this.props.fetchSingle(event.target.id);
     let { latitude, longitude } = this.props.house;
     this.setState({ house: true });
-    this.mapRef.current.setView([latitude, longitude], 16);
+    this.mapRef.current.setView([latitude, longitude], 18);
+    this.mapRef.current.openPopup(`Type: ${homes.type} with ${homes.beds}bds and ${homes.bathrooms}bths`, [latitude, longitude])
+    // console.log(infoForPop)
   }
 
   openStateInfo() {
@@ -495,7 +497,9 @@ class Map extends Component {
 
 
     //   let theFips = county.fips.toString()
-    //   if (r >= y && r >= o && r >= g && r >= b) {
+    //   if(y == 0 && r == 0 && g == 0 && o == 0 && b == 0){
+    //     return ''
+    //   }else if (r >= y && r >= o && r >= g && r >= b) {
     //     await axios.put("/api/counties", { color: "red", fips: theFips });
     //   } else if (y >= r && y >= o && y >= g && y >= b) {
     //     await axios.put("/api/counties", {
@@ -650,6 +654,13 @@ class Map extends Component {
             <div className="spinner"></div>
           </div>
         )}{" "}
+        <div className='colorBar'>
+        <div className='blueColorBar' >below</div>
+        <div className='greenColorBar' >avg</div>
+        <div className='orangeColorBar' >5% </div>
+        <div className='yellowColorBar' >15%</div>
+        <div className='redColorBar' >30%</div>
+        </div>
       </div>
     );
   }

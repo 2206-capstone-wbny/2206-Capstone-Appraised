@@ -610,3 +610,48 @@ svg.leaflet-zoom-animated > g > path {
 .container {
   padding: 2px 16px;
 }
+
+.colorBar {
+  /* background-color: #000; */
+  width: 300px;
+  height: 15px;
+  position: absolute;
+  bottom: 0;
+  left: 10px;
+  border-style: solid;
+  border-radius: 20px;
+  border-width: 2px;
+  border-color: white;
+  margin: 20px;
+  display: flex;
+}
+
+.blueColorBar{
+  width: 20%;
+  background-color: lightskyblue;
+  border-bottom-left-radius: 20px;
+  border-top-left-radius: 20px;
+  text-align: center;
+}
+.greenColorBar{
+  text-align: center;
+  width: 20%;
+  background-color: green
+}
+.orangeColorBar{
+  width: 20%;
+  background-color: orange;
+  text-align: center;
+}
+.yellowColorBar{
+  width: 20%;
+  background-color: yellow;
+  text-align: center;
+}
+.redColorBar{
+  width: 20%;
+  background-color: red;
+  border-bottom-right-radius: 20px;
+  border-top-right-radius: 20px;
+  text-align: center;
+}

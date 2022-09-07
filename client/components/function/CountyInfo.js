@@ -45,9 +45,12 @@ class CountyInfo extends Component {
             label: state.name,
             data: [oneBedMed, twoBedMed, threeBedMed, fourBedMed, fiveBedMed],
         backgroundColor: [
-            'rgb(255, 99, 132)',
+          'yellow',
             'rgb(54, 162, 235)',
             'rgb(255, 205, 86)'
+            ,
+            'green',
+            'rgb(255, 99, 132)'
           ],
           hoverOffset: 4
         }]

@@ -2646,7 +2646,7 @@ async function seed() {
     console.log('Completed Historic Data')
   //Creating Homes
   await Promise.all(
-    combinedData.map((home) => {
+    homeData.map((home) => {
       if(home.zpid)
       {
       return Home.create({

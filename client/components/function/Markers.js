@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import {
     Marker,
     useMapEvents,
+    Popup
   } from "react-leaflet";
   
 export default function Markers(props) {
@@ -67,17 +68,19 @@ export default function Markers(props) {
           // style ={{borderStyle: 'solid', borderColor: 'white', borderWidth: '10px'}}
           eventHandlers={{
             click: async (e) => {
-              e.target._map.setView([house.latitude, house.longitude], 16);
+              e.target._map.setView([house.latitude, house.longitude], 22);
+              e.target.openPopup();
               await props.fetchSingle(e.target.options.value);
               props.houseInformation()
             },
-            // mouseover: (e) => {
-            //     console.log(e)
-            //     layer.bindPopup(house.priceNum).openPopup()
-            //     // e.target.setIcon(yellowIcon2);
-            //   }
+            mouseover: (e) => {
+              e.target.openPopup();
+              },
+              mouseuut:(e) => {
+                e.target.closePopup();
+              }
           }}
-        />
+        ><Popup>`Type: {house.type} with {house.beds}bds and {house.bathrooms}bths</Popup></Marker>
       ));
     
     return null;
