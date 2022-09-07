@@ -648,19 +648,19 @@ class Map extends Component {
                 ""
               )}
             </div>
+            <div className='colorBar'>
+        <div className='blueColorBar' >below</div>
+        <div className='greenColorBar' >avg</div>
+        <div className='orangeColorBar' >+5% </div>
+        <div className='yellowColorBar' >+15%</div>
+        <div className='redColorBar' >+30%</div>
+        </div>
           </main>
         ) : (
           <div className="loader-container">
             <div className="spinner"></div>
           </div>
         )}{" "}
-        <div className='colorBar'>
-        <div className='blueColorBar' >below</div>
-        <div className='greenColorBar' >avg</div>
-        <div className='orangeColorBar' >5% </div>
-        <div className='yellowColorBar' >15%</div>
-        <div className='redColorBar' >30%</div>
-        </div>
       </div>
     );
   }
