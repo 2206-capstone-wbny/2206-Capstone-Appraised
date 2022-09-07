@@ -260,7 +260,7 @@ class Map extends Component {
   }
 
   async componentWillMount() {
-    await this.props.fetchAll();
+    // await this.props.fetchAll();
     let { states } = await this.props.setState();
     await this.props.setCounty();
     let { zip } = await this.props.setZip();
@@ -293,7 +293,6 @@ class Map extends Component {
     //           medPrice = zip.filter(
     //             (priceSearch) => priceSearch.zip == homes.zipcode
     //           )[0];
-    //           console.log(medPrice);
     //         } else {
     //           medPrice = states.filter(
     //             (state) => state.state == homes.state
@@ -452,7 +451,6 @@ class Map extends Component {
     //   } else if (o >= y && o >= r && o >= g && o >= b) {
     //     await this.props.updateZip({ color: "orange", zipcode: zipID });
     //   } else if (g >= y && g >= o && g >= r && g >= b) {
-    //     console.log(" this is green", r, o, y, g, b, idZips);
     //     await this.props.updateZip({ color: "green", zipcode: zipID });
     //   } else {
     //     await this.props.updateZip({ color: "blue", zipcode: zipID });
@@ -506,13 +504,11 @@ class Map extends Component {
     //       fips: theFips,
     //     });
     //   } else if (g >= y && g >= o && g >= r && g >= b) {
-    //     console.log('GREEN')
     //     await axios.put("/api/counties", {
     //       color: "green",
     //       fips: theFips,
     //     });
     //   } else {
-    //     console.log('BLUE')
     //     await axios.put("/api/counties", { color: "blue", fips: theFips });
     //   }
     //   return console.log("color updated complete!", r, o, y, g, b);

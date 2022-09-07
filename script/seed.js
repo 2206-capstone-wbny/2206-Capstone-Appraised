@@ -41,7 +41,7 @@ const zipCo = require("./HouseData/zip/zipCO.json");
 const associations = require("./associations");
 const countyAss = require("./countyAssociation");
 const combinedData = require('./Watson-House-Data/data1');
-
+const brooklynZip = require('./test.geo.json')
 const {
   db,
   manyCounty,
@@ -2499,8 +2499,23 @@ async function seed() {
       } else {
         zipSingleMed7 = 0;
       }
-
-      //  console.log(zip.properties.zip, zipSingleMed1, zipSingleMed3, zip)
+      if([11201, 11203, 11204, 11205, 11206, 11207, 11208, 11209, 11210, 11211, 11212, 11213, 11214, 11215, 11216, 11217, 11218, 11219, 11220, 11221, 11222, 11223, 11224, 11225, 11226, 11228, 11229, 11230, 11231, 11232, 11233, 11234, 11235, 11236, 11237, 11238, 11239, '112HH'].join(' ').split(' ').includes(zip.properties.zip))
+      {
+        let nyFilter = brooklynZip.features.filter(brkly=> brkly.properties.zip == zip.properties.zip)
+        return Zip.create({
+          zip: zip.properties.zip,
+          singleHMed: zipSingleMed,
+          oneBedMed: zipSingleMed1,
+          twoBedMed: zipSingleMed2,
+          threeBedMed: zipSingleMed3,
+          fourBedMed: zipSingleMed4,
+          fiveBedMed: zipSingleMed5,
+          aHBedMed: zipSingleMed6,
+          coopMed: zipSingleMed7,
+          features: nyFilter[0],
+        });
+      }
+      else{
       return Zip.create({
         zip: zip.properties.zip,
         singleHMed: zipSingleMed,
@@ -2512,7 +2527,7 @@ async function seed() {
         aHBedMed: zipSingleMed6,
         coopMed: zipSingleMed7,
         features: zip,
-      });
+      })}
     })
   );
 
