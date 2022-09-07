@@ -47,6 +47,23 @@ let circleStylet = {
   right: "0",
 };
 
+const randomColorG = () =>{
+  let steve = Math.floor(Math.random() * 12);
+  if(steve > 6)
+  {
+    return 'red'
+  }else  if(steve > 3)
+  {
+    return 'orange'
+  }else if(steve > 1)
+  {
+    return 'yellow'
+  }else 
+  {
+    return 'green'
+  }
+}
+
 function LeafletgeoSearch() {
   let map = useMap();
   const prov = new OpenStreetMapProvider({
@@ -498,7 +515,11 @@ class Map extends Component {
 
     //   let theFips = county.fips.toString()
     //   if(y == 0 && r == 0 && g == 0 && o == 0 && b == 0){
-    //     return ''
+    //     let theCol = randomColorG()
+    //      await axios.put("/api/counties", {
+    //       color: theCol,
+    //       fips: theFips,
+    //     });
     //   }else if (r >= y && r >= o && r >= g && r >= b) {
     //     await axios.put("/api/counties", { color: "red", fips: theFips });
     //   } else if (y >= r && y >= o && y >= g && y >= b) {

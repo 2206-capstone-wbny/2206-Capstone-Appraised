@@ -640,12 +640,12 @@ svg.leaflet-zoom-animated > g > path {
 }
 .orangeColorBar{
   width: 20%;
-  background-color: orange;
+  background-color: yellow;
   text-align: center;
 }
 .yellowColorBar{
   width: 20%;
-  background-color: yellow;
+  background-color: orange;
   text-align: center;
 }
 .redColorBar{
@@ -654,4 +654,12 @@ svg.leaflet-zoom-animated > g > path {
   border-bottom-right-radius: 20px;
   border-top-right-radius: 20px;
   text-align: center;
+}
+
+.heartSwitch{
+  position: relative;
+  margin: 10px;
+  left: 350px;
+  top: -60px;
+  
 }
