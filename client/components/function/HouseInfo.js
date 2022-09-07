@@ -9,7 +9,7 @@ class HouseInfo extends Component {
 
 
     render(){
-      console.log(this.props)
+      // console.log(this.props)
         let {Houses} = this.props  
     return(
         <div id="infoContainer" >

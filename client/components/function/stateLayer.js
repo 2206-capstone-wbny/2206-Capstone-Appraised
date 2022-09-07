@@ -13,7 +13,7 @@ export default function StateLayer(props) {
     const countyColor = (color) =>{
       return color == 'blue' ? '#00bfff' : 
       color == 'orange' ? 'orange' : color == 'yellow' ?
-      'yellow' : color == 'green' ? 'green' : 'red'
+      'yellow' : color == 'green' ? 'green' : color == 'red' ? 'red' : 'grey';
     }
 
     const styleCounty = (county) => {

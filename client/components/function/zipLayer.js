@@ -7,11 +7,12 @@ import {
   } from "react-leaflet";
 import { ZoomOutMap } from "@material-ui/icons";
 
+
 export default function ZipLayer(props) {
     const styleState = (zip) => {
       return {
       fillColor: zipCodeColor(zip.properties.color),
-      fillOpacity: .8,
+      fillOpacity: .6,
       color: 'white',
       weight: 2,}
     };
@@ -35,7 +36,7 @@ export default function ZipLayer(props) {
             fillColor: zipCodeColor(e.target.feature.properties.color),
             fillOpacity: .6,
             color: 'white',
-            weight: 5
+            weight: 2
           });
         },
         click: (e) => {

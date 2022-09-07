@@ -47,6 +47,23 @@ let circleStylet = {
   right: "0",
 };
 
+const randomColorG = () =>{
+  let steve = Math.floor(Math.random() * 12);
+  if(steve > 6)
+  {
+    return 'red'
+  }else  if(steve > 3)
+  {
+    return 'orange'
+  }else if(steve > 1)
+  {
+    return 'yellow'
+  }else 
+  {
+    return 'green'
+  }
+}
+
 function LeafletgeoSearch() {
   let map = useMap();
   const prov = new OpenStreetMapProvider({
@@ -115,10 +132,12 @@ class Map extends Component {
   }
 
   async getHouseFromInfo(event) {
-    await this.props.fetchSingle(event.target.id);
+    let {homes} = await this.props.fetchSingle(event.target.id);
     let { latitude, longitude } = this.props.house;
     this.setState({ house: true });
-    this.mapRef.current.setView([latitude, longitude], 16);
+    this.mapRef.current.setView([latitude, longitude], 18);
+    this.mapRef.current.openPopup(`Type: ${homes.type} with ${homes.beds}bds and ${homes.bathrooms}bths`, [latitude, longitude])
+    // console.log(infoForPop)
   }
 
   openStateInfo() {
@@ -260,7 +279,7 @@ class Map extends Component {
   }
 
   async componentWillMount() {
-    await this.props.fetchAll();
+    // await this.props.fetchAll();
     let { states } = await this.props.setState();
     await this.props.setCounty();
     let { zip } = await this.props.setZip();
@@ -293,7 +312,6 @@ class Map extends Component {
     //           medPrice = zip.filter(
     //             (priceSearch) => priceSearch.zip == homes.zipcode
     //           )[0];
-    //           console.log(medPrice);
     //         } else {
     //           medPrice = states.filter(
     //             (state) => state.state == homes.state
@@ -301,7 +319,7 @@ class Map extends Component {
     //         }
     //         if (homes.type == "SINGLE_FAMILY") {
     //           // console.log(medPrice)
-    //           homes.priceNum >= medPrice.singleHMed * 1.25
+    //           homes.priceNum >= medPrice.singleHMed * 1.35
     //             ? await axios
     //                 .put("./api/homes", { color: "red", id: homes.id })
     //                 .then(r++)
@@ -309,11 +327,11 @@ class Map extends Component {
     //             ? await axios
     //                 .put("./api/homes", { color: "orange", id: homes.id })
     //                 .then(o++)
-    //             : homes.priceNum >= medPrice.singleHMed * 1.05
+    //             : homes.priceNum >= medPrice.singleHMed * .90
     //             ? await axios
     //                 .put("./api/homes", { color: "yellow", id: homes.id })
     //                 .then(y++)
-    //             : homes.priceNum >= medPrice.singleHMed * 0.8
+    //             : homes.priceNum >= medPrice.singleHMed * 0.6
     //             ? await axios
     //                 .put("./api/homes", { color: "green", id: homes.id })
     //                 .then(g++)
@@ -321,7 +339,7 @@ class Map extends Component {
     //                 .put("./api/homes", { color: "blue", id: homes.id })
     //                 .then(b++);
     //         } else if (homes.type == "CONDO") {
-    //           homes.priceNum >= medPrice.coopMed * 1.25
+    //           homes.priceNum >= medPrice.coopMed * 1.35
     //             ? await axios
     //                 .put("./api/homes", { color: "red", id: homes.id })
     //                 .then(r++)
@@ -329,11 +347,11 @@ class Map extends Component {
     //             ? await axios
     //                 .put("./api/homes", { color: "orange", id: homes.id })
     //                 .then(o++)
-    //             : homes.priceNum >= medPrice.coopMed * 1.05
+    //             : homes.priceNum >= medPrice.coopMed * .9
     //             ? await axios
     //                 .put("./api/homes", { color: "yellow", id: homes.id })
     //                 .then(y++)
-    //             : homes.priceNum >= medPrice.coopMed * 0.8
+    //             : homes.priceNum >= medPrice.coopMed * 0.6
     //             ? await axios
     //                 .put("./api/homes", { color: "green", id: homes.id })
     //                 .then(g++)
@@ -341,7 +359,7 @@ class Map extends Component {
     //                 .put("./api/homes", { color: "blue", id: homes.id })
     //                 .then(b++);
     //         } else if (homes.beds == 1) {
-    //           homes.priceNum >= medPrice.oneBedMed * 1.25
+    //           homes.priceNum >= medPrice.oneBedMed * 1.35
     //             ? await axios
     //                 .put("./api/homes", { color: "red", id: homes.id })
     //                 .then(r++)
@@ -349,11 +367,11 @@ class Map extends Component {
     //             ? await axios
     //                 .put("./api/homes", { color: "orange", id: homes.id })
     //                 .then(o++)
-    //             : homes.priceNum >= medPrice.oneBedMed * 1.05
+    //             : homes.priceNum >= medPrice.oneBedMed * .9
     //             ? await axios
     //                 .put("./api/homes", { color: "yellow", id: homes.id })
     //                 .then(y++)
-    //             : homes.priceNum >= medPrice.oneBedMed * 0.8
+    //             : homes.priceNum >= medPrice.oneBedMed * 0.6
     //             ? await axios
     //                 .put("./api/homes", { color: "green", id: homes.id })
     //                 .then(g++)
@@ -361,7 +379,7 @@ class Map extends Component {
     //                 .put("./api/homes", { color: "blue", id: homes.id })
     //                 .then(b++);
     //         } else if (homes.beds == 2) {
-    //           homes.priceNum >= medPrice.twoBedMed * 1.25
+    //           homes.priceNum >= medPrice.twoBedMed * 1.35
     //             ? await axios
     //                 .put("./api/homes", { color: "red", id: homes.id })
     //                 .then(r++)
@@ -369,11 +387,11 @@ class Map extends Component {
     //             ? await axios
     //                 .put("./api/homes", { color: "orange", id: homes.id })
     //                 .then(o++)
-    //             : homes.priceNum >= medPrice.twoBedMed * 1.05
+    //             : homes.priceNum >= medPrice.twoBedMed * .9
     //             ? await axios
     //                 .put("./api/homes", { color: "yellow", id: homes.id })
     //                 .then(y++)
-    //             : homes.priceNum >= medPrice.twoBedMed * 0.8
+    //             : homes.priceNum >= medPrice.twoBedMed * 0.6
     //             ? await axios
     //                 .put("./api/homes", { color: "green", id: homes.id })
     //                 .then(g++)
@@ -381,7 +399,7 @@ class Map extends Component {
     //                 .put("./api/homes", { color: "blue", id: homes.id })
     //                 .then(b++);
     //         } else if (homes.beds == 3) {
-    //           homes.priceNum >= medPrice.threeBedMed * 1.25
+    //           homes.priceNum >= medPrice.threeBedMed * 1.35
     //             ? await axios
     //                 .put("./api/homes", { color: "red", id: homes.id })
     //                 .then(r++)
@@ -389,11 +407,11 @@ class Map extends Component {
     //             ? await axios
     //                 .put("./api/homes", { color: "orange", id: homes.id })
     //                 .then(o++)
-    //             : homes.priceNum >= medPrice.threeBedMed * 1.05
+    //             : homes.priceNum >= medPrice.threeBedMed * .90
     //             ? await axios
     //                 .put("./api/homes", { color: "yellow", id: homes.id })
     //                 .then(y++)
-    //             : homes.priceNum >= medPrice.threeBedMed * 0.8
+    //             : homes.priceNum >= medPrice.threeBedMed * 0.6
     //             ? await axios
     //                 .put("./api/homes", { color: "green", id: homes.id })
     //                 .then(g++)
@@ -401,7 +419,7 @@ class Map extends Component {
     //                 .put("./api/homes", { color: "blue", id: homes.id })
     //                 .then(b++);
     //         } else if (homes.beds == 4) {
-    //           homes.priceNum >= medPrice.fourBedMed * 1.25
+    //           homes.priceNum >= medPrice.fourBedMed * 1.35
     //             ? await axios
     //                 .put("./api/homes", { color: "red", id: homes.id })
     //                 .then(r++)
@@ -409,11 +427,11 @@ class Map extends Component {
     //             ? await axios
     //                 .put("./api/homes", { color: "orange", id: homes.id })
     //                 .then(o++)
-    //             : homes.priceNum >= medPrice.fourBedMed * 1.05
+    //             : homes.priceNum >= medPrice.fourBedMed * .9
     //             ? await axios
     //                 .put("./api/homes", { color: "yellow", id: homes.id })
     //                 .then(y++)
-    //             : homes.priceNum >= medPrice.fourBedMed * 0.8
+    //             : homes.priceNum >= medPrice.fourBedMed * 0.6
     //             ? await axios
     //                 .put("./api/homes", { color: "yellow", id: homes.id })
     //                 .then(g++)
@@ -421,19 +439,19 @@ class Map extends Component {
     //                 .put("./api/homes", { color: "blue", id: homes.id })
     //                 .then(b++);
     //         } else if (homes.beds >= 5) {
-    //           homes.priceNum >= medPrice.fiveBedMed * 1.25
+    //           homes.priceNum >= medPrice.fiveBedMed * 1.35
     //             ? await axios
     //                 .put("./api/homes", { color: "red", id: homes.id })
     //                 .then(r++)
-    //             : homes.priceNum >= medPrice.fiveBedMed * 1.15
+    //             : homes.priceNum >= medPrice.fiveBedMed * 1.25
     //             ? await axios
     //                 .put("./api/homes", { color: "orange", id: homes.id })
     //                 .then(o++)
-    //             : homes.priceNum >= medPrice.fiveBedMed * 1.05
+    //             : homes.priceNum >= medPrice.fiveBedMed * .9
     //             ? await axios
     //                 .put("./api/homes", { color: "yellow", id: homes.id })
     //                 .then(y++)
-    //             : homes.priceNum >= medPrice.fiveBedMed * 0.8
+    //             : homes.priceNum >= medPrice.fiveBedMed * 0.6
     //             ? await axios
     //                 .put("./api/homes", { color: "green", id: homes.id })
     //                 .then(g++)
@@ -452,7 +470,6 @@ class Map extends Component {
     //   } else if (o >= y && o >= r && o >= g && o >= b) {
     //     await this.props.updateZip({ color: "orange", zipcode: zipID });
     //   } else if (g >= y && g >= o && g >= r && g >= b) {
-    //     console.log(" this is green", r, o, y, g, b, idZips);
     //     await this.props.updateZip({ color: "green", zipcode: zipID });
     //   } else {
     //     await this.props.updateZip({ color: "blue", zipcode: zipID });
@@ -460,6 +477,10 @@ class Map extends Component {
     //   return console.log("color updated complete!");
     // });
 
+
+
+
+    
     // countyAsso.map(async (county) => {
     //   let r = 0;
     //   let o = 0;
@@ -491,25 +512,33 @@ class Map extends Component {
     //     }
     //   });
 
-    //   if (r >= y && r >= o && r >= g && r >= b) {
-    //     await axios.put("./api/counties", { color: "red", fips: county.fips });
+
+    //   let theFips = county.fips.toString()
+    //   if(y == 0 && r == 0 && g == 0 && o == 0 && b == 0){
+    //     let theCol = randomColorG()
+    //      await axios.put("/api/counties", {
+    //       color: theCol,
+    //       fips: theFips,
+    //     });
+    //   }else if (r >= y && r >= o && r >= g && r >= b) {
+    //     await axios.put("/api/counties", { color: "red", fips: theFips });
     //   } else if (y >= r && y >= o && y >= g && y >= b) {
-    //     await axios.put("./api/counties", {
+    //     await axios.put("/api/counties", {
     //       color: "yellow",
-    //       fips: county.fips,
+    //       fips: theFips,
     //     });
     //   } else if (o >= y && o >= r && o >= g && o >= b) {
-    //     await axios.put("./api/counties", {
+    //     await axios.put("/api/counties", {
     //       color: "orange",
-    //       fips: county.fips,
+    //       fips: theFips,
     //     });
     //   } else if (g >= y && g >= o && g >= r && g >= b) {
-    //     await axios.put("./api/counties", {
+    //     await axios.put("/api/counties", {
     //       color: "green",
-    //       fips: county.fips,
+    //       fips: theFips,
     //     });
     //   } else {
-    //     await axios.put("./api/counties", { color: "blue", fips: county.fips });
+    //     await axios.put("/api/counties", { color: "blue", fips: theFips });
     //   }
     //   return console.log("color updated complete!", r, o, y, g, b);
     // });
@@ -640,6 +669,13 @@ class Map extends Component {
                 ""
               )}
             </div>
+            <div className='colorBar'>
+        <div className='blueColorBar' >below</div>
+        <div className='greenColorBar' >avg</div>
+        <div className='orangeColorBar' >+5% </div>
+        <div className='yellowColorBar' >+15%</div>
+        <div className='redColorBar' >+30%</div>
+        </div>
           </main>
         ) : (
           <div className="loader-container">

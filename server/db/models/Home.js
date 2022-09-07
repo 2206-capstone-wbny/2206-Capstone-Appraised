@@ -24,7 +24,7 @@ const Home = db.define("home", {
     type: Sequelize.DECIMAL
   },
   bathrooms: {
-    type: Sequelize.INTEGER,
+    type: Sequelize.DECIMAL,
   },
   beds: {
     type: Sequelize.INTEGER,
