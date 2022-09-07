@@ -612,7 +612,10 @@ svg.leaflet-zoom-animated > g > path {
   overflow-y: auto;
 }
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> bd508e71a8884a0c0263d60e9f88b705deed4cb1
 
 >>>>>>> 338ca4a616d37db64b30d26dcda73879e7609eb4
 /* CSS FOR WATCHLIST */
@@ -630,9 +633,10 @@ svg.leaflet-zoom-animated > g > path {
   display: flex;
   justify-content: space-between;
   align-items: space-between;
+  position: relative;
   margin: 10px;
-  width: 30vw;
-  padding-left: 10px;
+  width: 31vw;
+  height: 17vw;
 }
 
 .card:hover {
@@ -642,3 +646,19 @@ svg.leaflet-zoom-animated > g > path {
 .container {
   padding: 2px 16px;
 }
+<<<<<<< HEAD
+=======
+
+.heartswitch {
+  position: absolute;
+  top: 10px;
+  right: 30px;
+}
+
+.price {
+  margin: 0;
+  top: 10px;
+  right: 85px;
+  position: absolute;
+}
+>>>>>>> bd508e71a8884a0c0263d60e9f88b705deed4cb1

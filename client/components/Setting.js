@@ -7,9 +7,6 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import { updateUser, deleteUser } from "../store/auth";
-/**
- * COMPONENT
- */
 
 class Setting extends React.Component {
   constructor(props) {
@@ -76,7 +73,6 @@ class Setting extends React.Component {
   }
 
   deleteAccount() {
-    // console.log(this.props)
     this.props.deleteUser(this.state.id);
   }
 
@@ -103,7 +99,6 @@ class Setting extends React.Component {
       username,
       password,
     } = this.state;
-    // console.log(this.state)
     return (
       <div className="setting-outer">
         <div className="setting-img">

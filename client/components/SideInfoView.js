@@ -14,6 +14,7 @@ const valueCal = (color) => {
 }
 
 
+<<<<<<< HEAD
 class SideInfoView extends Component {
     constructor(props) {
       super(props);
@@ -91,10 +92,66 @@ class SideInfoView extends Component {
         // console.log(collect, house.price)
 
 <<<<<<< HEAD
+=======
+  async componentDidMount() {}
+
+  render() {
+    console.log(this.props);
+    let { house, similar, data } = this.props;
+    let forIn;
+    let datesData;
+    let lineData;
+    if (house.beds == 1) {
+      if (data.oneBedMed.length > 0) {
+        forIn = Object.values(data.oneBedMed[0]);
+        datesData = Object.keys(data.oneBedMed[0]);
+        lineData = Object.values(data.oneBedMed[0]);
+      } else {
+        forIn = Object.values(data.oneBedMed);
+      }
+    } else if (house.beds == 2) {
+      if (data.twoBedMed.length > 0) {
+        forIn = Object.values(data.twoBedMed[0]);
+        datesData = Object.keys(data.twoBedMed[0]);
+        lineData = Object.values(data.twoBedMed[0]);
+      } else {
+        forIn = Object.values(data.twoBedMed);
+      }
+    } else if (house.beds == 3) {
+      if (data.threeBedMed.length > 0) {
+        forIn = Object.values(data.threeBedMed[0]);
+        datesData = Object.keys(data.threeBedMed[0]);
+        lineData = Object.values(data.threeBedMed[0]);
+      } else {
+        forIn = Object.values(data.threeBedMed);
+      }
+    } else if (house.beds == 4) {
+      if (data.fourBedMed.length > 0) {
+        datesData = Object.keys(data.fourBedMed[0]);
+        lineData = Object.values(data.fourBedMed[0]);
+        forIn = Object.values(data.fourBedMed[0]);
+      } else {
+        forIn = Object.values(data.fourBedMed);
+      }
+    } else if (house.beds >= 5) {
+      if (data.fiveBedMed.length > 0) {
+        datesData = Object.keys(data.fiveBedMed[0]);
+        lineData = Object.values(data.fiveBedMed[0]);
+        forIn = Object.values(data.fiveBedMed[0]);
+      } else {
+        forIn = Object.values(data.fiveBedMed);
+      }
+    } else {
+      forIn = Object.values(data.aHBedMed[0]);
+    }
+
+    datesData.shift();
+    lineData.shift();
+    let collect = forIn[forIn.length - 2];
+>>>>>>> bd508e71a8884a0c0263d60e9f88b705deed4cb1
     let otherHousePrice = similar
       .filter((homes) => homes.type == house.type && homes.beds == house.beds)
       .map((houseInfo) => Number(houseInfo.priceNum));
-    console.log(otherHousePrice);
     return (
       <div id="infoContainer">
         <div
@@ -106,11 +163,15 @@ class SideInfoView extends Component {
           <h3>Current listing price: {house.price}</h3>
           <p>
             {house.beds} bedroooms | {house.bathrooms} bathrooms |{" "}
-            {house.landSize} sqft
+            {house.landSize}sqft
           </p>
           <p>Type: {house.type}</p>
           <p>
+<<<<<<< HEAD
             Location: {house.city.toUpperCase()}, {house.state} {house.zipcode}
+=======
+            Location: {house.city}, {house.state} {house.zipcode}
+>>>>>>> bd508e71a8884a0c0263d60e9f88b705deed4cb1
           </p>
         </div>
 =======
@@ -160,6 +221,7 @@ class SideInfoView extends Component {
             }}
           />
         </div>
+<<<<<<< HEAD
         <Link
           to={`/singleHome/${this.props.house.id}`}
           className="MoreInformation"
@@ -197,11 +259,31 @@ class SideInfoView extends Component {
             }],}} /></div>
 
 >>>>>>> 338ca4a616d37db64b30d26dcda73879e7609eb4
+=======
+
+        <div className="chart-graph lineGraph">
+          <Line
+            data={{
+              labels: datesData,
+              datasets: [
+                {
+                  label: "past market value",
+                  data: lineData,
+                  fill: false,
+                  borderColor: ["rgb(54, 162, 235)"],
+                  pointRadius: 0,
+                },
+              ],
+            }}
+          />
+        </div>
+>>>>>>> bd508e71a8884a0c0263d60e9f88b705deed4cb1
       </div>
       
       )
     }
   }
+<<<<<<< HEAD
   
   /**
    * CONTAINER
@@ -212,6 +294,15 @@ class SideInfoView extends Component {
      similar: state.home.forZipcode,
      data: state.geo.historic
     };
+=======
+}
+
+const mapStateToProps = (state) => {
+  return {
+    house: state.home.single,
+    similar: state.home.forZipcode,
+    data: state.geo.historic,
+>>>>>>> bd508e71a8884a0c0263d60e9f88b705deed4cb1
   };
   
   export default connect(mapStateToProps)(SideInfoView);
