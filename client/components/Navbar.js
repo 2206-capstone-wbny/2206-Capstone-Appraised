@@ -177,9 +177,6 @@ const Navbar = ({ handleClick, isLoggedIn, image }) => {
   );
 };
 
-/**
- * CONTAINER
- */
 const mapState = (state) => {
   return {
     isLoggedIn: !!state.auth.id,

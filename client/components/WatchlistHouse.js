@@ -41,17 +41,11 @@ function WatchlistHouse({ house, index, removeHouse }) {
   return (
     <div className="card">
       <Link to={`/singleHome/${house.id}`}>
-        <img src={house.imageURL} width="390px"></img>
+        <img src={house.imageURL} width="400px"></img>
       </Link>
       <div className="container">
-        <h3>{house.price}</h3>
-        <span>
-          <HiInformationCircle />
-          {sizeCheck}
-        </span>
-        <br />
-        <br />
-        <span>
+        <h3 className="price">{house.price}</h3>
+        <span className="heartswitch">
           <HeartSwitch
             size="sm"
             checked={liked}
@@ -60,6 +54,13 @@ function WatchlistHouse({ house, index, removeHouse }) {
             }}
           />
         </span>
+        <br />
+        <br />
+        <span>
+          <HiInformationCircle />
+          {sizeCheck}
+        </span>
+        <br />
         <br />
         <div>
           <FaCity />

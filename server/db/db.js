@@ -12,7 +12,6 @@ if(process.env.LOGGING === 'true'){
   delete config.logging
 }
 
-//https://stackoverflow.com/questions/61254851/heroku-postgres-sequelize-no-pg-hba-conf-entry-for-host
 if(process.env.HEROKU_POSTGRESQL_CHARCOAL_URL){
   config.dialectOptions = {
     ssl: {
